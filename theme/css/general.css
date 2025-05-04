@@ -445,12 +445,12 @@ sup {
 }
 
 ::selection {
-	background-color: #6895ec80; /* Change to your preferred color */
+	background-color: #6895ec50; /* Change to your preferred color */
 	/* color: #000000; Text color when highlighted */
 }
 
 ::-moz-selection {
 	/* Firefox requires its own rule */
-	background-color: #6895ec80;
+	background-color: #6895ec50;
 	/* color: #000000; */
 }
