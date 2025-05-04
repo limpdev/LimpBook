@@ -3,6 +3,7 @@
 - [ META](./meta/-readme.md)
     - [ GitHub Markdown](./meta/GitHubFlavour.md)
     - [ My Design](./meta/MyDesign.md)
+    - [ Table of Contents](./meta/TOC.md)
 
 ---
 
