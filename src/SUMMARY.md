@@ -106,7 +106,7 @@
 ---
 
 - [ GOLANG](./golang/Golang.md)
-
+	- [WebAssembly](./golang/WASM.md)
     - [Concurrency](./golang/Concurrency.md)
     - [Argparse](./golang/argparse.md)
     - [Colly](./golang/colly.md)
@@ -123,9 +123,7 @@
     - [Golang Notes](./golang/golang-notes.md)
     - [Bufio](./golang/go_bufio.md)
     - [MacOS Preview](./golang/macos-preview.md)
-
     - [ Zenity](./golang/zenity/intro.md)
-
         - [Calendar](./golang/zenity/calendar.md)
         - [Color Selection](./golang/zenity/color-selection.md)
         - [Entry](./golang/zenity/entry.md)
@@ -140,9 +138,7 @@
         - [Scale](./golang/zenity/scale.md)
         - [Text](./golang/zenity/text.md)
         - [Usage](./golang/zenity/usage.md)
-
     - [ Build Apps ⇾ Golang](./golang/buildGoApp/#TOC.md)
-
         - [01.0](./golang/buildGoApp/01.0.md)
         - [01.1](./golang/buildGoApp/01.1.md)
         - [01.2](./golang/buildGoApp/01.2.md)
@@ -238,7 +234,6 @@
         - [14.5](./golang/buildGoApp/14.5.md)
         - [14.6](./golang/buildGoApp/14.6.md)
         - [14.7](./golang/buildGoApp/14.7.md)
-
     - [ Gioui](golang/gioui.org/learnbeginners.md)
         - [Learning References](golang/gioui.org/learnreferences.md)
         - [Android](golang/gioui.org/android.md)
@@ -295,14 +290,11 @@
         - [Window](golang/gioui.org/window.md)
         - [Windows](golang/gioui.org/windows.md)
         - [Wormhole William](golang/gioui.org/wormhole-william.md)
-
----
-
-- [ HUGO](./hugodocs/hugo_functions.md)
-    - [Hugo Collections](./hugodocs/hugo_collections.md)
-    - [Hugo Methods](./hugodocs/hugo_methods.md)
-    - [Papermod FAQ](./hugodocs/papermod-faq.md)
-    - [Papermod Map](./hugodocs/papermod-map.md)
+    - [ HUGO](./golang/hugodocs/hugo_functions.md)
+    	- [Hugo Collections](./golang/hugodocs/hugo_collections.md)
+    	- [Hugo Methods](./golang/hugodocs/hugo_methods.md)
+    	- [Papermod FAQ](./golang/hugodocs/papermod-faq.md)
+    	- [Papermod Map](./golang/hugodocs/papermod-map.md)
 
 ---
 
