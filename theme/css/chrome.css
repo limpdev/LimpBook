@@ -554,6 +554,7 @@ html:not(.sidebar-resizing) .sidebar {
 	left: 0;
 	right: 0;
 	padding: 10px 10px;
+	cursor: var(--crosshair);
 }
 
 .sidebar .sidebar-resize-handle {
