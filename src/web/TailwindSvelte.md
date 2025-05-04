@@ -1,4 +1,4 @@
-# RewindUI Compenents | HTML
+# RewindUI Components | HTML
 
 ### Accordian
 
