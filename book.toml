@@ -4,13 +4,17 @@ language = "en"
 multilingual = false
 src = "src"
 title = "LimpBook"
-description = "Documentation for all of my favourite tools!"
+description = "Documentation for all of my favourite shit"
 
 [output.html]
 smart-punctuation = true
 mathjax-support = true
 no-section-label = true
+additional-css = ["theme/css/toc.css"]
 
 [output.html.fold]
 enable = true
 level = 0
+
+[output.html.search]
+enable = false
