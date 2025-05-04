@@ -138,7 +138,7 @@
         - [Scale](./golang/zenity/scale.md)
         - [Text](./golang/zenity/text.md)
         - [Usage](./golang/zenity/usage.md)
-    - [ Build Apps ⇾ Golang](./golang/buildGoApp/#TOC.md)
+    - [ GoApps](./golang/buildGoApp/#TOC.md)
         - [01.0](./golang/buildGoApp/01.0.md)
         - [01.1](./golang/buildGoApp/01.1.md)
         - [01.2](./golang/buildGoApp/01.2.md)
@@ -290,7 +290,7 @@
         - [Window](golang/gioui.org/window.md)
         - [Windows](golang/gioui.org/windows.md)
         - [Wormhole William](golang/gioui.org/wormhole-william.md)
-    - [ HUGO](./golang/hugodocs/hugo_functions.md)
+    - [ Hugo](./golang/hugodocs/hugo_functions.md)
     	- [Hugo Collections](./golang/hugodocs/hugo_collections.md)
     	- [Hugo Methods](./golang/hugodocs/hugo_methods.md)
     	- [Papermod FAQ](./golang/hugodocs/papermod-faq.md)
@@ -298,7 +298,7 @@
 
 ---
 
-- [󰷶 MACHINE LEARNING](./ml/ollama.md)
+- [⨝ ML](./ml/ollama.md)
     - [Open WebUI](./ml/openui.md)
     - [Retrieval Augmented Gen.](./ml/ouirag.md)
     - [Vision LLM](./ml/vision-llm.md)
