@@ -7,7 +7,7 @@
 
 ---
 
-- [󰵮 Active!](./active-dev/toc.md)
+- [󰵮 LIVE](./active-dev/toc.md)
     - [🐳wails.io/v3](./active-dev/WailsV3.md)
     - [ remark](./active-dev/ReMark.md)
     - [󱁤 snips](./active-dev/Snippets.md)
