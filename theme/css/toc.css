@@ -1,6 +1,6 @@
 /* Floating TOC container */
 .floating-toc {
-    font-family: "SFCompactDisplay Nerd Font";
+    font-family: "SFCompactDisplay Nerd Font", "Jost";
     position: fixed;
     top: 70px;
     right: 13px;
