@@ -73,8 +73,9 @@
 ---
 
 - [ COMMANDLINE](./cli/vim.md)
-    - [Nvchad](./cli/NvChad.md)
+    - [ Nvchad](./cli/NvChad.md)
     - [ Ascidoctor](./cli/ascidoctor.md)
+    - [󰨊 bat](./cli/bat-cli.md)
     - [ Curlie](./cli/curlie.md)
     - [ Docling](./cli/docling.md)
     - [ Docling Features](./cli/docling_features.md)
