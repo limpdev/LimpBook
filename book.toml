@@ -11,6 +11,8 @@ smart-punctuation = true
 mathjax-support = true
 no-section-label = true
 additional-css = ["theme/css/toc.css"]
+git-repository-url = "https://github.com/limpdev/LimpBook"
+git-repository-icon = "fa-github"
 
 [output.html.fold]
 enable = true
@@ -18,3 +20,6 @@ level = 0
 
 [output.html.search]
 enable = false
+
+[output.html.playground]
+runnable = false
