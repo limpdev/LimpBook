@@ -887,102 +887,27 @@ document.addEventListener("click", function (e) {
   }, 1500); // Match the duration of the animation
 });
 
-// FLOATING TABLE OF CONTENTS...
-// document.addEventListener("DOMContentLoaded", function () {
-//   // Generate table of contents
-//   generateTOC();
+// MARK TAGS FOR TEXT - AKA, Highlighting!
+function addMarkTags(text) {
+  // Replace text wrapped between == and == with <mark> tags
+  // This regex finds any text between =: and := regardless of its location
+  const markRegex = /==(.*?)==/g;
+  const markReplace = (match, content) => {
+    return `<mark>${content}</mark>`;
+  };
+  return text.replace(markRegex, markReplace);
+}
 
-//   // Track scrolling to highlight current section
-//   window.addEventListener("scroll", highlightCurrentSection);
-
-//   // Initial highlight
-//   setTimeout(highlightCurrentSection, 100);
-// });
-
-// function generateTOC() {
-//   const tocList = document.getElementById("toc-list");
-//   if (!tocList) return; // Add a safety check
-
-//   const headers = document.querySelectorAll("h1, h2, h3, h4, h5, h6");
-
-//   headers.forEach((header, index) => {
-//     // Ensure headers have IDs
-//     if (!header.id) {
-//       header.id = `section-${index}`;
-//     }
-
-//     // Create TOC item
-//     const listItem = document.createElement("li");
-//     listItem.textContent = header.textContent;
-//     listItem.classList.add(`toc-${header.tagName.toLowerCase()}`);
-//     listItem.setAttribute("data-target", header.id);
-
-//     // Add click event to scroll to section
-//     listItem.addEventListener("click", () => {
-//       document.getElementById(header.id).scrollIntoView({
-//         behavior: "smooth",
-//       });
-//     });
-
-//     tocList.appendChild(listItem);
-//   });
-// }
-
-// // Move this function outside of generateTOC
-// function highlightCurrentSection() {
-//   const tocList = document.getElementById("toc-list");
-//   if (!tocList) return; // Safety check
-
-//   const tocItems = document.querySelectorAll("#toc-list li");
-
-//   // Get all headers with their positions
-//   const headers = Array.from(document.querySelectorAll("h1, h2, h3, h4, h5, h6"))
-//     .filter((header) => header.id) // Only consider headers with ids
-//     .map((header) => ({
-//       id: header.id,
-//       top: header.getBoundingClientRect().top,
-//     }));
-
-//   // Find the current section (the one closest to the top but not above viewport)
-//   let currentSection = null;
-//   let minPositiveDistance = Infinity;
-
-//   headers.forEach((header) => {
-//     // Using a small offset to detect headers slightly above the viewport top
-//     const distance = header.top - 50;
-
-//     // If the header is just above or below the viewport top, and it's the closest one
-//     if (distance < minPositiveDistance && distance > -100) {
-//       minPositiveDistance = distance;
-//       currentSection = header.id;
-//     }
-//   });
-
-//   // Remove active class from all items
-//   tocItems.forEach((item) => {
-//     item.classList.remove("toc-active");
-//   });
-
-//   // Add active class to current section
-//   if (currentSection) {
-//     const activeItem = document.querySelector(`#toc-list li[data-target="${currentSection}"]`);
-//     if (activeItem) {
-//       activeItem.classList.add("toc-active");
-
-//       // Scroll active item into view within the TOC container
-//       const tocContent = document.querySelector(".toc-content");
-//       if (tocContent) {
-//         // Add null check here
-//         const itemTop = activeItem.offsetTop;
-//         const containerHeight = tocContent.clientHeight;
-
-//         if (itemTop < tocContent.scrollTop || itemTop > tocContent.scrollTop + containerHeight) {
-//           tocContent.scrollTop = itemTop - containerHeight / 2;
-//         }
-//       }
-//     }
-//   }
-// }
+document.addEventListener("DOMContentLoaded", function () {
+  // Get the current HTML content of the body
+  let bodyHTML = document.body.innerHTML;
+  // First apply the mark tags (highlighting)
+  bodyHTML = addMarkTags(bodyHTML);
+  // Then convert the markdown callouts
+  bodyHTML = convertMarkdownCalloutsToHtml(bodyHTML);
+  // Replace the body's HTML with the converted content
+  document.body.innerHTML = bodyHTML;
+});
 
 document.addEventListener("DOMContentLoaded", function () {
   // --- Configuration ---

@@ -1,19 +1,21 @@
 /* Floating TOC container */
 .floating-toc {
-    font-family: "SFCompactDisplay Nerd Font", "Jost";
+    font-family: "Jost";
     position: fixed;
     top: 70px;
-    right: 13px;
-    width: 120px;
-    max-height: 40vh;
+    right: 16px;
+    width: 135px;
+    max-height: 70vh;
     overflow-y: auto;
+    overflow-x: hidden;
     overscroll-behavior: contain;
     background-color: #00000010;
-    border: transparent;
-    border-radius: 7px;
+    border-left: solid 1px #dddddd20;
+    border-radius: 3px;
     /* padding: 0; */
     /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); */
-    font-size: 10px;
+    font-size: 12px;
+    line-height: 1.6;
     scrollbar-width: none;
     scrollbar-color: transparent;
     transition: all 800ms ease;
@@ -22,6 +24,7 @@
 
 .floating-toc:hover {
     opacity: 0.80;
+    background: linear-gradient(to right, #09090a30 0%, #00000000 80%);
 }
 
 @media (max-width: 1050px) {
@@ -34,7 +37,7 @@
 .toc-header {
     display: none;
     font-weight: bold;
-    padding: 12px 15px;
+    /* padding: 12px 15px; */
     border-bottom: transparent;
     background-color: transparent;
     position: sticky;
@@ -45,7 +48,7 @@
 /* TOC content container with mask for fade effect */
 .toc-content-container {
     position: relative;
-    max-height: calc(40vh - 60px);
+    max-height: calc(70vh - 30px);
 }
 
 /* Actual scrollable content */
@@ -76,22 +79,22 @@
 
 /* Header levels indentation */
 .toc-h1 {
-    padding-left: 4px;
+    padding-left: 2px;
 }
 .toc-h2 {
     padding-left: 6px;
 }
 .toc-h3 {
-    padding-left: 8px;
-}
-.toc-h4 {
     padding-left: 10px;
 }
+.toc-h4 {
+    padding-left: 14px;
+}
 .toc-h5 {
-    padding-left: 12px;
+    padding-left: 18px;
 }
 .toc-h6 {
-    padding-left: 14px;
+    padding-left: 22px;
 }
 
 /* Active TOC item */
@@ -113,15 +116,15 @@
     z-index: 5;
 }
 
-.toc-content-container::before {
+/* .toc-content-container::before {
     /* top: 5px; */
     /* background: linear-gradient(to bottom, #101010cc, rgba(249, 249, 249, 0)); */
-}
+/* } */
 
-.toc-content-container::after {
+/* .toc-content-container::after { */
     /* bottom: 5px; */
     /* background: linear-gradient(to top, #101010cc, rgba(249, 249, 249, 0)); */
-}
+/* }  */
 
 /* Scrollbar styling for WebKit browsers */
 .toc-content::-webkit-scrollbar {
@@ -134,4 +137,4 @@
 
 .toc-content::-webkit-scrollbar-thumb {
     display: none !important;
-}
+}}

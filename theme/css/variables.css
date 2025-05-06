@@ -15,12 +15,12 @@
 }
 
 :root {
-    --sidebar-width: 225px;
-    --sidebar-resize-indicator-width: 4px;
-    --sidebar-resize-indicator-space: 1px;
+    --sidebar-width: 175px;
+    --sidebar-resize-indicator-width: 5px;
+    --sidebar-resize-indicator-space: 2px;
     --page-padding: 15px;
-    --content-max-width: 900px;
-    --menu-bar-height: 55px;
+    --content-max-width: 875px;
+    --menu-bar-height: 50px;
     --mono-font: "SF Mono", "SymbolsNF", monospace;
     --code-font-size: 0.9em; /* please adjust the ace font size accordingly in editor.js */
     scrollbar-width: none !important;
@@ -71,7 +71,7 @@
     --searchresults-header-fg: #666;
     --searchresults-border-color: #888;
     --searchresults-li-bg: #252932;
-    --search-mark-bg: #e3b171;
+    --search-mark-bg: #facb2a70;
 
     --color-scheme: dark;
 

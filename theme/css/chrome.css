@@ -392,11 +392,11 @@ pre > .result {
 }
 
 mark {
-    border-radius: 2px;
+    border-radius: 4px;
     padding-block-start: 0;
     padding-block-end: 1px;
-    padding-inline-start: 3px;
-    padding-inline-end: 3px;
+    padding-inline-start: 4px;
+    padding-inline-end: 4px;
     margin-block-start: 0;
     margin-block-end: -1px;
     margin-inline-start: -3px;
@@ -404,6 +404,7 @@ mark {
     background-color: var(--search-mark-bg);
     transition: background-color 300ms linear;
     cursor: var(--crosshair);
+    color: #bbbbbb;
 }
 
 mark.fade-out {
@@ -491,9 +492,9 @@ ul#searchresults span.teaser em {
     top: 0px;
     bottom: 0;
     width: var(--sidebar-width);
-    font-size: 0.825em;
-    font-family: "Satoshi Nerd Font", "SymbolsNF", sans-serif;
-    font-weight: 500;
+    font-size: 0.7em;
+    font-family: "SFCompactDisplay Nerd Font", "SymbolsNF", sans-serif;
+    font-weight: 400;
     box-sizing: border-box;
     overscroll-behavior-y: contain;
     /* background-color: var(--sidebar-bg); */
@@ -547,11 +548,11 @@ html:not(.sidebar-resizing) .sidebar {
 .sidebar .sidebar-scrollbox {
     overflow-y: auto;
     position: absolute;
-    top: 75px;
+    top: 60px;
     bottom: 0;
     left: 0;
     right: 0;
-    padding: 10px 10px;
+    padding: 2px 2px;
     cursor: var(--crosshair);
 }
 
@@ -623,7 +624,7 @@ html:not(.sidebar-resizing) .sidebar {
 
 .chapter {
     list-style: none outside none;
-    padding-inline-start: 0;
+    padding-inline-start: 5px;
     line-height: 2.2em;
 }
 
