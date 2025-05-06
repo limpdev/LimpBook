@@ -449,8 +449,8 @@ If good programming abilites correlated to getting laid, here would lie the keys
 > A pretty decent module for ==clip-enabled== code blocks
 
 <details><summary>  <summary>
-...
 
+For  
 ```js
 // Module for adding copy buttons to code blocks
 const ClipbModule = (() => {
