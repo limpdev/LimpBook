@@ -448,7 +448,7 @@ If good programming abilites correlated to getting laid, here would lie the keys
 
 > A pretty decent module for ==clip-enabled== code blocks
 
-<details><summary>  <summary>
+<details><summary>  </summary>
 
 For  
 ```js
