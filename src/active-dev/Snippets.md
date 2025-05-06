@@ -190,7 +190,7 @@ matches:
 
 ##   w/ Big Brain Energy
 
-If good programming abilites correlated to getting laid, here would lie the keys to triumph. ==Lucky for you, these skills are the antithesis of a good time.==
+If good programming abilites correlated to getting laid, here would lie the keys to triumph. ==Lucky for you, these skills are the ~~antithesis~~ path to a good time.==
 
 ##### Frosted Glass Effect
 
