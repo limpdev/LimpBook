@@ -190,7 +190,7 @@ matches:
 
 ##   w/ Big Brain Energy
 
-If good programming abilites correlated to getting laid, here would lie the keys to triumph. ==Lucky for you, these skills are the ~~antithesis~~ path to a good time.==
+If good programming abilites correlated to getting laid, here would lie the keys to triumph. Lucky for you, these skills are the ~~antithesis~~ path to a good time.
 
 ##### Frosted Glass Effect
 
@@ -273,7 +273,7 @@ If good programming abilites correlated to getting laid, here would lie the keys
 
 #### MISC TEXT EFFECTS
 
-<details><summary>🎁<i></i></summary>
+<details><summary>🎁</summary>
 
 ```html
 <style>
@@ -442,7 +442,6 @@ If good programming abilites correlated to getting laid, here would lie the keys
 
 </details>
 
-
 ---
 
 #####  Clip/Copy Codeblocks
@@ -450,7 +449,7 @@ If good programming abilites correlated to getting laid, here would lie the keys
 > A pretty decent module for ==clip-enabled== code blocks
 
 <details><summary>  <summary>
-🗿
+...
 
 ```js
 // Module for adding copy buttons to code blocks
