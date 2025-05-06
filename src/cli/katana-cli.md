@@ -7,6 +7,82 @@
 > [!NOTE]
 > See also: `gau`, `scrapy`, `waymore` -> [More information](https://docs.projectdiscovery.io/tools/katana/running)
 
+## GUIDE
+
+# Detailed Guide to Scraping
+
+Step-by-step: ==Clean Katana scrape from CLI==
+
+## Basic syntax
+
+`katana -u https://example.com/docs`
+
+This alone crawls the site starting from /docs, spitting out discovered URLs.
+
+⸻
+
+## Clean scrape with tuned options
+
+Let’s make it production-grade for static doc scraping:
+
+```bash
+katana \
+  -u https://example.com/docs \
+  -d 2 \
+  -c 10 \
+  -o output.txt \
+  -silent \
+  -jsl \
+  -ef png,jpg,jpeg,gif,svg,woff,woff2,ttf \
+  -kf all \
+  -t 10 \
+  -timeout 10
+```
+
+⚙️ Option breakdown:
+- `-u`: target URL
+- `-d 2`: depth 2 (can go deeper if needed)
+- `-c 10`: 10 concurrent requests (tweak as needed)
+- `-o output.txt`: write all discovered URLs to file
+- `-silent`: clean output (no banners/logs)
+- `-jsl:` parse JavaScript links (non-rendered, just URL extraction)
+- `-ef`: exclude file extensions you don’t care about (media, fonts)
+- `-kf all`: follow all known formats (like sitemap.xml, robots.txt)
+- `-t 10`: 10 threads
+- `-timeout 10`: request timeout (seconds)
+
+⸻
+
+### Want the actual page content too?
+
+Katana is for discovery, not saving pages. But here’s how you chain it:
+
+```bash
+katana -u https://example.com/docs -d 2 -silent | \
+  httpx -threads 20 -status-code -content-type -silent -mc 200 -o valid_urls.txt
+```
+
+Then to download:
+
+```bash
+cat valid_urls.txt | while read url; do
+  wget --no-check-certificate -q -P output_docs "$url"
+done
+```
+
+
+⸻
+
+#### Bonus tip: Recursive site mirroring?
+
+Katana isn’t a full mirroring tool. If you just want the entire static doc site, do this instead:
+
+`wget --mirror --convert-links --adjust-extension --page-requisites --no-parent https://example.com/docs`
+
+But if you’re trying to combine discovery + filtering + custom workflows, then Katana is king.
+
+⸻
+
 ## TLDR
 
 - Crawl a list of URLs:
