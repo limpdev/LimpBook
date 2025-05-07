@@ -2,6 +2,7 @@
 .floating-toc {
     font-family: "Jost";
     position: fixed;
+    align-self: anchor-center;
     top: 70px;
     right: 16px;
     width: 135px;
