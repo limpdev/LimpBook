@@ -6,6 +6,7 @@
   - [ Architecture](./meta/Architecture.md)
   - [ Table of Contents](./meta/TOC.md)
   - [ DevDocs](./meta/DevDocs.md)
+  - [ AutoSum](./meta/autosum.md)
 
 ---
 
