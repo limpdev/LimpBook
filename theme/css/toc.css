@@ -21,6 +21,7 @@
     scrollbar-color: transparent;
     transition: all 800ms ease;
     opacity: 0.25;
+    color: #ffffffbb;
 }
 
 .floating-toc:hover {
