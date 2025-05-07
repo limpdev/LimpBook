@@ -17,7 +17,7 @@
     - [Introduction](./active-dev/wails.io/_intro.md)
     - [Get Started](./active-dev/wails.io/1_getstarted.md)
     - [Guides](./active-dev/wails.io/2_guides.md)
-    - [References](./active-dev/wails.io/3_references)
+    - [References](./active-dev/wails.io/3_references.md)
     - [Runtime](./active-dev/wails.io/4_runtime.md)
     - [Tutorial](./active-dev/wails.io/5_tuts.md)
     - [Community](./active-dev/wails.io/6_community.md)
