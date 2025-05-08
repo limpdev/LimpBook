@@ -11,11 +11,15 @@
 ---
 
 - [󰵮 LIVE](./active-dev/zed-dev.md)
+  
   - [󱁤 snips](./active-dev/Snippets.md)
+  
   - [ Mojo](./active-dev/Mojo.md)
+  
   - [🐳devo-app](./active-dev/devowails.md)
-
+  
   - [🐳wailsV3](./active-dev/WailsV3.md)
+    
     - [Introduction](./active-dev/wails.io/_intro.md)
     - [Get Started](./active-dev/wails.io/1_getstarted.md)
     - [Guides](./active-dev/wails.io/2_guides.md)
@@ -23,8 +27,9 @@
     - [Runtime](./active-dev/wails.io/4_runtime.md)
     - [Tutorial](./active-dev/wails.io/5_tuts.md)
     - [Community](./active-dev/wails.io/6_community.md)
-
+  
   - [ AwesomeRemark](./active-dev/remarkJS/AwesomeRemark.md)
+    
     - [ ReMark](./active-dev/remarkJS/ReMark.md)
     - [ ReHype](./active-dev/remarkJS/re-hype.md)
     - [ GFM](./active-dev/remarkJS/re-gfm.md)
@@ -43,42 +48,78 @@
 
 ---
 
-- [ WEB AUTOMATION](./web/AutomatingHTML.md)
+- [ WEB DEV](./web/AutomatingHTML.md)
+  
+  - [  Markdown Engines](./web/md-engines.md)
+  
   - [ Choose File](./web/ChooseFile.md)
+  
   - [ Base64](./web/base64js.md)
+  
   - [ Colly](./web/colly.md)
+  
   - [ Favicon](./web/favicon.md)
+  
   - [ Katana](./web/go-katana.md)
+  
   - [ HoverJS](./web/hoverJS.md)
+  
   - [ Delivr](./web/jsdelivr.md)
+  
   - [ LlamaCPP](./web/llamacpp-cmd.md)
+  
   - [󱁤 LM Studio](./web/lmstudio.md)
+  
   - [ Marker](./web/marker.md)
+  
   - [ Markdown2PDF](./web/md2pdf.md)
+  
   - [ Ollama+Tailscale](./web/ollama-tailscale.md)
+  
   - [ PDFTK-Java](./web/pdftk-java.md)
+  
   - [ PicviewCE](./web/picviewce.md)
+  
   - [ RippleClicks](./web/rippleclicks.md)
+  
   - [ TabModifier](./web/tabmodifier.md)
+  
   - [ Pixiv](./web/pixiv.md)
+  
   - [ Tailscale](./web/tailscale.md)
+  
   - [ Tauri](./web/tauri-anthropic.md)
+  
   - [ UV](./web/uv.md)
+  
   - [ KaTeX](./web/katex.md)
+  
   - [ Libraries](./web/importjs.md)
+  
   - [ Tauri](./web/tauri-docs.md)
+  
   - [Unsloth](./web/unsloth.md)
+  
   - [FontForge](./web/fontforge.md)
+  
   - [CodeCopy](./web/gh-codecopy.md)
+  
   - [Advanced CSS](./web/css-advanced.md)
+  
   - [HTML Selectors](./web/html-selectors.md)
+  
   - [Localize Links](./web/LocalizeLinks.md)
+  
   - [Stylings](./web/stylings.md)
+  
   - [Tailwind + Svelte](./web/TailwindSvelte.md)
+  
   - [WebJS](./web/webJS.md)
+  
   - [Sanitizing HTML](./web/purehtml.md)
-
+  
   - [ Docusaurus](./web/md_codeblocks.md)
+    
     - [Admonitions](./web/md_admonitions.md)
     - [Math](./web/md_math.md)
     - [Mermaid](./web/md_mermaid.md)
@@ -121,30 +162,48 @@
   - [ Zoxide](./cli/zoxide.md)
   - [ Warp Prompt](./cli/warp_prompt.md)
   - [ Podman](./cli/Podman.md)
+  - [  yarn](./cli/yarn-cli.md)
 
 ---
 
 - [ GOLANG](./golang/Golang.md)
-
+  
   - [WebAssembly](./golang/WASM.md)
+  
   - [Context](./golang/Context.md)
+  
   - [Concurrency](./golang/Concurrency.md)
+  
   - [Argparse](./golang/argparse.md)
+  
   - [Colly](./golang/colly.md)
+  
   - [Devitree](./golang/devitree.md)
+  
   - [Embed](./golang/go_embed.md)
+  
   - [Getter](./golang/go_getter.md)
+  
   - [HTML](./golang/go_html.md)
+  
   - [Maps](./golang/go_maps.md)
+  
   - [Notation](./golang/go_notation.md)
+  
   - [Unsafe](./golang/go_unsafe.md)
+  
   - [Goco](./golang/goco.md)
+  
   - [Gogex](./golang/gogex.md)
+  
   - [Bufio](./golang/go_bufio.md)
+  
   - [MacOS-Preview](./golang/macos-preview.md)
+  
   - [Notes-On-Go](./golang/golang-notes.md)
-
+  
   - [ Zenity](./golang/zenity/go_zenity.md)
+    
     - [Introduction](./golang/zenity/intro.md)
     - [Calendar](./golang/zenity/calendar.md)
     - [Color Selection](./golang/zenity/color-selection.md)
@@ -160,8 +219,9 @@
     - [Scale](./golang/zenity/scale.md)
     - [Text](./golang/zenity/text.md)
     - [Usage](./golang/zenity/usage.md)
-
+  
   - [ GoApps](./golang/buildGoApp/#TOC.md)
+    
     - [01.0](./golang/buildGoApp/01.0.md)
     - [01.1](./golang/buildGoApp/01.1.md)
     - [01.2](./golang/buildGoApp/01.2.md)
@@ -257,8 +317,9 @@
     - [14.5](./golang/buildGoApp/14.5.md)
     - [14.6](./golang/buildGoApp/14.6.md)
     - [14.7](./golang/buildGoApp/14.7.md)
-
+  
   - [ Gioui](golang/gioui.org/learnbeginners.md)
+    
     - [Learning References](golang/gioui.org/learnreferences.md)
     - [Android](golang/gioui.org/android.md)
     - [Anvil](golang/gioui.org/anvil.md)
@@ -314,8 +375,9 @@
     - [Window](golang/gioui.org/window.md)
     - [Windows](golang/gioui.org/windows.md)
     - [Wormhole William](golang/gioui.org/wormhole-william.md)
-
+  
   - [ Hugo](./golang/hugodocs/hugo_functions.md)
+    
     - [Hugo Collections](./golang/hugodocs/hugo_collections.md)
     - [Hugo Methods](./golang/hugodocs/hugo_methods.md)
     - [Papermod FAQ](./golang/hugodocs/papermod-faq.md)
@@ -378,3 +440,6 @@
   - [󱁤 OUI](./ml/openui.md)
   - [󱁤 RAG](./ml/ouirag.md)
   - [󱁤 VISION](./ml/vision-llm.md)
+  - [󱁤 LIGHTLLM](./ml/lightllm.md)
+
+
