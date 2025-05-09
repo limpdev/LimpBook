@@ -22,7 +22,7 @@ import subprocess
 def setup_logging():
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
     return logging.getLogger(__name__)
-    
+   
 def sanitize_filename(filename):
     return re.sub(r'[^\w\-_\. ]', '_', filename)
 
@@ -94,9 +94,9 @@ from PyPDF2 import PdfReader, PdfWriter
 from datetime import datetime
 
 # Configuration
-INPUT_DIR = '/Users/andrewgorbet/mybin/proj/Python/apps/Chutter/Splits' 
+INPUT_DIR = './Splits' 
 # Directory containing the split PDF files
-OUTPUT_DIR = '/Users/andrewgorbet/mybin/proj/Python/apps/Chutter/Merged'  
+OUTPUT_DIR = './Merged'  
 # Directory to save the combined PDFs
 # Ensure the output directory exists
 os.makedirs(OUTPUT_DIR, exist_ok=True)
@@ -148,7 +148,7 @@ def combine_pdfs(filepaths, output_path):
     with open(output_path, 'wb') as out_file:
         pdf_writer.write(out_file)
     print(f"Combined PDF saved to: {output_path}")
-    
+   
 def main():
     # Step 1: List all PDF files in the input directory
     all_files = os.listdir(INPUT_DIR)
@@ -172,7 +172,7 @@ def main():
     print("\nAll accounts have been processed and combined PDFs are saved.")
 if __name__ == "__main__":
     main()
-    
+   
 ```
 ---
 ### **Performance**
