@@ -80,11 +80,10 @@
   - [HTML Selectors](./web/html-selectors.md)
   - [Localize Links](./web/LocalizeLinks.md)
   - [Stylings](./web/stylings.md)
-  - [Tailwind + Svelte](./web/TailwindSvelte.md)
   - [WebJS](./web/webJS.md)
   - [Sanitizing HTML](./web/purehtml.md)
-  - [React & Svelte](./web/react-svelte.md)
-  - [MuPDF+LLM](./web/mupdf.md)
+  - [React/Svelte](./web/react-svelte.md)
+  - [Tailwind/Svelte](./web/TailwindSvelte.md)
   - [ Docusaurus](./web/md_codeblocks.md)
     - [Admonitions](./web/md_admonitions.md)
     - [Math](./web/md_math.md)
@@ -133,43 +132,24 @@
 ---
 
 - [ GOLANG](./golang/Golang.md)
-
   - [WebAssembly](./golang/WASM.md)
-
   - [Context](./golang/Context.md)
-
   - [Concurrency](./golang/Concurrency.md)
-
   - [Argparse](./golang/argparse.md)
-
   - [Colly](./golang/colly.md)
-
   - [Devitree](./golang/devitree.md)
-
   - [Embed](./golang/go_embed.md)
-
   - [Getter](./golang/go_getter.md)
-
   - [HTML](./golang/go_html.md)
-
   - [Maps](./golang/go_maps.md)
-
   - [Notation](./golang/go_notation.md)
-
   - [Unsafe](./golang/go_unsafe.md)
-
   - [Goco](./golang/goco.md)
-
   - [Gogex](./golang/gogex.md)
-
   - [Bufio](./golang/go_bufio.md)
-
   - [MacOS-Preview](./golang/macos-preview.md)
-
   - [Notes-On-Go](./golang/golang-notes.md)
-
   - [ Zenity](./golang/zenity/go_zenity.md)
-
     - [Introduction](./golang/zenity/intro.md)
     - [Calendar](./golang/zenity/calendar.md)
     - [Color Selection](./golang/zenity/color-selection.md)
@@ -185,9 +165,7 @@
     - [Scale](./golang/zenity/scale.md)
     - [Text](./golang/zenity/text.md)
     - [Usage](./golang/zenity/usage.md)
-
   - [ GoApps](./golang/buildGoApp/#TOC.md)
-
     - [01.0](./golang/buildGoApp/01.0.md)
     - [01.1](./golang/buildGoApp/01.1.md)
     - [01.2](./golang/buildGoApp/01.2.md)
@@ -283,9 +261,7 @@
     - [14.5](./golang/buildGoApp/14.5.md)
     - [14.6](./golang/buildGoApp/14.6.md)
     - [14.7](./golang/buildGoApp/14.7.md)
-
   - [ Gioui](golang/gioui.org/learnbeginners.md)
-
     - [Learning References](golang/gioui.org/learnreferences.md)
     - [Android](golang/gioui.org/android.md)
     - [Anvil](golang/gioui.org/anvil.md)
@@ -341,9 +317,7 @@
     - [Window](golang/gioui.org/window.md)
     - [Windows](golang/gioui.org/windows.md)
     - [Wormhole William](golang/gioui.org/wormhole-william.md)
-
   - [ Hugo](./golang/hugodocs/hugo_functions.md)
-
     - [Hugo Collections](./golang/hugodocs/hugo_collections.md)
     - [Hugo Methods](./golang/hugodocs/hugo_methods.md)
     - [Papermod FAQ](./golang/hugodocs/papermod-faq.md)
@@ -352,6 +326,7 @@
 ---
 
 - [ PYTHON](./python/pyenv.md)
+  - [MuPDF+LLM](./python/mupdf.md)
   - [Accutter](./python/Accutter.md)
   - [Marker](./python/marker.md)
   - [Poetry](./python/poetry.md)
