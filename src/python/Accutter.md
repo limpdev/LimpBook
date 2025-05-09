@@ -1,13 +1,4 @@
----
-aliases: []
-sticker: emoji//1f40d
-tags: py
----
----
-### **<span style='color:var(--mk-color-pink)'>Purpose</span>**
->Split, Organize, and Group hundreds of PDF documents in milliseconds with <span style='color:var(--mk-color-teal)'>Accutter</span>, and a little regex
----
-## **<span style='color:var(--mk-color-pink)'>Formula</span>** - <span style='color:var(--mk-color-blue)'>Accutter</span>
+# Accutter
 
 ```python
 import re
