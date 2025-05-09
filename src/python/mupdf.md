@@ -159,7 +159,9 @@ Since inception PyMuPDF can extract text, images, vector graphics and, since Aug
 
 All this is implemented as [one Python script](https://github.com/pymupdf/RAG/blob/main/pymupdf4llm/pymupdf4llm/helpers/pymupdf_rag.py). It can be imported as a module by some other script, or be invoked as a line command in a terminal window like this:
 
-**`$ python pymupdf_rag.py input.pdf [-pages PAGES]`**
+```bash
+python pymupdf_rag.py input.pdf [-pages PAGES]
+```
 
 It will produce a text file (called `input.md`) in **Markdown** format. The optional parameter `PAGES` allows restricting the conversion to a subset of the PDF’s total pages. If omitted, the full PDF is processed.
 
