@@ -118,6 +118,8 @@
   
   - [Sanitizing HTML](./web/purehtml.md)
   
+  - [React & Svelte](./web/react-svelte.md)
+  
   - [ Docusaurus](./web/md_codeblocks.md)
     
     - [Admonitions](./web/md_admonitions.md)
@@ -441,5 +443,3 @@
   - [󱁤 RAG](./ml/ouirag.md)
   - [󱁤 VISION](./ml/vision-llm.md)
   - [󱁤 LIGHTLLM](./ml/lightllm.md)
-
-
