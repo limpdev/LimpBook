@@ -320,6 +320,8 @@
 ---
 
 - [ PYTHON](./python/pyenv.md)
+  - [ Sphinx](./python/sphinx.md)
+  - [ Mojo](./python/Mojo.md)
   - [MuPDF+LLM](./python/mupdf.md)
   - [Accutter](./python/Accutter.md)
   - [Marker](./python/marker.md)
@@ -333,7 +335,6 @@
   - [VirtualENV](./python/virtualenv.md)
   - [LangChainDocs](./python/LangChainDocs.md)
   - [PyDoll](./python/pydoll.md)
-  - [ Mojo](./python/Mojo.md)
   - [ CRAWL4AI](./python/crawl4ai/content/-index.md)
     - [Getting Started](./python/crawl4ai/content/getting-started.md)
     - [Api Extracts & Chunks](./python/crawl4ai/content/api-extracts-chunks.md)
