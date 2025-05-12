@@ -11,15 +11,10 @@
 ---
 
 - [󰵮 LIVE](./active-dev/zed-dev.md)
-
   - [󱁤 snips](./active-dev/Snippets.md)
-
   - [ Mojo](./active-dev/Mojo.md)
-
   - [🐳devo-app](./active-dev/devowails.md)
-
   - [🐳wailsV3](./active-dev/WailsV3.md)
-
     - [Introduction](./active-dev/wails.io/_intro.md)
     - [Get Started](./active-dev/wails.io/1_getstarted.md)
     - [Guides](./active-dev/wails.io/2_guides.md)
@@ -27,9 +22,7 @@
     - [Runtime](./active-dev/wails.io/4_runtime.md)
     - [Tutorial](./active-dev/wails.io/5_tuts.md)
     - [Community](./active-dev/wails.io/6_community.md)
-
   - [ AwesomeRemark](./active-dev/remarkJS/AwesomeRemark.md)
-
     - [ ReMark](./active-dev/remarkJS/ReMark.md)
     - [ ReHype](./active-dev/remarkJS/re-hype.md)
     - [ GFM](./active-dev/remarkJS/re-gfm.md)
@@ -49,7 +42,7 @@
 ---
 
 - [ WEB DEV](./web/AutomatingHTML.md)
-  - [  Markdown Engines](./web/md-engines.md)
+  - [ Markdown Engines](./web/md-engines.md)
   - [ Choose File](./web/ChooseFile.md)
   - [ Base64](./web/base64js.md)
   - [ Colly](./web/colly.md)
@@ -100,6 +93,7 @@
   - [ Docling](./cli/docling.md)
   - [ Docling Features](./cli/docling_features.md)
   - [ Docling Usage](./cli/docling_usage.md)
+  - [ Gallery DL](./cli/gallery-dl.md)
   - [ Fileicon](./cli/fileicon.md)
   - [ Kitty](./cli/kitty.md)
   - [ Mac CLI](./cli/mac-cli.md)
@@ -372,8 +366,8 @@
     - [Reference III](./python/crawl4ai/content/reference-iii.md)
     - [Session](./python/crawl4ai/content/session.md)
     - [Simple Crawl](./python/crawl4ai/content/simple-crawl.md)
-    - [Strat Chunking](./python/crawl4ai/content/strat-chunking.md)
-    - [Strat Cosine](./python/crawl4ai/content/strat-cosine.md)
+    - [Strat - Chunking](./python/crawl4ai/content/strat-chunking.md)
+    - [Strat - Cosine](./python/crawl4ai/content/strat-cosine.md)
 
 ---
 
