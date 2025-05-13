@@ -79,6 +79,27 @@ Earum illum nesciunt corporis quam reprehenderit sequi rerum eos nostrum facere.
 Ut esse ea soluta beatae tenetur nemo suscipit dolorem tenetur.
 :::
 
+## Text Scripts (sub/sup)
+
+==Subscript== using, '\~\', the 'squigglies' → H~2~O
+
+==Superscript== using '\^\', or, the up arrow-notch → May 12^th^
+
+## Inline-Tabs for Codeblocks
+
+::: tab#fruit         
+
+@tab apple#apple
+
+Apple
+
+@tab banana#banana
+
+Banana
+
+:::
+
+
 
 ## Emphasis
 
