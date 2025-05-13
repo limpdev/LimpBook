@@ -1,7 +1,7 @@
 # Summary
 
 - [ META](./meta/-readme.md)
-  - [ GitHub Markdown](./meta/GitHubFlavour.md)
+  - [ Playground](./meta/GitHubFlavour.md)
   - [ My Design](./meta/MyDesign.md)
   - [ Architecture](./meta/Architecture.md)
   - [ Table of Contents](./meta/TOC.md)
@@ -13,8 +13,8 @@
 - [󰵮 LIVE](./active-dev/zed-dev.md)
   - [󱁤 snips](./active-dev/Snippets.md)
   - [ Mojo](./active-dev/Mojo.md)
-  - [🐳devo-app](./active-dev/devowails.md)
-  - [ MD-it Plugins](./active-dev/mditplugs.md)
+  - [🐳devodocs](./active-dev/devowails.md)
+  - [ Plugins](./active-dev/mditplugs.md)
   - [🐳wailsV3](./active-dev/WailsV3.md)
     - [Introduction](./active-dev/wails.io/_intro.md)
     - [Get Started](./active-dev/wails.io/1_getstarted.md)
