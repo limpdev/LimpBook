@@ -63,17 +63,21 @@ Alt-H2
 
 > this shit gay af cuh
 
-> [!TIP]
-> Quia et enim dignissimos commodi molestiae earum impedit.
+::: tip
+Quia et enim dignissimos commodi molestiae earum impedit.
+:::
 
-> [!IMPORTANT]
-> Corporis recusandae in doloremque unde commodi.
+::: important
+Corporis recusandae in doloremque unde commodi.
+:::
 
-> [!WARNING]
-> Earum illum nesciunt corporis quam reprehenderit sequi rerum eos nostrum facere.
+::: warning
+Earum illum nesciunt corporis quam reprehenderit sequi rerum eos nostrum facere.
+:::
 
-> [!CAUTION]
-> Ut esse ea soluta beatae tenetur nemo suscipit dolorem tenetur.
+::: caution
+Ut esse ea soluta beatae tenetur nemo suscipit dolorem tenetur.
+:::
 
 
 ## Emphasis
