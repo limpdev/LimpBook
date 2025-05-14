@@ -749,6 +749,8 @@ Here’s how to modify your application:
 3.  Run `wails build`.
 4.  Run the executable from `build/bin`.
 
+<details><summary>🎁<i>App's Files</i></summary>
+
 You should now see your frameless Wails application with the custom minimize/close buttons, and your `mdbook` documentation loaded inside the iframe.
 # `devo` -> Crucial Components
 
@@ -1241,6 +1243,258 @@ body,
 		"@types/react-dom": "^18.0.6",
 		"@vitejs/plugin-react": "^2.0.1",
 		"vite": "^3.0.7"
+	}
+}
+```
+
+</details>
+
+---
+
+## `yammary`
+
+**Generating 'SUMMARY' files for static websites**. Below is an example of a YAML-index generator written in Go.
+
+```go
+package main
+
+import (
+	"flag"
+	"fmt"
+	"io/fs"
+	"os"
+	"os/exec"
+	"path/filepath"
+	"regexp"
+	"sort"
+	"strings"
+)
+
+// Entry represents a single file or directory in the TOC
+type Entry struct {
+	Title    string            `yaml:"title"`
+	Path     string            `yaml:"path,omitempty"`
+	URL      string            `yaml:"url,omitempty"`
+	Children map[string]*Entry `yaml:"children,omitempty"`
+}
+
+// ExtractTitleFromMarkdown attempts to extract a title from markdown content
+func ExtractTitleFromMarkdown(content string) string {
+	// Look for a markdown title (# Title)
+	titleRegex := regexp.MustCompile(`(?m)^#\s+(.+)$`)
+	matches := titleRegex.FindStringSubmatch(content)
+	if len(matches) > 1 {
+		return matches[1]
+	}
+
+	// Look for YAML frontmatter title
+	frontmatterRegex := regexp.MustCompile(`(?ms)^---\s+(.*?)\s+---`)
+	frontmatterMatches := frontmatterRegex.FindStringSubmatch(content)
+	if len(frontmatterMatches) > 1 {
+		titleInFrontmatter := regexp.MustCompile(`(?m)^title:\s*["']?([^"'\r\n]+)["']?`)
+		titleMatches := titleInFrontmatter.FindStringSubmatch(frontmatterMatches[1])
+		if len(titleMatches) > 1 {
+			return titleMatches[1]
+		}
+	}
+
+	return ""
+}
+
+// CleanTitle formats the raw title into a presentable form
+func CleanTitle(filename string) string {
+	// Remove .md extension
+	title := strings.TrimSuffix(filename, filepath.Ext(filename))
+
+	// Replace underscores and hyphens with spaces
+	title = strings.ReplaceAll(title, "_", " ")
+	title = strings.ReplaceAll(title, "-", " ")
+
+	// Handle special cases
+	if title == "index" || title == "_index" {
+		return "Overview"
+	}
+
+	// Capitalize the first letter of each word
+	words := strings.Fields(title)
+	for i, word := range words {
+		if len(word) > 0 {
+			r := []rune(word)
+			r[0] = []rune(strings.ToUpper(string(r[0])))[0]
+			words[i] = string(r)
+		}
+	}
+
+	return strings.Join(words, " ")
+}
+
+// BuildTOC creates a TOC structure from the given directory
+func BuildTOC(rootPath string) (*Entry, error) {
+	root := &Entry{
+		Title:    "Documentation",
+		Children: make(map[string]*Entry),
+	}
+
+	err := filepath.WalkDir(rootPath, func(path string, d fs.DirEntry, err error) error {
+		if err != nil {
+			return err
+		}
+
+		// Skip hidden files and directories
+		if strings.HasPrefix(filepath.Base(path), ".") && path != rootPath {
+			if d.IsDir() {
+				return filepath.SkipDir
+			}
+			return nil
+		}
+
+		// Get relative path from the root
+		relPath, err := filepath.Rel(rootPath, path)
+		if err != nil {
+			return err
+		}
+
+		// Skip the root directory itself
+		if relPath == "." {
+			return nil
+		}
+
+		// Calculate the path components for building the hierarchy
+		pathComponents := strings.Split(relPath, string(os.PathSeparator))
+
+		// Create or find the parent entry
+		current := root
+		for i := 0; i < len(pathComponents)-1; i++ {
+			component := pathComponents[i]
+			if _, exists := current.Children[component]; !exists {
+				current.Children[component] = &Entry{
+					Title:    CleanTitle(component),
+					Children: make(map[string]*Entry),
+				}
+			}
+			current = current.Children[component]
+		}
+
+		fileName := pathComponents[len(pathComponents)-1]
+
+		// Handle directories
+		if d.IsDir() {
+			current.Children[fileName] = &Entry{
+				Title:    CleanTitle(fileName),
+				Children: make(map[string]*Entry),
+			}
+			return nil
+		}
+
+		// Only process markdown files
+		if !strings.HasSuffix(fileName, ".md") {
+			return nil
+		}
+
+		// Try to extract a better title from the file content
+		title := CleanTitle(fileName)
+		content, readErr := os.ReadFile(path)
+		if readErr == nil {
+			extractedTitle := ExtractTitleFromMarkdown(string(content))
+			if extractedTitle != "" {
+				title = extractedTitle
+			}
+		}
+
+		// If this is an index file for a directory, assign it to the directory entry
+		if fileName == "_index.md" || fileName == "_"+filepath.Base(filepath.Dir(path))+".md" {
+			current.Title = title
+			current.Path = relPath
+			current.URL = "/" + strings.TrimSuffix(relPath, filepath.Ext(relPath))
+		} else {
+			// Regular file entry
+			fileEntry := &Entry{
+				Title: title,
+				Path:  relPath,
+				URL:   "/" + strings.TrimSuffix(relPath, filepath.Ext(relPath)),
+			}
+			current.Children[fileName] = fileEntry
+		}
+
+		return nil
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return root, nil
+}
+
+// OutputYAML formats the TOC as YAML
+func OutputYAML(entry *Entry, indent int) string {
+	var result strings.Builder
+	spaces := strings.Repeat(" ", indent)
+
+	// Output the current entry
+	result.WriteString(fmt.Sprintf("%stitle: %s\n", spaces, entry.Title))
+
+	if entry.URL != "" {
+		result.WriteString(fmt.Sprintf("%surl: %s\n", spaces, entry.URL))
+	}
+
+	// Sort children for consistent output
+	if len(entry.Children) > 0 {
+		result.WriteString(fmt.Sprintf("%schildren:\n", spaces))
+
+		// Get sorted keys
+		var keys []string
+		for k := range entry.Children {
+			keys = append(keys, k)
+		}
+		sort.Strings(keys)
+
+		for _, k := range keys {
+			child := entry.Children[k]
+			result.WriteString(fmt.Sprintf("%s  -\n", spaces))
+			childYAML := OutputYAML(child, indent+4)
+			result.WriteString(childYAML)
+		}
+	}
+
+	return result.String()
+}
+
+func main() {
+	rootDir := flag.String("d", ".", "Root directory to scan")
+	outputFile := flag.String("o", "", "Output file path (stdout if not specified)")
+	useYq := flag.Bool("yq", true, "Use yq for YAML formatting")
+	flag.Parse()
+
+	toc, err := BuildTOC(*rootDir)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error building TOC: %v\n", err)
+		os.Exit(1)
+	}
+
+	yamlOutput := "---\n" + OutputYAML(toc, 0) + "---\n"
+
+	// Process through yq if requested
+	if *useYq {
+		cmd := exec.Command("yq", "-P")
+		cmd.Stdin = strings.NewReader(yamlOutput)
+		out, err := cmd.CombinedOutput()
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error using yq: %v\n", err)
+		} else {
+			yamlOutput = string(out)
+		}
+	}
+
+	if *outputFile == "" {
+		fmt.Print(yamlOutput)
+	} else {
+		err := os.WriteFile(*outputFile, []byte(yamlOutput), 0644)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error writing to file: %v\n", err)
+			os.Exit(1)
+		}
+		fmt.Printf("TOC written to %s\n", *outputFile)
 	}
 }
 ```
