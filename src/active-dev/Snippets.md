@@ -195,7 +195,7 @@ If good programming abilites correlated to getting laid, here would lie the keys
 ##### Frosted Glass Effect
 
 <details><summary>🎁<i></i></summary>
-     
+    
 
 ```html
 <vuep template="#frosted-glass"></vuep>
@@ -207,7 +207,7 @@ If good programming abilites correlated to getting laid, here would lie the keys
     margin: auto;
     padding: 59px 29px;
     border-radius: .3em;
-    text-shadow: 0 1px 1px hsla(0, 0%, 100%, .3); 
+    text-shadow: 0 1px 1px hsla(0, 0%, 100%, .3);
     box-shadow: 0 0 0 1px hsla(0, 0%, 100%, .3) inset, 0 .3em 1em rgba(0, 0, 0, 0.12);
     font: 150%/1.6 Baskerville, Palatino, serif;
   }
@@ -217,8 +217,8 @@ If good programming abilites correlated to getting laid, here would lie the keys
   main > div::before{
     content: "";
     position: absolute;
-    top: 0; right: 0; bottom: 0; left: 0; 
-    z-index: -1; 
+    top: 0; right: 0; bottom: 0; left: 0;
+    z-index: -1;
     filter: blur(10px);
     margin: -30px;
   }
@@ -248,7 +248,7 @@ If good programming abilites correlated to getting laid, here would lie the keys
     </div>
   </main>
 </template>
-<script>  
+<script>
 </script>
 </script>
 
@@ -292,7 +292,7 @@ If good programming abilites correlated to getting laid, here would lie the keys
   }
   main > div > p {
     padding: 18px 28px;
-    text-align: justify; 
+    text-align: justify;
     hyphens: auto;
 
   }
@@ -310,20 +310,20 @@ If good programming abilites correlated to getting laid, here would lie the keys
     background: #b4a078;
     color: white;
     /* text-shadow: 1px 1px black, -1px -1px black, 1px -1px black, -1px 1px black; */
-    text-shadow:  0 0 2px hsl(40, 28.57% , 28.82%), 
-                  0 0 2px hsl(40, 28.57% , 28.82%), 
-                  0 0 2px hsl(40, 28.57% , 28.82%), 
-                  0 0 2px hsl(40, 28.57% , 28.82%), 
+    text-shadow:  0 0 2px hsl(40, 28.57% , 28.82%),
                   0 0 2px hsl(40, 28.57% , 28.82%),
-                  0 0 2px hsl(40, 28.57% , 28.82%), 
-                  0 0 2px hsl(40, 28.57% , 28.82%), 
-                  0 0 2px hsl(40, 28.57% , 28.82%),  
+                  0 0 2px hsl(40, 28.57% , 28.82%),
+                  0 0 2px hsl(40, 28.57% , 28.82%),
+                  0 0 2px hsl(40, 28.57% , 28.82%),
+                  0 0 2px hsl(40, 28.57% , 28.82%),
+                  0 0 2px hsl(40, 28.57% , 28.82%),
+                  0 0 2px hsl(40, 28.57% , 28.82%),
                   0 0 2px hsl(40, 28.57% , 28.82%);
   }
   main > div:nth-of-type(4) > p {
     background: #b4a078;
     color: white;
-  } 
+  }
   main > div:nth-of-type(4) > p text{
     fill: currentColor;
   }
@@ -340,8 +340,8 @@ If good programming abilites correlated to getting laid, here would lie the keys
   main > div:nth-of-type(7) > p {
     background: hsl(40, 28.57% , 28.82%);
   }
-  main > div:nth-of-type(5) > p a, 
-  main > div:nth-of-type(6) > p a, 
+  main > div:nth-of-type(5) > p a,
+  main > div:nth-of-type(6) > p a,
   main > div:nth-of-type(7) > p a {
     background: hsl(40, 28.57% , 28.82%);
     color: white;
@@ -363,8 +363,8 @@ If good programming abilites correlated to getting laid, here would lie the keys
     background: #b4a078;
     color: white;
     text-shadow:  0 1px hsl(0, 0%, 90%),
-                  0 1px hsl(0, 0%, 90%), 
-                  0 2px 4px hsla(0, 0%, 0%,.5); 
+                  0 1px hsl(0, 0%, 90%),
+                  0 2px 4px hsla(0, 0%, 0%,.5);
   }
   main > div:nth-of-type(9) > p {
     background: #b4a078;
@@ -450,7 +450,7 @@ If good programming abilites correlated to getting laid, here would lie the keys
 
 <details><summary>  </summary>
 
-For  
+For 
 ```js
 // Module for adding copy buttons to code blocks
 const ClipbModule = (() => {
@@ -559,3 +559,25 @@ if (typeof window !== "undefined") {
 ```
 
 </details>
+
+
+---
+
+##  Choose File
+
+> Simple call for file dialog using `tkinter`.
+
+```python
+import tkinter as tk
+from tkinter import filedialog
+
+# Create a root window and hide it
+root = tk.Tk()
+root.withdraw()
+
+# Open the file dialog
+file_path = filedialog.askopenfilename()
+
+# Print the selected file path
+print("Selected file:", file_path)
+```

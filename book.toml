@@ -10,7 +10,7 @@ description = "Documentation for all of my favourite shit"
 smart-punctuation = true
 mathjax-support = true
 no-section-label = true
-additional-css = ["theme/css/toc.css"]
+additional-css = ["theme/css/page-toc.css"]
 git-repository-url = "https://github.com/limpdev/LimpBook"
 git-repository-icon = "fa-github"
 
