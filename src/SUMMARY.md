@@ -122,7 +122,8 @@
   - [ Zoxide](./cli/zoxide.md)
   - [ Warp Prompt](./cli/warp_prompt.md)
   - [ Podman](./cli/Podman.md)
-  - [  yarn](./cli/yarn-cli.md)
+  - [ yarn](./cli/yarn-cli.md)
+  - [ yq](./cli/yq-man.md)
 
 ---
 
