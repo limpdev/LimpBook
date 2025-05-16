@@ -502,3 +502,16 @@ base64 -w 0 favicon.ico
 ```
 
 ---
+
+## Squishy  Transformations for Buttons
+
+> *SUPER SIMPLE* vertical contraction on hover + further contraction *bounce* when active (or, clicked).
+
+```css
+button:hover {
+	transform: scale(1, 0.9);
+}
+button:active {
+	transform: scale(1, 0.8);
+}
+```

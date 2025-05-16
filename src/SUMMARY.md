@@ -43,6 +43,7 @@
 - [ Automate HTML](./web/AutomatingHTML.md)
 - [ Sanitizing HTML](./web/purehtml.md)
 - [ HTML Selectors](./web/html-selectors.md)
+- [ Custom Details](./web/htmldetails.md)
 - [ Stylings](./web/stylings.md)
 - [ Advanced CSS](./web/css-advanced.md)
 - [ CodeCopy](./web/gh-codecopy.md)

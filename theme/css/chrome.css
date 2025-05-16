@@ -370,7 +370,7 @@ pre > code {
 	padding: 1.7rem;
 	font-size: 0.75em;
 	font-weight: 600;
-	text-wrap: auto;
+	// text-wrap: auto; // makes lines wrap once they hit the right edge
 }
 
 /* FIXME: ACE editors overlap their buttons because ACE does absolute

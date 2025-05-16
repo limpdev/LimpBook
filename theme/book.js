@@ -980,3 +980,102 @@ window.addEventListener("load", () => {
 	listenActive();
 	window.addEventListener("scroll", updateFunction);
 });
+
+// --------------------------------------------------------------------------
+// ----------------------- CUSTOM DETAILS -----------------------------------
+// --------------------------------------------------------------------------
+document.addEventListener("DOMContentLoaded", () => {
+	// Find all details elements
+	const detailsElements = document.querySelectorAll("details");
+
+	detailsElements.forEach((details) => {
+		const summary = details.querySelector("summary");
+
+		// Get all content after the summary
+		const contentNodes = [];
+		let currentNode = summary.nextSibling;
+
+		while (currentNode) {
+			contentNodes.push(currentNode);
+			currentNode = currentNode.nextSibling;
+		}
+
+		// Create a wrapper div for the content
+		const contentWrapper = document.createElement("div");
+		contentWrapper.className = "details-content";
+		contentWrapper.style.overflow = "hidden";
+
+		// Move all content nodes into the wrapper
+		contentNodes.forEach((node) => {
+			// Clone the node and remove the original
+			const clonedNode = node.cloneNode(true);
+			contentWrapper.appendChild(clonedNode);
+			details.removeChild(node);
+		});
+
+		// Add the wrapper to the details element
+		details.appendChild(contentWrapper);
+
+		// Set initial state
+		if (!details.open) {
+			contentWrapper.style.height = "0px";
+		} else {
+			contentWrapper.style.height = contentWrapper.scrollHeight + "px";
+		}
+
+		// Add click handler for animation
+		summary.addEventListener("click", (e) => {
+			e.preventDefault();
+
+			if (details.open) {
+				// Closing animation
+				contentWrapper.style.height = contentWrapper.scrollHeight + "px";
+				// Force reflow
+				contentWrapper.offsetHeight;
+				contentWrapper.style.height = "0px";
+
+				// After animation completes, set open to false
+				setTimeout(
+					() => {
+						details.open = false;
+					},
+					parseFloat(getComputedStyle(contentWrapper).transitionDuration) * 1000,
+				);
+			} else {
+				// Opening animation
+				details.open = true;
+
+				// Get the scroll height and apply it
+				setTimeout(() => {
+					contentWrapper.style.height = contentWrapper.scrollHeight + "px";
+
+					// After animation completes, set height to auto for flexible content
+					setTimeout(
+						() => {
+							contentWrapper.style.height = "auto";
+						},
+						parseFloat(getComputedStyle(contentWrapper).transitionDuration) * 1000,
+					);
+				}, 10);
+			}
+		});
+	});
+
+	// Optional: Style toggle buttons (kept from your original code)
+	const arrowStyle = document.getElementById("arrow-style");
+	const plusStyle = document.getElementById("plus-style");
+
+	if (arrowStyle && plusStyle) {
+		arrowStyle.addEventListener("click", () => {
+			detailsElements.forEach((el) => el.classList.remove("plus-minus"));
+			arrowStyle.classList.add("active");
+			plusStyle.classList.remove("active");
+		});
+
+		plusStyle.addEventListener("click", () => {
+			detailsElements.forEach((el) => el.classList.add("plus-minus"));
+			plusStyle.classList.add("active");
+			arrowStyle.classList.remove("active");
+		});
+	}
+});
