@@ -88,6 +88,7 @@ wget --mirror --convert-links --adjust-extension --page-requisites --no-parent <
     - trigger: ";chrome"
       replace: "  "
 ```
+
 </details>
 
 ---
@@ -485,3 +486,19 @@ file_path = filedialog.askopenfilename()
 # Print the selected file path
 print("Selected file:", file_path)
 ```
+
+---
+
+### ImageMagick for ICO Files
+
+```bash
+magick favicon.svg -background transparent -resize 256x256 favicon.ico
+```
+
+> For base64 after conversion...
+
+```bash
+base64 -w 0 favicon.ico
+```
+
+---
