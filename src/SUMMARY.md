@@ -126,6 +126,7 @@
 
 - [Introduction](./golang/Golang.md)
 - [WebAssembly](./golang/WASM.md)
+- [PathType](./golang/pathtype.md)
 - [Context](./golang/Context.md)
 - [Concurrency](./golang/Concurrency.md)
 - [Argparse](./golang/argparse.md)
@@ -165,7 +166,7 @@
     - [Papermod Map](./golang/hugodocs/papermod-map.md)
 - [ WailsV3](./golang/wails3/_tree.md)
 	- [Home](./golang/wails3/index.md)
-	- [What's New?](./golang/wails3/whats-new.md)
+	- [What's New?🔖](./golang/wails3/whats-new.md)
 	- [Getting Started](./golang/wails3/start/getting-started.md)
 		- [Feedback](./golang/wails3/start/feedback.md)
 		- [Installation](./golang/wails3/start/installation.md)
