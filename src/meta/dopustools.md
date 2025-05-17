@@ -747,3 +747,541 @@ Changelog:
 </details>
 
 ---
+
+## Hash Comparison
+
+> Compare files using their hashes (big-brain shit for photo mngmt.)
+
+<details><summary><i></i></summary>
+
+```javascript
+' HashCompare:
+' Revision: v1.2.7 (vb)
+' (c) 2016 steje
+'
+' This is a script for written for Directory Opus v11.
+' See http://www.gpsoft.com.au/redirect.asp?page=scripts for development information.
+
+' =====================================================================================
+' ==========================   SCRIPT COMMAND: HashCompare   ==========================
+'
+' This script adds a new RAW 'HashCompare' command to Directory Opus The purpose of the
+' command is to compare the hash value of a file (as calculated by Opus) to the hash
+' value you may have copied from the website the file was downloaded from to the
+' Windows clipboard...
+'
+' If more then one file is selected, then the clipboard contents are ignored, and the
+' script instead compares the specified hash values of the selected files against one
+' another.
+'
+' =====================================================================================
+
+Option Explicit
+Dim SCRIPT_DEBUG
+SCRIPT_DEBUG = False
+
+
+'//////////////////////////////////////////////////////////////////////////////////////////////////
+' Called by Directory Opus to initialize the script
+Function OnInit(ByRef initData)
+
+   DOpus.Output("Initializing...")
+
+   ' Provide basic information about the Script
+   initData.min_version = "11.16"
+   initData.name = "HashCompare"
+   initData.desc = "Adds the 'HashCompare' command to Directory Opus."
+   initData.copyright = "(c) 2016 steje"
+   initData.version = "v1.2.7 (vb)"
+   initData.default_enable = True
+
+   '////////////////////////////////////////////////
+   ' The following options are user configurable via the Configure button under the scripts listing in Prefs
+   '////////////////////////////////////////////////
+   ' Set DEBUG flag to True in order to enable logging messages to the Opus Output Window
+   initData.config.DEBUG = False
+   '////////////////////////////////////////////////
+   ' Set DEBUG_CLEAR flag to True in order to clear log messages from the Opus Output Window between script runs
+   initData.config.DEBUG_CLEAR = False
+   '////////////////////////////////////////////////
+   ' Set descriptions for all script options
+   initData.config_desc = DOpus.NewMap("DEBUG", "Set this option to True to enable logging to the Opus script log.", _
+                                       "DEBUG_CLEAR", "Set this option to True clear messages logged to the Opus script log between script runs.")
+
+   ' Initialize the command that this script adds
+   Dim cmd
+   Set cmd = initData.AddCommand()
+   cmd.name = "HashCompare"
+   cmd.icon = "copyfilenames"
+   cmd.method = "OnHashCompare"
+   cmd.desc = "If only one file is selected, HashCompare calculates a files hash values using the built-in Opus" &_
+              "'Clipboard COPYNAMES=hash*' commands, and compares it to the contents of your clipboard." & vbCrLf & vbCrLf &_
+              "This is intended to give you a basic match/mismatch comparison result between a files actual hash " &_
+              "and the hash value posted for the file on (for example) the website it was downloaded from, which " &_
+              "you've copied to the clipboard from your web browser." & vbCrLf & vbCrLf &_
+              "If more than one file is selected, the clipboard contents are ignored and HashCompare instead " &_
+              "compares the specified hash values of the selected files against one another."
+   cmd.label = "HashCompare"
+   cmd.template = "CLIP/S,FILE/S,MD5/S,SHA/S,TOFILE/S"
+
+End Function
+
+
+'//////////////////////////////////////////////////////////////////////////////////////////////////
+' Implement the HashCompare command
+Function OnHashCompare(ByRef commandData)
+   Dim objCmd
+   Dim strCLIArgs
+
+   Set objCmd = commandData.func.command
+   If (objCmd.IsSet("$glob:SCRIPT_DEBUG")) Then SCRIPT_DEBUG = True
+   If ((Script.config.DEBUG) Or (SCRIPT_DEBUG)) And (Script.config.DEBUG_CLEAR) Then DOpus.ClearOutput
+
+   strCLIArgs = ""
+   strCLIArgs = commandData.cmdline
+
+   logMsg("")
+   logMsg("----------------------------------------------------------------")
+   logMsg("OnHashCompare:")
+   logMsg("----------------------------------------------------------------")
+
+   '////////////////////////////////////////////////
+   ' Check for the FILE option
+   If (commandData.func.args.got_arg.file) Then
+      Call HashCompare_File(commandData.func)
+
+   '////////////////////////////////////////////////
+   ' Check for the TOFILE option
+   ElseIf (commandData.func.args.got_arg.tofile) Then
+      Call HashCompare_ToFile(commandData.func)
+
+   '////////////////////////////////////////////////
+   ' Default to the CLIP option if no arg is specified
+   Else
+      Call HashCompare_Clip(commandData.func)
+
+   End If
+
+   Set objCmd = Nothing
+
+End Function
+
+
+'//////////////////////////////////////////////////////////////////////////////////////////////////
+' Function to save the selected files hash to a text file
+Function HashCompare_ToFile(ByRef Func)
+   Dim objCmd, objFile
+   Dim strClipOrg, strCommand, strSaveCommand, strHashType
+   Const vbQuote = """"
+   'logMsg("HashCompare_Clip()")
+
+   Set objCmd = Func.command
+
+   ' Check for current clipboard format and clear it if not text
+   If (DOpus.GetClipFormat = "text") Then
+      strClipOrg = DOpus.GetClip()
+   Else
+      strClipOrg = ""
+      DOpus.SetClip()
+   End If
+
+   ' Call sub to get hash type from command line
+   Call getHashType(Func.args, strCommand, strHashType)
+
+   For Each objFile in (Func.sourcetab.selected_files)
+      logMsg("File:  " & objFile.name)
+      objCmd.ClearFiles
+      objCmd.AddFile objFile
+      objCmd.RunCommand strCommand
+
+      strSaveCommand = "clipboard paste as=" & vbQuote & objFile.path & "/" & objFile.name & "." & strHashType & vbQuote
+      logMsg(strHashType & " Hash:  " & DOpus.GetClip())
+      objCmd.RunCommand strSaveCommand
+   Next
+
+   ' Reset clipboard to original contents
+   DOpus.SetClip(strClipOrg)
+
+   Set objFile = Nothing
+   Set objCmd = Nothing
+
+End Function
+
+
+'//////////////////////////////////////////////////////////////////////////////////////////////////
+' New function to handle the comparison of multiple files hashes against each other
+Function HashCompare_File(ByRef Func)
+   Dim objCmd, objDlg, objFile1, objFile2, objProg
+   Dim strClipOrg, strFile1Hash, strFile2Hash, strHashesFromClip, strCommand, strHashType, strMessage
+   'logMsg("HashCompare_File()")
+
+   If (executeScript(Func, strClipOrg, strMessage, objCmd, objFile1, objFile2, objDlg, objProg)) Then
+
+      ' Get the first 2 selected files for comparison
+      'Set objFile1 = objCmd.files(0)
+      'Set objFile2 = objCmd.files(1)
+
+      ' Call sub to get hash type from command line
+      Call getHashType(Func.args, strCommand, strHashType)
+
+      ' Fix up dialog message
+      strMessage = "Comparison of [" & strHashType & "] values:" & vbCrLf & vbCrLf
+
+      '////////////////////////////////////////////////
+      ' Add first file to command object
+      objCmd.ClearFiles
+      objCmd.AddFile objFile1
+
+      ' Fix up a progress dialog to show while the hash calculation runs
+      objProg.abort = True
+      objProg.bytes = True
+      objProg.delay = False
+      objProg.full = False
+      objProg.owned = True
+      objProg.pause = False
+      objProg.skip = False
+      objProg.Init Func.sourcetab.lister, "HashCompare"
+      objProg.AddFiles 2, (objFile1.size + objFile2.size)
+      'objProg.HideFileByteCounts False
+      objProg.SetFileSize objFile1.size
+      objProg.SetFiles 2
+      objProg.SetName objFile1.name
+      objProg.SetPercentProgress 0
+      objProg.SetType "file"
+
+      ' Show progress dialog and run command
+      objProg.Show
+      objCmd.RunCommand strCommand
+      'objProg.Hide
+
+      ' Check for abort
+      If (objProg.GetAbortState = "a") Then
+         objDlg.title = "HashCompare:  ABORT"
+         objDlg.icon = "warning"
+
+         objDlg.message = "Comparison aborted by user..."
+         objDlg.Show
+
+         Set objProg = Nothing
+         Set objFile1 = Nothing
+         Set objFile2 = Nothing
+         Set objDlg = Nothing
+         Set objCmd = Nothing
+
+         Exit Function
+      End If
+
+      strFile1Hash = LCase(Trim(DOpus.GetClip()))
+      DOpus.SetClip()
+
+      '////////////////////////////////////////////////
+      ' Add second file to command object
+      objCmd.ClearFiles
+      objCmd.AddFile objFile2
+
+      ' Fix up a progress dialog to show while the hash calculation runs
+      'objProg.abort = True
+      'objProg.bytes = True
+      'objProg.delay = False
+      'objProg.full = False
+      'objProg.owned = True
+      'objProg.pause = False
+      'objProg.skip = False
+      'objProg.Init Func.sourcetab.lister, "HashCompare"
+      'objProg.AddFiles 2, (objFile1.size + objFile2.size)
+      'objProg.HideFileByteCounts False
+      'objProg.SetFileSize objFile2.size
+      'objProg.SetFiles 2
+      'objProg.SetName objFile2.name
+      'objProg.SetPercentProgress 50
+      'objProg.SetType "file"
+
+      ' Show progress dialog and run command
+      'objProg.Show
+      objCmd.RunCommand strCommand
+      objProg.Hide
+
+      ' Check for abort
+      If (objProg.GetAbortState = "a") Then
+         objDlg.title = "HashCompare:  ABORT"
+         objDlg.icon = "warning"
+
+         objDlg.message = "Comparison aborted by user..."
+         objDlg.Show
+
+         Set objProg = Nothing
+         Set objFile1 = Nothing
+         Set objFile2 = Nothing
+         Set objDlg = Nothing
+         Set objCmd = Nothing
+
+         Exit Function
+      End If
+
+      strFile2Hash = LCase(Trim(DOpus.GetClip()))
+
+      Set objProg = Nothing
+
+      ' Reset clipboard to original contents
+      DOpus.SetClip(strClipOrg)
+
+      ' Store filenames and hashes for copy to clipboard option
+      strHashesFromClip = ""
+      strHashesFromClip = strHashesFromClip & objFile1.name & ": " & strFile1Hash & vbCrLf
+      strHashesFromClip = strHashesFromClip & objFile2.name & ": " & strFile2Hash
+
+      ' Perform comparison and show result message
+      Call HashCompare(objDlg, strMessage, objFile1.name, objFile2.name, strFile1Hash, strFile2Hash, strHashesFromClip)
+
+   End If
+
+   Set objProg = Nothing
+   Set objFile1 = Nothing
+   Set objFile2 = Nothing
+   Set objDlg = Nothing
+   Set objCmd = Nothing
+
+End Function
+
+
+'//////////////////////////////////////////////////////////////////////////////////////////////////
+' Original function of script to handle the comparison of a single files hash against the clipboard
+Function HashCompare_Clip(ByRef Func)
+   Dim objCmd, objDlg, objFile1, objFile2, objProg
+   Dim strClipOrg, strHashFromClip, strHashFromFile, strCommand, strHashType, strMessage
+   'logMsg("HashCompare_Clip()")
+
+   If (executeScript(Func, strClipOrg, strMessage, objCmd, objFile1, objFile2, objDlg, objProg)) Then
+
+      ' Limit the command to only the first file if multiple files are selected
+      If (objCmd.files.Count > 1) Then
+         objCmd.ClearFiles
+         objCmd.AddFile objFile1
+      End If
+
+      ' Lower case hash from clipboard for comparison and message purposes
+      strHashFromClip = LCase(Trim(strClipOrg))
+
+      ' Call sub to get hash type from command line
+      Call getHashType(Func.args, strCommand, strHashType)
+
+      ' Fix up dialog message
+      strMessage = "Comparison of [" & strHashType & "] values:" & vbCrLf & vbCrLf
+
+      ' Fix up a progress dialog to show while the hash calculation runs
+      objProg.abort = True
+      objProg.bytes = True
+      objProg.delay = False
+      objProg.full = False
+      objProg.owned = True
+      objProg.pause = False
+      objProg.skip = False
+      objProg.Init Func.sourcetab.lister, "HashCompare"
+      'objProg.AddFiles 1, objFile1.size
+      'objProg.HideFileByteCounts False
+      'objProg.SetFileSize objFile1.size
+      objProg.SetFiles 1
+      'objProg.SetName objFile1.name
+      objProg.SetPercentProgress 0
+      objProg.SetType "file"
+
+      ' Show progress dialog and run command
+      objProg.Show
+      objCmd.RunCommand strCommand
+      objProg.Hide
+
+      ' Check for abort
+      If (objProg.GetAbortState = "a") Then
+         objDlg.title = "HashCompare:  ABORT"
+         objDlg.icon = "warning"
+
+         objDlg.message = "Comparison aborted by user..."
+         objDlg.Show
+
+         Set objProg = Nothing
+         Set objFile1 = Nothing
+         Set objFile2 = Nothing
+         Set objDlg = Nothing
+         Set objCmd = Nothing
+
+         Exit Function
+      End If
+      Set objProg = Nothing
+
+      ' Lower case hash from file for comparison and message purposes
+      strHashFromFile = LCase(Trim(DOpus.GetClip()))
+
+      ' Reset clipboard to original contents
+      DOpus.SetClip(strClipOrg)
+
+      ' Perform comparison and show result message
+      Call HashCompare(objDlg, strMessage, "Clipboard", objFile1.name, strHashFromClip, strHashFromFile, strHashFromFile)
+
+   End If
+
+   Set objProg = Nothing
+   Set objFile1 = Nothing
+   Set objFile2 = Nothing
+   Set objDlg = Nothing
+   Set objCmd = Nothing
+
+End Function
+
+
+'//////////////////////////////////////////////////////////////////////////////////////////////////
+' Main comparison and display of result message
+Function HashCompare(ByRef objDlg, ByRef strMessage, ByRef strItem1, ByRef strItem2, ByRef strItem1Hash, ByRef strItem2Hash, ByRef strToClip)
+   'logMsg("HashCompare()")
+
+   strMessage = strMessage & strItem1 & ":" & vbCrLf
+   strMessage = strMessage & "    " & strItem1Hash & vbCrLf
+   strMessage = strMessage & "    " & strItem2Hash & vbCrLf
+   strMessage = strMessage & strItem2 & ":" & vbCrLf & vbCrLf
+
+   ' Perform hash comparison and fix up message
+   If ((StrComp(strItem1Hash, strItem2Hash, vbTextCompare)) = 0) Then
+      objDlg.title = "HashCompare:  OK"
+      objDlg.icon = "info"
+      strMessage = strMessage & "Result:  OK"
+      objDlg.buttons = "Ok+Copy New Hash(es) to Clipboard|Cancel"
+   Else
+      objDlg.title = "HashCompare:  Failed"
+      objDlg.icon = "error"
+      strMessage = strMessage & "Result:  FAILED"
+      objDlg.buttons = "Ok+Copy New Hash(es) to Clipboard|Cancel"
+   End If
+
+   ' Show message
+   logMsg(vbCrLf & strMessage)
+   objDlg.message = strMessage
+   objDlg.Show
+
+   If (objDlg.result = 2) Then DOpus.SetClip(strToClip)
+
+End Function
+
+
+'//////////////////////////////////////////////////////////////////////////////////////////////////
+' Check for various things that determine if the script should run or not
+Function executeScript(ByRef Func, ByRef strClipOrg, ByRef strMessage, ByRef objCmd, ByRef objFile1, ByRef objFile2, ByRef objDlg, ByRef objProg)
+   'logMsg("executeScript()")
+
+   executeScript = False
+
+   ' Initialize empty string values
+   strClipOrg = ""
+   strMessage = ""
+
+   ' Create the command and dialog objects that will be used here and in the calling functions
+   Set objCmd = Func.command
+   Set objDlg = Func.Dlg
+   Set objProg = objCmd.progress
+
+   '//////////////////////////////////////////////////////////////////////////////////////////////////
+   ' Check for dependencies to perform HashCompare of two files
+   If (Func.args.got_arg.file) Then
+
+      ' Check for current clipboard format and clear it if not text
+      If (DOpus.GetClipFormat = "text") Then
+         strClipOrg = DOpus.GetClip()
+      Else
+         strClipOrg = ""
+         DOpus.SetClip()
+      End If
+
+      ' If at least 2 files were not selected - abort
+      If (objCmd.files.Count >= 2) Then
+         Set objFile1 = objCmd.files(0)
+         Set objFile2 = objCmd.files(1)
+         If ((objFile1.is_dir) Or (objFile2.is_dir)) Then
+            strMessage = strMessage & "One of the selected items is a folder, not a file"
+         End If
+      ElseIf (objCmd.files.Count = 0) Then
+         strMessage = strMessage & "At least 2 files must be selected" & vbCrLf
+      ElseIf ((objCmd.files.Count >= 1) And Not (Func.desttab = 0)) Then
+         logMsg("We have a valid desttab object")
+         If (Func.desttab.selected_files.Count = 0) Then
+            strMessage = strMessage & "At least 2 files must be selected" & vbCrLf
+         ElseIf (Func.desttab.selected_files.Count >= 1) Then
+            logMsg("We have a valid desttab object AND selected file")
+            Set objFile1 = objCmd.files(0)
+            Set objFile2 = Func.desttab.selected_files(0)
+            If ((objFile1.is_dir) Or (objFile2.is_dir)) Then
+               strMessage = strMessage & "One of the selected items is a folder, not a file"
+            End If
+         End If
+      Else
+         strMessage = strMessage & "2 files must be selected" & vbCrLf
+      End If
+
+   '//////////////////////////////////////////////////////////////////////////////////////////////////
+   ' If the Clip option was used
+   ' Check for current clipboard format and abort if not text
+   Else
+      If (DOpus.GetClipFormat = "text") Then
+         strClipOrg = DOpus.GetClip()
+         If strClipOrg = "" Then strMessage = "Clipboard is empty" & vbCrLf
+      Else
+         strMessage = "Clipboard contents do NOT appear to be TEXT, or is empty..." & vbCrLf
+      End If
+
+      ' Check if no files were selected
+      If (objCmd.files.Count = 0) Then
+         strMessage = strMessage & "No files selected" & vbCrLf
+      Else
+         Set objFile1 = objCmd.files(0)
+         If (objFile1.is_dir) Then
+            strMessage = strMessage & "One of the selected items is a folder, not a file"
+         End If
+      End If
+   End If
+
+   If Not (strMessage = "") Then
+      objDlg.title = "HashCompare:  ABORT"
+      objDlg.icon = "warning"
+      objDlg.message = strMessage
+
+      objDlg.Show
+
+      Set objProg = Nothing
+      Set objFile1 = Nothing
+      Set objFile2 = Nothing
+      Set objDlg = Nothing
+      Set objCmd = Nothing
+
+      Exit Function
+   End If
+
+   executeScript = True
+
+End Function
+
+
+'//////////////////////////////////////////////////////////////////////////////////////////////////
+' Subroutine to get the hash type from the command line args
+Sub getHashType(ByRef Args, ByRef strCommand, ByRef strHashType)
+   'logMsg("getHashType()")
+
+   ' Check for the SHA option
+   If (Args.got_arg.sha) Then
+      strCommand = "Clipboard COPYNAMES=hash6"
+      strHashType = "SHA"
+   ' Set the default clipboard command and hashtype to MD5 if nonoe was specified
+   Else
+      strCommand = "Clipboard COPYNAMES=hash3"
+      strHashType = "MD5"
+   End If
+
+End Sub
+
+
+'//////////////////////////////////////////////////////////////////////////////////////////////////
+' Subroutine that uses DEBUG variables to control whether logging is performed or not
+Sub logMsg(ByRef message)
+
+   If ((Script.config.DEBUG) Or (SCRIPT_DEBUG)) Then DOpus.Output(message)
+
+End Sub
+```
+
+</details>
