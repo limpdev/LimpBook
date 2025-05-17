@@ -752,9 +752,9 @@ Changelog:
 
 > Compare files using their hashes (big-brain shit for photo mngmt.)
 
-<details><summary><i></i></summary>
+<details><summary><i>HASH COMPARISON</i></summary>
 
-```javascript
+```vbs
 ' HashCompare:
 ' Revision: v1.2.7 (vb)
 ' (c) 2016 steje
@@ -1283,5 +1283,247 @@ Sub logMsg(ByRef message)
 
 End Sub
 ```
+
+</details>
+
+---
+
+## IconTools
+
+<details><summary><i>IconTools</i></summary>
+
+# [IconTools (extract single icons from iconset, html reference page)](/t/icontools-extract-single-icons-from-iconset-html-reference-page/51407)
+
+[Buttons/Scripts](/c/buttons-scripts/16)
+
+[script](https://resource.dopus.com/tag/script), [commands](https://resource.dopus.com/tag/commands), [jscript](https://resource.dopus.com/tag/jscript)
+
+[MartO](https://resource.dopus.com/u/MartO) June 20, 2024, 4:50pm 1
+
+I'm (constantly) working on my own iconset and found that a few tools would be very helpful for this.
+*(Note: Requires ImageMagick – see below.)*
+
+This script offers a) **the one-click extraction and naming of all single icons** from an iconset and b) the generation of an **html page as an iconset reference** including names and positions. Multiple sets in one .xml file and alternative "dark" icons are supported, but image formats other than PNG aren't.
+
+![:one:](https://resource.dopus.com/images/emoji/twitter/one.png?v=12 ":one:") **Extracting single icons**
+
+Since I'm designing the icons as one complete set in Inkscape, the export is just one image to embed in the DOpus iconset. However, sometimes I need the individual icons as well (eg. for use in dialog buttons) – and exporting them one by one is a pain. So this script allows you to do that more painlessly.
+
+The command is: `GenerateIcons MODE single XMLFILE "c:\\path\\file.xml"`
+
+**The corresponding .png file must be present in the same folder.** The script won't work on files inside a .zip/.dis file.
+
+This will ask you to select a set from the .xml file and then create a subdirectory called "single" and in it all the individual icons with the names from the .xml, **overwriting** any existing files.
+
+Depending on the number of icons, your system's speed etc. this may take a few seconds. Be patient; a popup will inform you when it's done. ![:smiley:](https://resource.dopus.com/images/emoji/twitter/smiley.png?v=12 ":smiley:")
+
+![:two:](https://resource.dopus.com/images/emoji/twitter/two.png?v=12 ":two:") **Generating an HTML reference file**
+
+Another thing I keep needing is a lookup feature: What is that icon called? What row/column is it in? Or what does the "whatever" icon look like in that iconset? I know I can use dopus to achieve that but I wanted a simpler solution.
+Using the amazing [Fluent Style Icon Set](https://resource.dopus.com/t/fluent-style-icon-set/46558) by [@skinz](/u/skinz) as an example, this is what that looks like:
+
+[![html1](https://resource.dopus.com/uploads/default/optimized/3X/6/6/668b436a4df926977ad7a3d2ab163f2a1851d8c4_2_478x500.jpeg)
+\
+html1721×754 232 KB](https://resource.dopus.com/uploads/default/original/3X/6/6/668b436a4df926977ad7a3d2ab163f2a1851d8c4.jpeg "html1")
+
+(Note the extra info at the mouse position.)
+...or with an active search:
+
+[![html2](https://resource.dopus.com/uploads/default/optimized/3X/d/9/d9a7d78381e0ce691012960cc774e687a3d3c94f_2_482x500.jpeg)
+\
+html2720×746 26.3 KB](https://resource.dopus.com/uploads/default/original/3X/d/9/d9a7d78381e0ce691012960cc774e687a3d3c94f.jpeg "html2")
+
+The command for this: `GenerateIcons MODE html XMLFILE {filepath$}`
+
+To change the background colors (eg. to match the ones in your own setup):
+`GenerateIcons MODE html XMLFILE {filepath$} COLORDARK #123456 COLORLIGHT #abcdef`
+
+This will create an .html file with the same name as the iconset. Open it in the browser, hover over an icon to see its data or use the search bar to, well, search. ![:wink:](https://resource.dopus.com/images/emoji/twitter/wink.png?v=12 ":wink:")
+
+![:three:](https://resource.dopus.com/images/emoji/twitter/three.png?v=12 ":three:") Installation
+
+a) Download the script and install it as usual:
+
+[IconTools.osp](/uploads/short-url/tDqbAD9NjB4cJ75dJ4hSccB1L2B.osp) (5.7 KB)
+
+Note that it is not mandatory for the included template file (*IconTools\_template.html*) to be residing in the Script Addins folder. Any other location (eg. User Data) is fine, just update the configuration.
+
+b) Download and install [ImageMagick](https://imagemagick.org/). It's free and open source. There's quite a (confusing) choice on the download page; they offer a portable version as well in case you're like me and don't like installers. (I went with the *Portable Win64 static at 8 bits-per-pixel component* option.)
+This tool has amazing capabilities but the learning curve is quite steep...
+
+c) In DOpus, configure the script: It needs the locations of magick.exe and the template file.
+
+d) Set up your buttons.
+
+e) That's it. I hope. ![:thinking:](https://resource.dopus.com/images/emoji/twitter/thinking.png?v=12 ":thinking:")
+
+* * *
+
+The "infrasctructure" around my scripts has grown over the years and it's not easy to extract just one stand-alone script, so I had to uglify ![:smile:](https://resource.dopus.com/images/emoji/twitter/smile.png?v=12 ":smile:") it in a few places and to add a few helpers at the end of the file.
+**Note that the script extends JScript classes** by adding polyfills: String.trim(), String.endsWith(), Array.forEach()
+
+I'm sure the script offers lots of room for improvement and I *might* continue working on it, but for now it does what I need. I'd be happy if it helped someone else too...
+
+
+</details>
+
+***
+
+## Tagger
+
+<details><summary><i>SMART FILE TAGGING</i></summary>
+
+[Directory Opus Resource Centre](/)
+
+# [Tagger3 for DOpus12](/t/tagger3-for-dopus12/24248)
+
+[Buttons/Scripts](/c/buttons-scripts/16)
+
+[script](https://resource.dopus.com/tag/script), [vbscript](https://resource.dopus.com/tag/vbscript), [user-interface](https://resource.dopus.com/tag/user-interface)
+
+[kundal](https://resource.dopus.com/u/kundal) November 25, 2016, 7:11pm 1
+
+Many thanks to **abr** for participating in the development of Tagger. Many features are based on his testing, feedback and suggestions.
+
+**This new version requires at least DOpus v.12.2.3 to work. There's an older Version for DOpus 11 [here](https://resource.dopus.com/t/tagger/18010/1).**
+**If you're using DOpus v.13.0.36 BETA or higher you'll need another version provided at the bottom of this post.**
+
+**Short description:**
+Tagger is a Script Add-In for Directory Opus that provides a resizable dialog. DOpus will remember size and position of the dialog.
+The purpose of Tagger is to comfortably show, find, edit, replace, add or delete Tags or Comment and Rating for files and folders. When you start Tagger the tags, comments and ratings of all files in the current folder are read and stored in a dictionary for performance reasons. So if you are in a folder with a lot of files it may take a few seconds until the dialog appears.
+The dialog shows all tags or the comment of a single file in a list where you can directly edit each entry.
+You can also select a range of files. Tagger will then show tags or comment and rating if they exist in all selected files.
+You can search for a certain tag, a rating value (0-5) or for comments containing a certain string by entering the search string in the main input field and pressing the hotkey **alt+f**. Tagger will select all files containing the specified tag, comment or rating and show the shared string in the list or in the rating input field. For comment Tagger will show all comments containing the search string in the list and the index of the file that contains the comment in a second column.
+You can sort all tags in all files in the current folder alphabetically by pressing the hotkey **alt+s**.
+You can always edit tags or comment in the list, change rating or add/replace/delete tags or comment for each selected file or folder using the "Apply" or "Remove" button.
+
+**Installation:**
+
+- Download the file **Command.File\_Tagger.vbs.txt** and copy it to **/dopusdata/Script AddIns** or drag it into the settings window **Settings =&gt; Preferences =&gt; Toolbar =&gt; Scripts**
+
+**Script Configuration:**
+
+- Go to **Settings =&gt; Preferences =&gt; Toolbar =&gt; Scripts**. Click the entry **Command.File: Tagger**.
+- **Language:** Select the language in which you want to show the dialog. Currently available are english, deutsch and français. "default" shows the dialog in the current language of DOpus if available, otherwise in english.
+- **ShowIndexColumn:** By default Tagger always shows the column "Index". If you don't want this change this option to "False".
+- **Hot\_\[x]:** You can change the default hotkeys here. See the discription of each hotkey at the bottom of the script configuration window.
+- **vHot\_\[x]:** These hotkeys are only available when working with the standalone viewer (Argument VIEWER). Nearly all default hotkeys of the viewer are also available from the Tagger GUI. Several of the original hotkeys needed to be modified by an additional modifier key. Download the file TaggerHotkeys.txt for a complete list of supported hotkeys.
+- **MyHotkey:** You can specify a user defined hotkey like "alt+v" here.
+- **MyCommand:** Specify the command the hotkey "MyHotkey" will execute.
+
+**Create and configure a button or hotkey:**
+
+- Create a button or hotkey with the command **Tagger**. If you want to start Tagger in Comment mode press the modifier key **Strg** on the keyboard when you click the button (not working if Tagger is called by an embedded command).
+- You can add several arguments:
+- **APP**: provide path and command line options of an application to open the selected file. Example for Foobar2000: APP="/programfilesx86\\foobar2000\\foobar2000.exe /immediate"
+- **CLOSEAPP**: together with the Argument **VIEWER** this will close the standalone viewer together with Tagger. For other applications you can provide a command to close the application. Example for Foobar2000: CLOSEAPP="/programfilesx86\\foobar2000\\foobar2000.exe /exit"
+- **CONFIRMDELETE**: show a confirmation dialog when deleting Tags or comments.
+- **FILTER**: apply a filter if you want to work work with certain file types only. Other files will be hidden. Examples : FILTER=\*.(jpg|png) or FILTER=grp:images
+- **NOFOLDERS**: hide folders. If you use the argument **VIEWER** you don't need to provide this argument because folders are always hidden (the standalone viewer doesn't like folders). If this argument was provided and a single folder is selected at start, Tagger will open this folder and select the first file.
+- **OPACITY**: make the dialog transparent (0= fully transparent, 255 = opaque). This is especially useful when you're working with the standalone viewer.
+- **READONLY:** apply this argument if you only want to watch the metadata of the files and prevent to make any changes to the files. Several dialog controls will be disabled in this mode.
+- **VIEWER**: if you want to use the standalone viewer use this argument for a button in the toolbar of the viewer. If you want to start Tagger from a lister toolbar you'll have to start the viewer first and start Tagger with an embedded command like this:
+
+```
+Show FULLSCREEN AUTOFILELIST
+[
+Tagger VIEWER FILTER=grp:images CLOSEAPP CONFIRMDELETE OPACITY=180
+]
+```
+
+[![](https://resource.dopus.com/uploads/default/original/2X/a/a584253eb7df77aee5584217fc1b0e563bd1734c.jpg)
+\
+5fba1bc5c7792efe8662de2937ca618402b6c5d4.jpg677×625 73.7 KB](https://resource.dopus.com/uploads/default/original/2X/a/a584253eb7df77aee5584217fc1b0e563bd1734c.jpg "5fba1bc5c7792efe8662de2937ca618402b6c5d4.jpg")
+
+**The dialog and it's controls:**
+
+- **List:** in the listview control you'll see the tags or the comment of the currently selected file. Above the listview control you'll see the count of existing tags. If you select more than one file the list will only show tags or comment if they exist in all selected files. You can inline rename each entry and the changes will be written to the files. If you delete all characters from an entry the tag or comment will be deleted. Doubleclick a listview item to copy it to the main input.
+- **Name field:** if only one file is currently selected this field will show the index and the name of the file. Otherwise it will only show how many files are currently selected. In some situations you may see a notification here.
+- **Main input:** write tags or comment you want to apply to all selected files using the "Apply" button here. For tags you can enter any semicolon-separated string according to the rules documented in [Keywords for SetAttr META](https://www.gpsoft.com.au/help/opus12/index.html#!Documents/Keywords_for_SetAttr_META.htm). You can also use the main input for the Find feature of Tagger: Enter a string representing a tag and press the hotkey **alt+f** to find and select all files containing this tag ("+" or "-" at the beginning and ";" at the end of the string will be ignored). In comment mode Tagger will find all files with a comment containing the searchstring and show all these comments in the list. In a second column of the listview control the index of the file containing the comment will be shown. If you enter a number between 0 and 5 Tagger will find all files rated with this value. If you want to find all files rated 3,4 or 5 enter "3,4,5".
+- **Lock checkbox**: by default, the main input will be cleared when the Apply or Remove button was clicked. Enable the checkbox to preserve the content of the main input. This can be useful to collect tags from several files using the "doubleclick listview item" feature and afterwards write them to others. The hotkey **alt+l** toggles the state of the checkbox.
+- **Combobox1:** select Tags or Comment mode. The hotkey **alt+m** toggles this control.
+- **Combobox2:** choose the behaviour of Tagger when the Apply or Remove button was clicked: **arrow down:** select next file **arrow up:** select previous file **square:** stay here
+- **Button "C" (Copy):** click this button to copy all tags or the comment shown in the list to the main input. Hotkey: **alt+c**
+- **Rating input:** provides a scrollable list of rating values 0-5. If more than one file is selected this control will only show a value if all files have the same rating value. Otherwise it will be empty. If you change the value of this control, the rating value will always be written to the selected files when you click the Apply or Remove button. Hotkeys: **alt+\[0-5] or alt+\[NUM0-NUM5]**.
+- **Range input:** this control will always show the index or range of the selected files. You can enter a index or range to select files. If you delete the content of the input field Tagger will select the last single selected file. Tagger will also select the last single file if several files are selected and you click the Next or Previous button or the Apply or Remove button according to the setting of Combobox2.
+- **Next Button (arrow down):** select the next single file without writing anything to selected files. Hotkeys: **alt++ and alt+NUM+**
+- **Previous Button (arrow up):** select the previous single file without writing anything to selected files. Hotkey: **alt+- and alt+NUM-**
+- **Apply button:** apply tags or comment written to the main input and rating written to the rating input to all selected files. If the main input is empty or just "+" or "-" nothing new will be written to the files but if you are in Tags mode and a single file is selected the tags of the file will be alphabetically sorted and rewritten to the file. Hotkey: **alt+a**
+- **Remove button:** the Remove button will delete all tags or the comment of all selected files if no items are selected in the list. Otherwise the button will only delete the selected items from all selected files. Hotkey: **alt+d**
+
+**Other features:**
+Some features are only available by pressing a hotkey on the keyboard:
+
+- **Find (alt+f):.** see short description and description of the main input dialog control.
+- **Sort (alt+s):** this will rewrite the tags of all files in the source folder alphabetically sorted. Since this needs some time for many files you'll see a notification in the name field until all files are written.
+- **Refresh (alt+F5):** Tagger will notice if the sourcepath from which it was started or the number of files in the folder has changed and automatically refresh the dictionary in which the informations about all files are stored. You will be notified about this event in the name field. However, not all possible changes are detected by Tagger. If you made changes to the files outside of Tagger (replace files, manually write tags to files) you should use this hotkey to refresh Tagger. Otherwise Tagger may show false information about existing tags.
+- **TaggerFocus:** Tagger will move the focus from the viewer window to the Tagger GUI when the global Variable TaggerFocus exists. To use this feature create a viewer hotkey with this command:
+
+  ```
+  @set glob!:TaggerFocus = True
+  ```
+
+  Currently DOpus can't move the focus from the Tagger GUI to the viewer but you can use the command line tool [nircmd.exe](http://www.nirsoft.net/utils/nircmd.html) and MyHotkey/MyCommand described above to do this. To toggle the focus from Tagger to the viewer window MyCommand would be:
+
+  ```
+  [path to]nircmd.exe win activate stitle "Tagger - "
+  ```
+
+  Apply the same hotkey like "alt+v" to the viewer hotkey and MyHotkey to get a hotkey that toggles the focus between Tagger GUI and viewer window.
+
+**Translations:**
+I'm not sure if my french translation is good because I'm not good in french. Please shout if something should be changed.
+If you want to have Tagger in your own language feel free to download the provided text file **LanguageStrings.txt**, translate the strings and upload your translation here. I'll be glad to add new languages.
+[Tagger\_Hotkeys.txt](https://resource.dopus.com/uploads/default/original/3X/5/8/58b890b76f9081975a7be48ab09e515e9dc08793.txt) (2.07 KB)
+[Command.File\_Tagger.vbs.txt](/uploads/short-url/2slU3I7TCd0dZYbMdq8cElKpCKq.txt) (76.6 KB)
+[LanguageStrings.txt](https://resource.dopus.com/uploads/default/original/3X/9/e/9e14e12d1900e37862b3f114f7767474358f8917.txt) (1.06 KB)
+
+**Version 3.4 for DOpus v13 (will not work with DOpus v12!)**
+[Command.File\_Tagger.vbs.txt](/uploads/short-url/gDRUUMnJV0FdFnB9sXCSyZPr9WU.txt) (75.7 KB)
+
+3 Likes
+
+[Tagger](https://resource.dopus.com/t/tagger/18010/2)
+
+[Using Opus to manage &amp; organise photos](https://resource.dopus.com/t/using-opus-to-manage-organise-photos/25215/2)
+
+[Append Tags](https://resource.dopus.com/t/append-tags/42219/20)
+
+[Any plans to support TagSpace's Sidecar tagging method?](https://resource.dopus.com/t/any-plans-to-support-tagspaces-sidecar-tagging-method/38647/8)
+
+[Picture metadata: "Description" Field](https://resource.dopus.com/t/picture-metadata-description-field/26076/7)
+
+[Tagger3 changed it's behaviour](https://resource.dopus.com/t/tagger3-changed-its-behaviour/46222)
+
+[Tagging Improvements](https://resource.dopus.com/t/tagging-improvements/53570/34)
+
+[kundal](https://resource.dopus.com/u/kundal) November 25, 2016, 7:16pm 2
+
+### 25.11.2016:
+
+- Tagger v3.0 published.
+
+### 26.11.2016: Update to v3.1:
+
+- Bugfix: if the arguments VIEWER and CLOSEAPP where applied and another instance of the viewer got the focus Tagger was closed although the parent viewer window still existed.
+- New feature: Tagger will now get notified if the currently shown image in the standalone viewer has changed and select the new image when the dialog gets the focus again.
+
+### 29.11.2016: Update to v3.2:
+
+- Tagger now follows the selection in the viewer in realtime with a 300ms delay.
+- Tagger and it's parent viewer window are now working correctly with FlatView.
+- Some changes to avoid script errors when a bad button code with the argument VIEWER was used. For example if you use Tagger VIEWER from a button in a lister toolbar without starting Tagger "embedded" (enclosed in square brackets) or without starting a viewer instance first you'll no longer get a script error. If a viewer window exists Tagger will close that window and behave as if the argument VIEWER wasn't given.
+
+### 09.12.2016: Update to v3.3:
+
+- Bugfix: Tagger is no longer steeling the focus when you change the currently displayed image from the viewer window.
+- Nearly all default hotkeys of the standalone viewer are also available from the Tagger GUI now. Several hotkeys needed to be modified with an additional modifier key. Download the file "TaggerHotkeys.txt" from the first post for a complete list of supported hotkeys.
+- Added "Myhotkey" and "MyCommand" to the script configuration. You can specify your own hotkey that executes a user defined command with these options.
+- To toggle the focus from the viewer to the Tagger GUI you can now create a new viewer hotkey that creates a global variable named "TaggerFocus". Tagger will detect this variable and move the focus to it's main input field. The command for the viewer hotkey is: `@set glob!:TaggerFocus = True`
+- Updated the first post to describe the new features. Below "Other features" there's also a description how to create a hotkey that toggles the focus between Viewer window and Tagger GUI using "TaggerFocus", "MyHotkey/MyCommand" and the command line tool "nircmd.exe".
+
+### 19.10.2023: Update to v3.4:
+
+Some small fixes for issues with Opus v.13(BETA). will not work with v.12.
 
 </details>

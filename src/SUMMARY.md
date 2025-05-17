@@ -127,6 +127,7 @@
 #  Golang
 
 - [Introduction](./golang/Golang.md)
+- [Concept of Types](./golang/Concepts-Types.md)
 - [WebAssembly](./golang/WASM.md)
 - [PathType](./golang/pathtype.md)
 - [Context](./golang/Context.md)
