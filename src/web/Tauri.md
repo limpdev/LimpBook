@@ -1,5 +1,180 @@
 #  Tauri
 
+<details><summary> <i>CLAUDE</i></summary>
+
+> For Tauri applications, you can control file downloads using the tauri::api::path API
+along with the dialog API to handle file downloads to specific directories.
+Here's how you can implement this:
+
+First, make sure you have the required permissions in your tauri.conf.json:
+
+```json
+{
+  "tauri": {
+    "allowlist": {
+      "fs": {
+        "all": true,
+        "readFile": true,
+        "writeFile": true,
+        "createDir": true,
+        "scope": ["$APPDATA/*", "$DOWNLOAD/*", "$DOCUMENT/*"]
+      },
+      "path": {
+        "all": true
+      },
+      "dialog": {
+        "all": true
+      }
+    }
+  }
+}
+```
+
+### For the Rust backend:
+
+```rust
+#[tauri::command]
+async fn download_file(app_handle: tauri::AppHandle, url: String, filename: String) -> Result<String, String> {
+    // Get the app config directory
+    let app_dir = app_handle
+        .path_resolver()
+        .app_data_dir()
+        .expect("Failed to get app data directory");
+
+    // Create a "downloads" subdirectory
+    let downloads_dir = app_dir.join("downloads");
+    std::fs::create_dir_all(&downloads_dir).map_err(|e| e.to_string())?;
+
+    // Create the full file path
+    let file_path = downloads_dir.join(filename);
+
+    // Download the file
+    let response = reqwest::get(&url)
+        .await
+        .map_err(|e| e.to_string())?;
+
+    let bytes = response.bytes()
+        .await
+        .map_err(|e| e.to_string())?;
+
+    // Write the file
+    std::fs::write(&file_path, bytes)
+        .map_err(|e| e.to_string())?;
+
+    Ok(file_path.to_string_lossy().into_owned())
+}
+
+fn main() {
+    tauri::Builder::default()
+        .invoke_handler(tauri::generate_handler![download_file])
+        .run(tauri::generate_context!())
+        .expect("error while running tauri application");
+}
+```
+### Javascript/Typescript snippet:
+
+```javascript
+import { invoke } from '@tauri-apps/api/tauri';
+
+async function downloadFile(url: string, filename: string) {
+    try {
+        const filePath = await invoke('download_file', {
+            url,
+            filename
+        });
+        console.log('File downloaded to:', filePath);
+    } catch (error) {
+        console.error('Download failed:', error);
+    }
+}
+
+// Usage example:
+downloadFile('https://example.com/file.pdf', 'document.pdf');
+```
+## If you want to choose the download directory:
+
+```rust
+use tauri::api::dialog;
+
+#[tauri::command]
+async fn download_file_with_dialog(app_handle: tauri::AppHandle, url: String, filename: String) -> Result<String, String> {
+    // Show folder selection dialog
+    let folder_path = dialog::blocking::FileDialogBuilder::new()
+        .set_title("Choose download location")
+        .pick_folder();
+
+    let folder_path = match folder_path {
+        Some(path) => path,
+        None => return Err("No folder selected".to_string()),
+    };
+
+    // Create the full file path
+    let file_path = folder_path.join(filename);
+
+    // Download the file
+    let response = reqwest::get(&url)
+        .await
+        .map_err(|e| e.to_string())?;
+
+    let bytes = response.bytes()
+        .await
+        .map_err(|e| e.to_string())?;
+
+    // Write the file
+    std::fs::write(&file_path, bytes)
+        .map_err(|e| e.to_string())?;
+
+    Ok(file_path.to_string_lossy().into_owned())
+}
+```
+
+### And finally, progress tracking:
+
+```rust
+#[tauri::command]
+async fn download_file_with_progress(
+    app_handle: tauri::AppHandle,
+    window: tauri::Window,
+    url: String,
+    filename: String
+) -> Result<String, String> {
+    let response = reqwest::get(&url)
+        .await
+        .map_err(|e| e.to_string())?;
+
+    let total_size = response.content_length().unwrap_or(0);
+    let mut downloaded = 0;
+
+    // Stream the download with progress updates
+    let mut stream = response.bytes_stream();
+    let mut file = std::fs::File::create(filename).map_err(|e| e.to_string())?;
+
+    while let Some(chunk) = stream.next().await {
+        let chunk = chunk.map_err(|e| e.to_string())?;
+        downloaded += chunk.len() as u64;
+        file.write_all(&chunk).map_err(|e| e.to_string())?;
+
+        // Emit progress event
+        window.emit("download-progress", {
+            progress: (downloaded as f64 / total_size as f64) * 100.0
+        }).unwrap();
+    }
+
+    Ok("Download complete".to_string())
+}
+```
+
+### For updating the cargo.toml with necessary dependencies:
+
+```rust
+[dependencies]
+reqwest = { version = "0.11", features = ["stream"] }
+tokio = { version = "1.0", features = ["full"] }
+futures-util = "0.3"
+```
+
+</details>
+
 ## How can I use unpublished Tauri changes?
 
 To use Tauri from GitHub (bleeding edge version) you need to change your `Cargo.toml` file and update your CLI and API.
@@ -113,7 +288,7 @@ There are two solutions to this issue:
 
 1. [Uninstall Homebrew](https://docs.brew.sh/FAQ#how-do-i-uninstall-homebrew)
 2. Set the `PKG_CONFIG_PATH` environment variable to point to the correct `pkg-config` before building a Tauri app
-   
+
    - Example: `export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/share/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig`
 
 [Edit this page](https://github.com/tauri-apps/tauri-docs/edit/v1/docs/guides/faq.md)
@@ -270,7 +445,7 @@ Last updated on **May 10, 2024**
 
 - [Rust Console](application.html#rust-console)
 - [WebView Console](application.html#webview-console)
-  
+
   - [Opening Devtools Programmatically](application.html#opening-devtools-programmatically)
   - [Using the Inspector in Production](application.html#using-the-inspector-in-production)
 - [Debugging the Core Process](application.html#debugging-the-core-process)
@@ -356,7 +531,7 @@ You will need to set up two separate Run/Debug configurations:
 
 1. In the main menu, go to **Run | Edit Configurations**.
 2. In the **Run/Debug Configurations** dialog:
-   
+
    - To create a new configuration, click **+** on the toolbar and select **Cargo**.
 
 ![Add Run/Debug Configuration](../../../assets/images/add-cargo-config-light-3b37c846e3b4401fce978bfd63eb5d54.png#gh-light-mode-only) ![Add Run/Debug Configuration](../../../assets/images/add-cargo-config-dark-92d4ab1f79542da26115965c05902d85.png#gh-dark-mode-only)
@@ -403,7 +578,7 @@ Last updated on **Jan 15, 2024**
 
 - [Setting up a Cargo project](rustrover.html#setting-up-a-cargo-project)
 - [Setting up Run Configurations](rustrover.html#setting-up-run-configurations)
-  
+
   - [Tauri App](rustrover.html#tauri-app)
   - [Development Server](rustrover.html#development-server)
 - [Launching a Debugging Session](rustrover.html#launching-a-debugging-session)
@@ -937,7 +1112,7 @@ Last updated on **Mar 19, 2025**
 - [Requirements](sign-macos.html#requirements)
 - [tl;dr](sign-macos.html#tldr)
 - [Signing Tauri apps](sign-macos.html#signing-tauri-apps)
-  
+
   - [Creating a signing certificate](sign-macos.html#creating-a-signing-certificate)
   - [Downloading a certificate](sign-macos.html#downloading-a-certificate)
   - [Signing the Tauri application](sign-macos.html#signing-the-tauri-application)
@@ -965,7 +1140,7 @@ This guide only applies to OV code signing certificates acquired before June 1st
 - Windows - you can likely use other platforms, but this tutorial uses Powershell native features.
 - A working Tauri application
 - Code signing certificate - you can acquire one of these on services listed in [Microsoft's docs](https://learn.microsoft.com/en-us/windows-hardware/drivers/dashboard/code-signing-cert-manage). There are likely additional authorities for non-EV certificates than included in that list, please compare them yourself and choose one at your own risk.
-  
+
   - Please make sure to get a **code signing** certificate, SSL certificates do not work!
 
 This guide assumes that you have a standard code signing certificate&gt; If you have an EV certificate, which generally involves a hardware token, please follow your issuer's documentation instead.
@@ -983,7 +1158,7 @@ There are a few things we have to do to get Windows prepared for code signing. T
 ### A. Convert your `.cer` to `.pfx`[​](sign-windows.html#a-convert-your-cer-to-pfx "Direct link to a-convert-your-cer-to-pfx")
 
 1. You will need the following:
-   
+
    - certificate file (mine is `cert.cer`)
    - private key file (mine is `private-key.key`)
 2. Open up a command prompt and change to your current directory using `cd Documents/Certs`
@@ -1051,7 +1226,7 @@ The secrets we used are as follows
 ### Workflow Modifications[​](sign-windows.html#workflow-modifications "Direct link to Workflow Modifications")
 
 1. We need to add a step in the workflow to import the certificate into the Windows environment. This workflow accomplishes the following
-   
+
    1. Assign GitHub secrets to environment variables
    2. Create a new `certificate` directory
    3. Import `WINDOWS_CERTIFICATE` into tempCert.txt
@@ -1129,13 +1304,13 @@ Last updated on **Oct 4, 2023**
 - [Intro](sign-windows.html#intro)
 - [Prerequisites](sign-windows.html#prerequisites)
 - [Getting Started](sign-windows.html#getting-started)
-  
+
   - [A. Convert your `.cer` to `.pfx`](sign-windows.html#a-convert-your-cer-to-pfx)
   - [B. Import your `.pfx` file into the keystore.](sign-windows.html#b-import-your-pfx-file-into-the-keystore)
   - [C. Prepare Variables](sign-windows.html#c-prepare-variables)
 - [Prepare `tauri.conf.json` file](sign-windows.html#prepare-tauriconfjson-file)
 - [BONUS: Sign your application with GitHub Actions.](sign-windows.html#bonus-sign-your-application-with-github-actions)
-  
+
   - [GitHub Secrets](sign-windows.html#github-secrets)
   - [Workflow Modifications](sign-windows.html#workflow-modifications)
 
@@ -1241,7 +1416,7 @@ The required keys are `"active"`, `"endpoints"` and `"pubkey"` to enable the upd
 
 `"active"` must be a boolean. By default it's set to false.
 
-`"endpoints"` must be an array of updater endpoint URLs as strings. TLS is enforced in production mode.  
+`"endpoints"` must be an array of updater endpoint URLs as strings. TLS is enforced in production mode.
 Each updater URL can contain the following variables allowing you to determine [server-side](updater.html#update-server-json-format) if an update is available:
 
 - `{{current_version}}`: The version of the app that is requesting the update.
@@ -1301,17 +1476,17 @@ $env:TAURI_KEY_PASSWORD="password"
 After that, you can run `tauri build` as usual and Tauri will generate the update bundle and its signature.
 
 - **Linux**: On Linux, Tauri will create a `.tar.gz` archive from the AppImage inside the `target/release/bundle/appimage/` folder:
-  
+
   - `myapp.AppImage` - the standard app bundle.
   - `myapp.AppImage.tar.gz` - the updater bundle.
   - `myapp.AppImage.tar.gz.sig` - the signature of the update bundle.
 - **macOS**: On macOS, Tauri will create a `.tar.gz` archive from the application bundle inside the `target/release/bundle/macos/` folder:
-  
+
   - `myapp.app` - the standard app bundle.
   - `myapp.app.tar.gz` - the updater bundle.
   - `myapp.app.tar.gz.sig` - the signature of the update bundle.
 - **Windows**: On Windows, Tauri will create `.zip` archives from the MSI and NSIS installers inside the `target/release/bundle/msi/` and `target/release/bundle/nsis` folders:
-  
+
   - `myapp-setup.exe` - the standard app bundle.
   - `myapp-setup.nsis.zip` - the updater bundle.
   - `myapp-setup.nsis.zip.sig` - the signature of the update bundle.
@@ -1476,15 +1651,15 @@ Last updated on **May 10, 2024**
 
 - [Signing Updates](updater.html#signing-updates)
 - [Tauri Configuration](updater.html#tauri-configuration)
-  
+
   - [`installMode` on Windows](updater.html#installmode-on-windows)
 - [Update Artifacts](updater.html#update-artifacts)
 - [Server Support](updater.html#server-support)
-  
+
   - [Static JSON File](updater.html#static-json-file)
   - [Dynamic Update Server](updater.html#dynamic-update-server)
 - [Checking for Updates](updater.html#checking-for-updates)
-  
+
   - [Built-In Dialog](updater.html#built-in-dialog)
   - [Custom Dialog](updater.html#custom-dialog)
 
@@ -1627,7 +1802,7 @@ Last updated on **May 10, 2024**
 
 - [Rust Console](application.html#rust-console)
 - [WebView Console](application.html#webview-console)
-  
+
   - [Opening Devtools Programmatically](application.html#opening-devtools-programmatically)
   - [Using the Inspector in Production](application.html#using-the-inspector-in-production)
 - [Debugging the Core Process](application.html#debugging-the-core-process)
@@ -1713,7 +1888,7 @@ You will need to set up two separate Run/Debug configurations:
 
 1. In the main menu, go to **Run | Edit Configurations**.
 2. In the **Run/Debug Configurations** dialog:
-   
+
    - To create a new configuration, click **+** on the toolbar and select **Cargo**.
 
 ![Add Run/Debug Configuration](../../../assets/images/add-cargo-config-light-3b37c846e3b4401fce978bfd63eb5d54.png#gh-light-mode-only) ![Add Run/Debug Configuration](../../../assets/images/add-cargo-config-dark-92d4ab1f79542da26115965c05902d85.png#gh-dark-mode-only)
@@ -1760,7 +1935,7 @@ Last updated on **Jan 15, 2024**
 
 - [Setting up a Cargo project](rustrover.html#setting-up-a-cargo-project)
 - [Setting up Run Configurations](rustrover.html#setting-up-run-configurations)
-  
+
   - [Tauri App](rustrover.html#tauri-app)
   - [Development Server](rustrover.html#development-server)
 - [Launching a Debugging Session](rustrover.html#launching-a-debugging-session)
@@ -2294,7 +2469,7 @@ Last updated on **Mar 19, 2025**
 - [Requirements](sign-macos.html#requirements)
 - [tl;dr](sign-macos.html#tldr)
 - [Signing Tauri apps](sign-macos.html#signing-tauri-apps)
-  
+
   - [Creating a signing certificate](sign-macos.html#creating-a-signing-certificate)
   - [Downloading a certificate](sign-macos.html#downloading-a-certificate)
   - [Signing the Tauri application](sign-macos.html#signing-the-tauri-application)
@@ -2322,7 +2497,7 @@ This guide only applies to OV code signing certificates acquired before June 1st
 - Windows - you can likely use other platforms, but this tutorial uses Powershell native features.
 - A working Tauri application
 - Code signing certificate - you can acquire one of these on services listed in [Microsoft's docs](https://learn.microsoft.com/en-us/windows-hardware/drivers/dashboard/code-signing-cert-manage). There are likely additional authorities for non-EV certificates than included in that list, please compare them yourself and choose one at your own risk.
-  
+
   - Please make sure to get a **code signing** certificate, SSL certificates do not work!
 
 This guide assumes that you have a standard code signing certificate&gt; If you have an EV certificate, which generally involves a hardware token, please follow your issuer's documentation instead.
@@ -2340,7 +2515,7 @@ There are a few things we have to do to get Windows prepared for code signing. T
 ### A. Convert your `.cer` to `.pfx`[​](sign-windows.html#a-convert-your-cer-to-pfx "Direct link to a-convert-your-cer-to-pfx")
 
 1. You will need the following:
-   
+
    - certificate file (mine is `cert.cer`)
    - private key file (mine is `private-key.key`)
 2. Open up a command prompt and change to your current directory using `cd Documents/Certs`
@@ -2408,7 +2583,7 @@ The secrets we used are as follows
 ### Workflow Modifications[​](sign-windows.html#workflow-modifications "Direct link to Workflow Modifications")
 
 1. We need to add a step in the workflow to import the certificate into the Windows environment. This workflow accomplishes the following
-   
+
    1. Assign GitHub secrets to environment variables
    2. Create a new `certificate` directory
    3. Import `WINDOWS_CERTIFICATE` into tempCert.txt
@@ -2486,13 +2661,13 @@ Last updated on **Oct 4, 2023**
 - [Intro](sign-windows.html#intro)
 - [Prerequisites](sign-windows.html#prerequisites)
 - [Getting Started](sign-windows.html#getting-started)
-  
+
   - [A. Convert your `.cer` to `.pfx`](sign-windows.html#a-convert-your-cer-to-pfx)
   - [B. Import your `.pfx` file into the keystore.](sign-windows.html#b-import-your-pfx-file-into-the-keystore)
   - [C. Prepare Variables](sign-windows.html#c-prepare-variables)
 - [Prepare `tauri.conf.json` file](sign-windows.html#prepare-tauriconfjson-file)
 - [BONUS: Sign your application with GitHub Actions.](sign-windows.html#bonus-sign-your-application-with-github-actions)
-  
+
   - [GitHub Secrets](sign-windows.html#github-secrets)
   - [Workflow Modifications](sign-windows.html#workflow-modifications)
 
@@ -2598,7 +2773,7 @@ The required keys are `"active"`, `"endpoints"` and `"pubkey"` to enable the upd
 
 `"active"` must be a boolean. By default it's set to false.
 
-`"endpoints"` must be an array of updater endpoint URLs as strings. TLS is enforced in production mode.  
+`"endpoints"` must be an array of updater endpoint URLs as strings. TLS is enforced in production mode.
 Each updater URL can contain the following variables allowing you to determine [server-side](updater.html#update-server-json-format) if an update is available:
 
 - `{{current_version}}`: The version of the app that is requesting the update.
@@ -2658,17 +2833,17 @@ $env:TAURI_KEY_PASSWORD="password"
 After that, you can run `tauri build` as usual and Tauri will generate the update bundle and its signature.
 
 - **Linux**: On Linux, Tauri will create a `.tar.gz` archive from the AppImage inside the `target/release/bundle/appimage/` folder:
-  
+
   - `myapp.AppImage` - the standard app bundle.
   - `myapp.AppImage.tar.gz` - the updater bundle.
   - `myapp.AppImage.tar.gz.sig` - the signature of the update bundle.
 - **macOS**: On macOS, Tauri will create a `.tar.gz` archive from the application bundle inside the `target/release/bundle/macos/` folder:
-  
+
   - `myapp.app` - the standard app bundle.
   - `myapp.app.tar.gz` - the updater bundle.
   - `myapp.app.tar.gz.sig` - the signature of the update bundle.
 - **Windows**: On Windows, Tauri will create `.zip` archives from the MSI and NSIS installers inside the `target/release/bundle/msi/` and `target/release/bundle/nsis` folders:
-  
+
   - `myapp-setup.exe` - the standard app bundle.
   - `myapp-setup.nsis.zip` - the updater bundle.
   - `myapp-setup.nsis.zip.sig` - the signature of the update bundle.
@@ -2833,15 +3008,15 @@ Last updated on **May 10, 2024**
 
 - [Signing Updates](updater.html#signing-updates)
 - [Tauri Configuration](updater.html#tauri-configuration)
-  
+
   - [`installMode` on Windows](updater.html#installmode-on-windows)
 - [Update Artifacts](updater.html#update-artifacts)
 - [Server Support](updater.html#server-support)
-  
+
   - [Static JSON File](updater.html#static-json-file)
   - [Dynamic Update Server](updater.html#dynamic-update-server)
 - [Checking for Updates](updater.html#checking-for-updates)
-  
+
   - [Built-In Dialog](updater.html#built-in-dialog)
   - [Custom Dialog](updater.html#custom-dialog)
 
@@ -2984,7 +3159,7 @@ Last updated on **May 10, 2024**
 
 - [Rust Console](application.html#rust-console)
 - [WebView Console](application.html#webview-console)
-  
+
   - [Opening Devtools Programmatically](application.html#opening-devtools-programmatically)
   - [Using the Inspector in Production](application.html#using-the-inspector-in-production)
 - [Debugging the Core Process](application.html#debugging-the-core-process)
@@ -3070,7 +3245,7 @@ You will need to set up two separate Run/Debug configurations:
 
 1. In the main menu, go to **Run | Edit Configurations**.
 2. In the **Run/Debug Configurations** dialog:
-   
+
    - To create a new configuration, click **+** on the toolbar and select **Cargo**.
 
 ![Add Run/Debug Configuration](../../../assets/images/add-cargo-config-light-3b37c846e3b4401fce978bfd63eb5d54.png#gh-light-mode-only) ![Add Run/Debug Configuration](../../../assets/images/add-cargo-config-dark-92d4ab1f79542da26115965c05902d85.png#gh-dark-mode-only)
@@ -3117,7 +3292,7 @@ Last updated on **Jan 15, 2024**
 
 - [Setting up a Cargo project](rustrover.html#setting-up-a-cargo-project)
 - [Setting up Run Configurations](rustrover.html#setting-up-run-configurations)
-  
+
   - [Tauri App](rustrover.html#tauri-app)
   - [Development Server](rustrover.html#development-server)
 - [Launching a Debugging Session](rustrover.html#launching-a-debugging-session)
@@ -3651,7 +3826,7 @@ Last updated on **Mar 19, 2025**
 - [Requirements](sign-macos.html#requirements)
 - [tl;dr](sign-macos.html#tldr)
 - [Signing Tauri apps](sign-macos.html#signing-tauri-apps)
-  
+
   - [Creating a signing certificate](sign-macos.html#creating-a-signing-certificate)
   - [Downloading a certificate](sign-macos.html#downloading-a-certificate)
   - [Signing the Tauri application](sign-macos.html#signing-the-tauri-application)
@@ -3679,7 +3854,7 @@ This guide only applies to OV code signing certificates acquired before June 1st
 - Windows - you can likely use other platforms, but this tutorial uses Powershell native features.
 - A working Tauri application
 - Code signing certificate - you can acquire one of these on services listed in [Microsoft's docs](https://learn.microsoft.com/en-us/windows-hardware/drivers/dashboard/code-signing-cert-manage). There are likely additional authorities for non-EV certificates than included in that list, please compare them yourself and choose one at your own risk.
-  
+
   - Please make sure to get a **code signing** certificate, SSL certificates do not work!
 
 This guide assumes that you have a standard code signing certificate&gt; If you have an EV certificate, which generally involves a hardware token, please follow your issuer's documentation instead.
@@ -3697,7 +3872,7 @@ There are a few things we have to do to get Windows prepared for code signing. T
 ### A. Convert your `.cer` to `.pfx`[​](sign-windows.html#a-convert-your-cer-to-pfx "Direct link to a-convert-your-cer-to-pfx")
 
 1. You will need the following:
-   
+
    - certificate file (mine is `cert.cer`)
    - private key file (mine is `private-key.key`)
 2. Open up a command prompt and change to your current directory using `cd Documents/Certs`
@@ -3765,7 +3940,7 @@ The secrets we used are as follows
 ### Workflow Modifications[​](sign-windows.html#workflow-modifications "Direct link to Workflow Modifications")
 
 1. We need to add a step in the workflow to import the certificate into the Windows environment. This workflow accomplishes the following
-   
+
    1. Assign GitHub secrets to environment variables
    2. Create a new `certificate` directory
    3. Import `WINDOWS_CERTIFICATE` into tempCert.txt
@@ -3843,13 +4018,13 @@ Last updated on **Oct 4, 2023**
 - [Intro](sign-windows.html#intro)
 - [Prerequisites](sign-windows.html#prerequisites)
 - [Getting Started](sign-windows.html#getting-started)
-  
+
   - [A. Convert your `.cer` to `.pfx`](sign-windows.html#a-convert-your-cer-to-pfx)
   - [B. Import your `.pfx` file into the keystore.](sign-windows.html#b-import-your-pfx-file-into-the-keystore)
   - [C. Prepare Variables](sign-windows.html#c-prepare-variables)
 - [Prepare `tauri.conf.json` file](sign-windows.html#prepare-tauriconfjson-file)
 - [BONUS: Sign your application with GitHub Actions.](sign-windows.html#bonus-sign-your-application-with-github-actions)
-  
+
   - [GitHub Secrets](sign-windows.html#github-secrets)
   - [Workflow Modifications](sign-windows.html#workflow-modifications)
 
@@ -3955,7 +4130,7 @@ The required keys are `"active"`, `"endpoints"` and `"pubkey"` to enable the upd
 
 `"active"` must be a boolean. By default it's set to false.
 
-`"endpoints"` must be an array of updater endpoint URLs as strings. TLS is enforced in production mode.  
+`"endpoints"` must be an array of updater endpoint URLs as strings. TLS is enforced in production mode.
 Each updater URL can contain the following variables allowing you to determine [server-side](updater.html#update-server-json-format) if an update is available:
 
 - `{{current_version}}`: The version of the app that is requesting the update.
@@ -4015,17 +4190,17 @@ $env:TAURI_KEY_PASSWORD="password"
 After that, you can run `tauri build` as usual and Tauri will generate the update bundle and its signature.
 
 - **Linux**: On Linux, Tauri will create a `.tar.gz` archive from the AppImage inside the `target/release/bundle/appimage/` folder:
-  
+
   - `myapp.AppImage` - the standard app bundle.
   - `myapp.AppImage.tar.gz` - the updater bundle.
   - `myapp.AppImage.tar.gz.sig` - the signature of the update bundle.
 - **macOS**: On macOS, Tauri will create a `.tar.gz` archive from the application bundle inside the `target/release/bundle/macos/` folder:
-  
+
   - `myapp.app` - the standard app bundle.
   - `myapp.app.tar.gz` - the updater bundle.
   - `myapp.app.tar.gz.sig` - the signature of the update bundle.
 - **Windows**: On Windows, Tauri will create `.zip` archives from the MSI and NSIS installers inside the `target/release/bundle/msi/` and `target/release/bundle/nsis` folders:
-  
+
   - `myapp-setup.exe` - the standard app bundle.
   - `myapp-setup.nsis.zip` - the updater bundle.
   - `myapp-setup.nsis.zip.sig` - the signature of the update bundle.
@@ -4190,15 +4365,15 @@ Last updated on **May 10, 2024**
 
 - [Signing Updates](updater.html#signing-updates)
 - [Tauri Configuration](updater.html#tauri-configuration)
-  
+
   - [`installMode` on Windows](updater.html#installmode-on-windows)
 - [Update Artifacts](updater.html#update-artifacts)
 - [Server Support](updater.html#server-support)
-  
+
   - [Static JSON File](updater.html#static-json-file)
   - [Dynamic Update Server](updater.html#dynamic-update-server)
 - [Checking for Updates](updater.html#checking-for-updates)
-  
+
   - [Built-In Dialog](updater.html#built-in-dialog)
   - [Custom Dialog](updater.html#custom-dialog)
 
@@ -4633,7 +4808,7 @@ Last updated on **Mar 19, 2025**
 - [Requirements](sign-macos.html#requirements)
 - [tl;dr](sign-macos.html#tldr)
 - [Signing Tauri apps](sign-macos.html#signing-tauri-apps)
-  
+
   - [Creating a signing certificate](sign-macos.html#creating-a-signing-certificate)
   - [Downloading a certificate](sign-macos.html#downloading-a-certificate)
   - [Signing the Tauri application](sign-macos.html#signing-the-tauri-application)
@@ -4661,7 +4836,7 @@ This guide only applies to OV code signing certificates acquired before June 1st
 - Windows - you can likely use other platforms, but this tutorial uses Powershell native features.
 - A working Tauri application
 - Code signing certificate - you can acquire one of these on services listed in [Microsoft's docs](https://learn.microsoft.com/en-us/windows-hardware/drivers/dashboard/code-signing-cert-manage). There are likely additional authorities for non-EV certificates than included in that list, please compare them yourself and choose one at your own risk.
-  
+
   - Please make sure to get a **code signing** certificate, SSL certificates do not work!
 
 This guide assumes that you have a standard code signing certificate&gt; If you have an EV certificate, which generally involves a hardware token, please follow your issuer's documentation instead.
@@ -4679,7 +4854,7 @@ There are a few things we have to do to get Windows prepared for code signing. T
 ### A. Convert your `.cer` to `.pfx`[​](sign-windows.html#a-convert-your-cer-to-pfx "Direct link to a-convert-your-cer-to-pfx")
 
 1. You will need the following:
-   
+
    - certificate file (mine is `cert.cer`)
    - private key file (mine is `private-key.key`)
 2. Open up a command prompt and change to your current directory using `cd Documents/Certs`
@@ -4747,7 +4922,7 @@ The secrets we used are as follows
 ### Workflow Modifications[​](sign-windows.html#workflow-modifications "Direct link to Workflow Modifications")
 
 1. We need to add a step in the workflow to import the certificate into the Windows environment. This workflow accomplishes the following
-   
+
    1. Assign GitHub secrets to environment variables
    2. Create a new `certificate` directory
    3. Import `WINDOWS_CERTIFICATE` into tempCert.txt
@@ -4825,13 +5000,13 @@ Last updated on **Oct 4, 2023**
 - [Intro](sign-windows.html#intro)
 - [Prerequisites](sign-windows.html#prerequisites)
 - [Getting Started](sign-windows.html#getting-started)
-  
+
   - [A. Convert your `.cer` to `.pfx`](sign-windows.html#a-convert-your-cer-to-pfx)
   - [B. Import your `.pfx` file into the keystore.](sign-windows.html#b-import-your-pfx-file-into-the-keystore)
   - [C. Prepare Variables](sign-windows.html#c-prepare-variables)
 - [Prepare `tauri.conf.json` file](sign-windows.html#prepare-tauriconfjson-file)
 - [BONUS: Sign your application with GitHub Actions.](sign-windows.html#bonus-sign-your-application-with-github-actions)
-  
+
   - [GitHub Secrets](sign-windows.html#github-secrets)
   - [Workflow Modifications](sign-windows.html#workflow-modifications)
 
@@ -4937,7 +5112,7 @@ The required keys are `"active"`, `"endpoints"` and `"pubkey"` to enable the upd
 
 `"active"` must be a boolean. By default it's set to false.
 
-`"endpoints"` must be an array of updater endpoint URLs as strings. TLS is enforced in production mode.  
+`"endpoints"` must be an array of updater endpoint URLs as strings. TLS is enforced in production mode.
 Each updater URL can contain the following variables allowing you to determine [server-side](updater.html#update-server-json-format) if an update is available:
 
 - `{{current_version}}`: The version of the app that is requesting the update.
@@ -4997,17 +5172,17 @@ $env:TAURI_KEY_PASSWORD="password"
 After that, you can run `tauri build` as usual and Tauri will generate the update bundle and its signature.
 
 - **Linux**: On Linux, Tauri will create a `.tar.gz` archive from the AppImage inside the `target/release/bundle/appimage/` folder:
-  
+
   - `myapp.AppImage` - the standard app bundle.
   - `myapp.AppImage.tar.gz` - the updater bundle.
   - `myapp.AppImage.tar.gz.sig` - the signature of the update bundle.
 - **macOS**: On macOS, Tauri will create a `.tar.gz` archive from the application bundle inside the `target/release/bundle/macos/` folder:
-  
+
   - `myapp.app` - the standard app bundle.
   - `myapp.app.tar.gz` - the updater bundle.
   - `myapp.app.tar.gz.sig` - the signature of the update bundle.
 - **Windows**: On Windows, Tauri will create `.zip` archives from the MSI and NSIS installers inside the `target/release/bundle/msi/` and `target/release/bundle/nsis` folders:
-  
+
   - `myapp-setup.exe` - the standard app bundle.
   - `myapp-setup.nsis.zip` - the updater bundle.
   - `myapp-setup.nsis.zip.sig` - the signature of the update bundle.
@@ -5172,15 +5347,15 @@ Last updated on **May 10, 2024**
 
 - [Signing Updates](updater.html#signing-updates)
 - [Tauri Configuration](updater.html#tauri-configuration)
-  
+
   - [`installMode` on Windows](updater.html#installmode-on-windows)
 - [Update Artifacts](updater.html#update-artifacts)
 - [Server Support](updater.html#server-support)
-  
+
   - [Static JSON File](updater.html#static-json-file)
   - [Dynamic Update Server](updater.html#dynamic-update-server)
 - [Checking for Updates](updater.html#checking-for-updates)
-  
+
   - [Built-In Dialog](updater.html#built-in-dialog)
   - [Custom Dialog](updater.html#custom-dialog)
 
@@ -5323,7 +5498,7 @@ Last updated on **May 10, 2024**
 
 - [Rust Console](application.html#rust-console)
 - [WebView Console](application.html#webview-console)
-  
+
   - [Opening Devtools Programmatically](application.html#opening-devtools-programmatically)
   - [Using the Inspector in Production](application.html#using-the-inspector-in-production)
 - [Debugging the Core Process](application.html#debugging-the-core-process)
@@ -5409,7 +5584,7 @@ You will need to set up two separate Run/Debug configurations:
 
 1. In the main menu, go to **Run | Edit Configurations**.
 2. In the **Run/Debug Configurations** dialog:
-   
+
    - To create a new configuration, click **+** on the toolbar and select **Cargo**.
 
 ![Add Run/Debug Configuration](../../../assets/images/add-cargo-config-light-3b37c846e3b4401fce978bfd63eb5d54.png#gh-light-mode-only) ![Add Run/Debug Configuration](../../../assets/images/add-cargo-config-dark-92d4ab1f79542da26115965c05902d85.png#gh-dark-mode-only)
@@ -5456,7 +5631,7 @@ Last updated on **Jan 15, 2024**
 
 - [Setting up a Cargo project](rustrover.html#setting-up-a-cargo-project)
 - [Setting up Run Configurations](rustrover.html#setting-up-run-configurations)
-  
+
   - [Tauri App](rustrover.html#tauri-app)
   - [Development Server](rustrover.html#development-server)
 - [Launching a Debugging Session](rustrover.html#launching-a-debugging-session)
@@ -5698,7 +5873,7 @@ Last updated on **May 10, 2024**
 
 - [Rust Console](application.html#rust-console)
 - [WebView Console](application.html#webview-console)
-  
+
   - [Opening Devtools Programmatically](application.html#opening-devtools-programmatically)
   - [Using the Inspector in Production](application.html#using-the-inspector-in-production)
 - [Debugging the Core Process](application.html#debugging-the-core-process)
@@ -5784,7 +5959,7 @@ You will need to set up two separate Run/Debug configurations:
 
 1. In the main menu, go to **Run | Edit Configurations**.
 2. In the **Run/Debug Configurations** dialog:
-   
+
    - To create a new configuration, click **+** on the toolbar and select **Cargo**.
 
 ![Add Run/Debug Configuration](../../../assets/images/add-cargo-config-light-3b37c846e3b4401fce978bfd63eb5d54.png#gh-light-mode-only) ![Add Run/Debug Configuration](../../../assets/images/add-cargo-config-dark-92d4ab1f79542da26115965c05902d85.png#gh-dark-mode-only)
@@ -5831,7 +6006,7 @@ Last updated on **Jan 15, 2024**
 
 - [Setting up a Cargo project](rustrover.html#setting-up-a-cargo-project)
 - [Setting up Run Configurations](rustrover.html#setting-up-run-configurations)
-  
+
   - [Tauri App](rustrover.html#tauri-app)
   - [Development Server](rustrover.html#development-server)
 - [Launching a Debugging Session](rustrover.html#launching-a-debugging-session)
@@ -6365,7 +6540,7 @@ Last updated on **Mar 19, 2025**
 - [Requirements](sign-macos.html#requirements)
 - [tl;dr](sign-macos.html#tldr)
 - [Signing Tauri apps](sign-macos.html#signing-tauri-apps)
-  
+
   - [Creating a signing certificate](sign-macos.html#creating-a-signing-certificate)
   - [Downloading a certificate](sign-macos.html#downloading-a-certificate)
   - [Signing the Tauri application](sign-macos.html#signing-the-tauri-application)
@@ -6393,7 +6568,7 @@ This guide only applies to OV code signing certificates acquired before June 1st
 - Windows - you can likely use other platforms, but this tutorial uses Powershell native features.
 - A working Tauri application
 - Code signing certificate - you can acquire one of these on services listed in [Microsoft's docs](https://learn.microsoft.com/en-us/windows-hardware/drivers/dashboard/code-signing-cert-manage). There are likely additional authorities for non-EV certificates than included in that list, please compare them yourself and choose one at your own risk.
-  
+
   - Please make sure to get a **code signing** certificate, SSL certificates do not work!
 
 This guide assumes that you have a standard code signing certificate&gt; If you have an EV certificate, which generally involves a hardware token, please follow your issuer's documentation instead.
@@ -6411,7 +6586,7 @@ There are a few things we have to do to get Windows prepared for code signing. T
 ### A. Convert your `.cer` to `.pfx`[​](sign-windows.html#a-convert-your-cer-to-pfx "Direct link to a-convert-your-cer-to-pfx")
 
 1. You will need the following:
-   
+
    - certificate file (mine is `cert.cer`)
    - private key file (mine is `private-key.key`)
 2. Open up a command prompt and change to your current directory using `cd Documents/Certs`
@@ -6479,7 +6654,7 @@ The secrets we used are as follows
 ### Workflow Modifications[​](sign-windows.html#workflow-modifications "Direct link to Workflow Modifications")
 
 1. We need to add a step in the workflow to import the certificate into the Windows environment. This workflow accomplishes the following
-   
+
    1. Assign GitHub secrets to environment variables
    2. Create a new `certificate` directory
    3. Import `WINDOWS_CERTIFICATE` into tempCert.txt
@@ -6557,13 +6732,13 @@ Last updated on **Oct 4, 2023**
 - [Intro](sign-windows.html#intro)
 - [Prerequisites](sign-windows.html#prerequisites)
 - [Getting Started](sign-windows.html#getting-started)
-  
+
   - [A. Convert your `.cer` to `.pfx`](sign-windows.html#a-convert-your-cer-to-pfx)
   - [B. Import your `.pfx` file into the keystore.](sign-windows.html#b-import-your-pfx-file-into-the-keystore)
   - [C. Prepare Variables](sign-windows.html#c-prepare-variables)
 - [Prepare `tauri.conf.json` file](sign-windows.html#prepare-tauriconfjson-file)
 - [BONUS: Sign your application with GitHub Actions.](sign-windows.html#bonus-sign-your-application-with-github-actions)
-  
+
   - [GitHub Secrets](sign-windows.html#github-secrets)
   - [Workflow Modifications](sign-windows.html#workflow-modifications)
 
@@ -6669,7 +6844,7 @@ The required keys are `"active"`, `"endpoints"` and `"pubkey"` to enable the upd
 
 `"active"` must be a boolean. By default it's set to false.
 
-`"endpoints"` must be an array of updater endpoint URLs as strings. TLS is enforced in production mode.  
+`"endpoints"` must be an array of updater endpoint URLs as strings. TLS is enforced in production mode.
 Each updater URL can contain the following variables allowing you to determine [server-side](updater.html#update-server-json-format) if an update is available:
 
 - `{{current_version}}`: The version of the app that is requesting the update.
@@ -6729,17 +6904,17 @@ $env:TAURI_KEY_PASSWORD="password"
 After that, you can run `tauri build` as usual and Tauri will generate the update bundle and its signature.
 
 - **Linux**: On Linux, Tauri will create a `.tar.gz` archive from the AppImage inside the `target/release/bundle/appimage/` folder:
-  
+
   - `myapp.AppImage` - the standard app bundle.
   - `myapp.AppImage.tar.gz` - the updater bundle.
   - `myapp.AppImage.tar.gz.sig` - the signature of the update bundle.
 - **macOS**: On macOS, Tauri will create a `.tar.gz` archive from the application bundle inside the `target/release/bundle/macos/` folder:
-  
+
   - `myapp.app` - the standard app bundle.
   - `myapp.app.tar.gz` - the updater bundle.
   - `myapp.app.tar.gz.sig` - the signature of the update bundle.
 - **Windows**: On Windows, Tauri will create `.zip` archives from the MSI and NSIS installers inside the `target/release/bundle/msi/` and `target/release/bundle/nsis` folders:
-  
+
   - `myapp-setup.exe` - the standard app bundle.
   - `myapp-setup.nsis.zip` - the updater bundle.
   - `myapp-setup.nsis.zip.sig` - the signature of the update bundle.
@@ -6904,15 +7079,15 @@ Last updated on **May 10, 2024**
 
 - [Signing Updates](updater.html#signing-updates)
 - [Tauri Configuration](updater.html#tauri-configuration)
-  
+
   - [`installMode` on Windows](updater.html#installmode-on-windows)
 - [Update Artifacts](updater.html#update-artifacts)
 - [Server Support](updater.html#server-support)
-  
+
   - [Static JSON File](updater.html#static-json-file)
   - [Dynamic Update Server](updater.html#dynamic-update-server)
 - [Checking for Updates](updater.html#checking-for-updates)
-  
+
   - [Built-In Dialog](updater.html#built-in-dialog)
   - [Custom Dialog](updater.html#custom-dialog)
 
@@ -7055,7 +7230,7 @@ Last updated on **May 10, 2024**
 
 - [Rust Console](application.html#rust-console)
 - [WebView Console](application.html#webview-console)
-  
+
   - [Opening Devtools Programmatically](application.html#opening-devtools-programmatically)
   - [Using the Inspector in Production](application.html#using-the-inspector-in-production)
 - [Debugging the Core Process](application.html#debugging-the-core-process)
@@ -7141,7 +7316,7 @@ You will need to set up two separate Run/Debug configurations:
 
 1. In the main menu, go to **Run | Edit Configurations**.
 2. In the **Run/Debug Configurations** dialog:
-   
+
    - To create a new configuration, click **+** on the toolbar and select **Cargo**.
 
 ![Add Run/Debug Configuration](../../../assets/images/add-cargo-config-light-3b37c846e3b4401fce978bfd63eb5d54.png#gh-light-mode-only) ![Add Run/Debug Configuration](../../../assets/images/add-cargo-config-dark-92d4ab1f79542da26115965c05902d85.png#gh-dark-mode-only)
@@ -7188,7 +7363,7 @@ Last updated on **Jan 15, 2024**
 
 - [Setting up a Cargo project](rustrover.html#setting-up-a-cargo-project)
 - [Setting up Run Configurations](rustrover.html#setting-up-run-configurations)
-  
+
   - [Tauri App](rustrover.html#tauri-app)
   - [Development Server](rustrover.html#development-server)
 - [Launching a Debugging Session](rustrover.html#launching-a-debugging-session)
@@ -7722,7 +7897,7 @@ Last updated on **Mar 19, 2025**
 - [Requirements](sign-macos.html#requirements)
 - [tl;dr](sign-macos.html#tldr)
 - [Signing Tauri apps](sign-macos.html#signing-tauri-apps)
-  
+
   - [Creating a signing certificate](sign-macos.html#creating-a-signing-certificate)
   - [Downloading a certificate](sign-macos.html#downloading-a-certificate)
   - [Signing the Tauri application](sign-macos.html#signing-the-tauri-application)
@@ -7750,7 +7925,7 @@ This guide only applies to OV code signing certificates acquired before June 1st
 - Windows - you can likely use other platforms, but this tutorial uses Powershell native features.
 - A working Tauri application
 - Code signing certificate - you can acquire one of these on services listed in [Microsoft's docs](https://learn.microsoft.com/en-us/windows-hardware/drivers/dashboard/code-signing-cert-manage). There are likely additional authorities for non-EV certificates than included in that list, please compare them yourself and choose one at your own risk.
-  
+
   - Please make sure to get a **code signing** certificate, SSL certificates do not work!
 
 This guide assumes that you have a standard code signing certificate&gt; If you have an EV certificate, which generally involves a hardware token, please follow your issuer's documentation instead.
@@ -7768,7 +7943,7 @@ There are a few things we have to do to get Windows prepared for code signing. T
 ### A. Convert your `.cer` to `.pfx`[​](sign-windows.html#a-convert-your-cer-to-pfx "Direct link to a-convert-your-cer-to-pfx")
 
 1. You will need the following:
-   
+
    - certificate file (mine is `cert.cer`)
    - private key file (mine is `private-key.key`)
 2. Open up a command prompt and change to your current directory using `cd Documents/Certs`
@@ -7836,7 +8011,7 @@ The secrets we used are as follows
 ### Workflow Modifications[​](sign-windows.html#workflow-modifications "Direct link to Workflow Modifications")
 
 1. We need to add a step in the workflow to import the certificate into the Windows environment. This workflow accomplishes the following
-   
+
    1. Assign GitHub secrets to environment variables
    2. Create a new `certificate` directory
    3. Import `WINDOWS_CERTIFICATE` into tempCert.txt
@@ -7914,13 +8089,13 @@ Last updated on **Oct 4, 2023**
 - [Intro](sign-windows.html#intro)
 - [Prerequisites](sign-windows.html#prerequisites)
 - [Getting Started](sign-windows.html#getting-started)
-  
+
   - [A. Convert your `.cer` to `.pfx`](sign-windows.html#a-convert-your-cer-to-pfx)
   - [B. Import your `.pfx` file into the keystore.](sign-windows.html#b-import-your-pfx-file-into-the-keystore)
   - [C. Prepare Variables](sign-windows.html#c-prepare-variables)
 - [Prepare `tauri.conf.json` file](sign-windows.html#prepare-tauriconfjson-file)
 - [BONUS: Sign your application with GitHub Actions.](sign-windows.html#bonus-sign-your-application-with-github-actions)
-  
+
   - [GitHub Secrets](sign-windows.html#github-secrets)
   - [Workflow Modifications](sign-windows.html#workflow-modifications)
 
@@ -8026,7 +8201,7 @@ The required keys are `"active"`, `"endpoints"` and `"pubkey"` to enable the upd
 
 `"active"` must be a boolean. By default it's set to false.
 
-`"endpoints"` must be an array of updater endpoint URLs as strings. TLS is enforced in production mode.  
+`"endpoints"` must be an array of updater endpoint URLs as strings. TLS is enforced in production mode.
 Each updater URL can contain the following variables allowing you to determine [server-side](updater.html#update-server-json-format) if an update is available:
 
 - `{{current_version}}`: The version of the app that is requesting the update.
@@ -8086,17 +8261,17 @@ $env:TAURI_KEY_PASSWORD="password"
 After that, you can run `tauri build` as usual and Tauri will generate the update bundle and its signature.
 
 - **Linux**: On Linux, Tauri will create a `.tar.gz` archive from the AppImage inside the `target/release/bundle/appimage/` folder:
-  
+
   - `myapp.AppImage` - the standard app bundle.
   - `myapp.AppImage.tar.gz` - the updater bundle.
   - `myapp.AppImage.tar.gz.sig` - the signature of the update bundle.
 - **macOS**: On macOS, Tauri will create a `.tar.gz` archive from the application bundle inside the `target/release/bundle/macos/` folder:
-  
+
   - `myapp.app` - the standard app bundle.
   - `myapp.app.tar.gz` - the updater bundle.
   - `myapp.app.tar.gz.sig` - the signature of the update bundle.
 - **Windows**: On Windows, Tauri will create `.zip` archives from the MSI and NSIS installers inside the `target/release/bundle/msi/` and `target/release/bundle/nsis` folders:
-  
+
   - `myapp-setup.exe` - the standard app bundle.
   - `myapp-setup.nsis.zip` - the updater bundle.
   - `myapp-setup.nsis.zip.sig` - the signature of the update bundle.
@@ -8261,15 +8436,15 @@ Last updated on **May 10, 2024**
 
 - [Signing Updates](updater.html#signing-updates)
 - [Tauri Configuration](updater.html#tauri-configuration)
-  
+
   - [`installMode` on Windows](updater.html#installmode-on-windows)
 - [Update Artifacts](updater.html#update-artifacts)
 - [Server Support](updater.html#server-support)
-  
+
   - [Static JSON File](updater.html#static-json-file)
   - [Dynamic Update Server](updater.html#dynamic-update-server)
 - [Checking for Updates](updater.html#checking-for-updates)
-  
+
   - [Built-In Dialog](updater.html#built-in-dialog)
   - [Custom Dialog](updater.html#custom-dialog)
 
@@ -8412,7 +8587,7 @@ Last updated on **May 10, 2024**
 
 - [Rust Console](application.html#rust-console)
 - [WebView Console](application.html#webview-console)
-  
+
   - [Opening Devtools Programmatically](application.html#opening-devtools-programmatically)
   - [Using the Inspector in Production](application.html#using-the-inspector-in-production)
 - [Debugging the Core Process](application.html#debugging-the-core-process)
@@ -8498,7 +8673,7 @@ You will need to set up two separate Run/Debug configurations:
 
 1. In the main menu, go to **Run | Edit Configurations**.
 2. In the **Run/Debug Configurations** dialog:
-   
+
    - To create a new configuration, click **+** on the toolbar and select **Cargo**.
 
 ![Add Run/Debug Configuration](../../../assets/images/add-cargo-config-light-3b37c846e3b4401fce978bfd63eb5d54.png#gh-light-mode-only) ![Add Run/Debug Configuration](../../../assets/images/add-cargo-config-dark-92d4ab1f79542da26115965c05902d85.png#gh-dark-mode-only)
@@ -8545,7 +8720,7 @@ Last updated on **Jan 15, 2024**
 
 - [Setting up a Cargo project](rustrover.html#setting-up-a-cargo-project)
 - [Setting up Run Configurations](rustrover.html#setting-up-run-configurations)
-  
+
   - [Tauri App](rustrover.html#tauri-app)
   - [Development Server](rustrover.html#development-server)
 - [Launching a Debugging Session](rustrover.html#launching-a-debugging-session)
@@ -9079,7 +9254,7 @@ Last updated on **Mar 19, 2025**
 - [Requirements](sign-macos.html#requirements)
 - [tl;dr](sign-macos.html#tldr)
 - [Signing Tauri apps](sign-macos.html#signing-tauri-apps)
-  
+
   - [Creating a signing certificate](sign-macos.html#creating-a-signing-certificate)
   - [Downloading a certificate](sign-macos.html#downloading-a-certificate)
   - [Signing the Tauri application](sign-macos.html#signing-the-tauri-application)
@@ -9107,7 +9282,7 @@ This guide only applies to OV code signing certificates acquired before June 1st
 - Windows - you can likely use other platforms, but this tutorial uses Powershell native features.
 - A working Tauri application
 - Code signing certificate - you can acquire one of these on services listed in [Microsoft's docs](https://learn.microsoft.com/en-us/windows-hardware/drivers/dashboard/code-signing-cert-manage). There are likely additional authorities for non-EV certificates than included in that list, please compare them yourself and choose one at your own risk.
-  
+
   - Please make sure to get a **code signing** certificate, SSL certificates do not work!
 
 This guide assumes that you have a standard code signing certificate&gt; If you have an EV certificate, which generally involves a hardware token, please follow your issuer's documentation instead.
@@ -9125,7 +9300,7 @@ There are a few things we have to do to get Windows prepared for code signing. T
 ### A. Convert your `.cer` to `.pfx`[​](sign-windows.html#a-convert-your-cer-to-pfx "Direct link to a-convert-your-cer-to-pfx")
 
 1. You will need the following:
-   
+
    - certificate file (mine is `cert.cer`)
    - private key file (mine is `private-key.key`)
 2. Open up a command prompt and change to your current directory using `cd Documents/Certs`
@@ -9193,7 +9368,7 @@ The secrets we used are as follows
 ### Workflow Modifications[​](sign-windows.html#workflow-modifications "Direct link to Workflow Modifications")
 
 1. We need to add a step in the workflow to import the certificate into the Windows environment. This workflow accomplishes the following
-   
+
    1. Assign GitHub secrets to environment variables
    2. Create a new `certificate` directory
    3. Import `WINDOWS_CERTIFICATE` into tempCert.txt
@@ -9271,13 +9446,13 @@ Last updated on **Oct 4, 2023**
 - [Intro](sign-windows.html#intro)
 - [Prerequisites](sign-windows.html#prerequisites)
 - [Getting Started](sign-windows.html#getting-started)
-  
+
   - [A. Convert your `.cer` to `.pfx`](sign-windows.html#a-convert-your-cer-to-pfx)
   - [B. Import your `.pfx` file into the keystore.](sign-windows.html#b-import-your-pfx-file-into-the-keystore)
   - [C. Prepare Variables](sign-windows.html#c-prepare-variables)
 - [Prepare `tauri.conf.json` file](sign-windows.html#prepare-tauriconfjson-file)
 - [BONUS: Sign your application with GitHub Actions.](sign-windows.html#bonus-sign-your-application-with-github-actions)
-  
+
   - [GitHub Secrets](sign-windows.html#github-secrets)
   - [Workflow Modifications](sign-windows.html#workflow-modifications)
 
@@ -9383,7 +9558,7 @@ The required keys are `"active"`, `"endpoints"` and `"pubkey"` to enable the upd
 
 `"active"` must be a boolean. By default it's set to false.
 
-`"endpoints"` must be an array of updater endpoint URLs as strings. TLS is enforced in production mode.  
+`"endpoints"` must be an array of updater endpoint URLs as strings. TLS is enforced in production mode.
 Each updater URL can contain the following variables allowing you to determine [server-side](updater.html#update-server-json-format) if an update is available:
 
 - `{{current_version}}`: The version of the app that is requesting the update.
@@ -9443,17 +9618,17 @@ $env:TAURI_KEY_PASSWORD="password"
 After that, you can run `tauri build` as usual and Tauri will generate the update bundle and its signature.
 
 - **Linux**: On Linux, Tauri will create a `.tar.gz` archive from the AppImage inside the `target/release/bundle/appimage/` folder:
-  
+
   - `myapp.AppImage` - the standard app bundle.
   - `myapp.AppImage.tar.gz` - the updater bundle.
   - `myapp.AppImage.tar.gz.sig` - the signature of the update bundle.
 - **macOS**: On macOS, Tauri will create a `.tar.gz` archive from the application bundle inside the `target/release/bundle/macos/` folder:
-  
+
   - `myapp.app` - the standard app bundle.
   - `myapp.app.tar.gz` - the updater bundle.
   - `myapp.app.tar.gz.sig` - the signature of the update bundle.
 - **Windows**: On Windows, Tauri will create `.zip` archives from the MSI and NSIS installers inside the `target/release/bundle/msi/` and `target/release/bundle/nsis` folders:
-  
+
   - `myapp-setup.exe` - the standard app bundle.
   - `myapp-setup.nsis.zip` - the updater bundle.
   - `myapp-setup.nsis.zip.sig` - the signature of the update bundle.
@@ -9618,15 +9793,15 @@ Last updated on **May 10, 2024**
 
 - [Signing Updates](updater.html#signing-updates)
 - [Tauri Configuration](updater.html#tauri-configuration)
-  
+
   - [`installMode` on Windows](updater.html#installmode-on-windows)
 - [Update Artifacts](updater.html#update-artifacts)
 - [Server Support](updater.html#server-support)
-  
+
   - [Static JSON File](updater.html#static-json-file)
   - [Dynamic Update Server](updater.html#dynamic-update-server)
 - [Checking for Updates](updater.html#checking-for-updates)
-  
+
   - [Built-In Dialog](updater.html#built-in-dialog)
   - [Custom Dialog](updater.html#custom-dialog)
 
@@ -9769,7 +9944,7 @@ Last updated on **May 10, 2024**
 
 - [Rust Console](application.html#rust-console)
 - [WebView Console](application.html#webview-console)
-  
+
   - [Opening Devtools Programmatically](application.html#opening-devtools-programmatically)
   - [Using the Inspector in Production](application.html#using-the-inspector-in-production)
 - [Debugging the Core Process](application.html#debugging-the-core-process)
@@ -9855,7 +10030,7 @@ You will need to set up two separate Run/Debug configurations:
 
 1. In the main menu, go to **Run | Edit Configurations**.
 2. In the **Run/Debug Configurations** dialog:
-   
+
    - To create a new configuration, click **+** on the toolbar and select **Cargo**.
 
 ![Add Run/Debug Configuration](../../../assets/images/add-cargo-config-light-3b37c846e3b4401fce978bfd63eb5d54.png#gh-light-mode-only) ![Add Run/Debug Configuration](../../../assets/images/add-cargo-config-dark-92d4ab1f79542da26115965c05902d85.png#gh-dark-mode-only)
@@ -9902,7 +10077,7 @@ Last updated on **Jan 15, 2024**
 
 - [Setting up a Cargo project](rustrover.html#setting-up-a-cargo-project)
 - [Setting up Run Configurations](rustrover.html#setting-up-run-configurations)
-  
+
   - [Tauri App](rustrover.html#tauri-app)
   - [Development Server](rustrover.html#development-server)
 - [Launching a Debugging Session](rustrover.html#launching-a-debugging-session)
@@ -10436,7 +10611,7 @@ Last updated on **Mar 19, 2025**
 - [Requirements](sign-macos.html#requirements)
 - [tl;dr](sign-macos.html#tldr)
 - [Signing Tauri apps](sign-macos.html#signing-tauri-apps)
-  
+
   - [Creating a signing certificate](sign-macos.html#creating-a-signing-certificate)
   - [Downloading a certificate](sign-macos.html#downloading-a-certificate)
   - [Signing the Tauri application](sign-macos.html#signing-the-tauri-application)
@@ -10464,7 +10639,7 @@ This guide only applies to OV code signing certificates acquired before June 1st
 - Windows - you can likely use other platforms, but this tutorial uses Powershell native features.
 - A working Tauri application
 - Code signing certificate - you can acquire one of these on services listed in [Microsoft's docs](https://learn.microsoft.com/en-us/windows-hardware/drivers/dashboard/code-signing-cert-manage). There are likely additional authorities for non-EV certificates than included in that list, please compare them yourself and choose one at your own risk.
-  
+
   - Please make sure to get a **code signing** certificate, SSL certificates do not work!
 
 This guide assumes that you have a standard code signing certificate&gt; If you have an EV certificate, which generally involves a hardware token, please follow your issuer's documentation instead.
@@ -10482,7 +10657,7 @@ There are a few things we have to do to get Windows prepared for code signing. T
 ### A. Convert your `.cer` to `.pfx`[​](sign-windows.html#a-convert-your-cer-to-pfx "Direct link to a-convert-your-cer-to-pfx")
 
 1. You will need the following:
-   
+
    - certificate file (mine is `cert.cer`)
    - private key file (mine is `private-key.key`)
 2. Open up a command prompt and change to your current directory using `cd Documents/Certs`
@@ -10550,7 +10725,7 @@ The secrets we used are as follows
 ### Workflow Modifications[​](sign-windows.html#workflow-modifications "Direct link to Workflow Modifications")
 
 1. We need to add a step in the workflow to import the certificate into the Windows environment. This workflow accomplishes the following
-   
+
    1. Assign GitHub secrets to environment variables
    2. Create a new `certificate` directory
    3. Import `WINDOWS_CERTIFICATE` into tempCert.txt
@@ -10628,13 +10803,13 @@ Last updated on **Oct 4, 2023**
 - [Intro](sign-windows.html#intro)
 - [Prerequisites](sign-windows.html#prerequisites)
 - [Getting Started](sign-windows.html#getting-started)
-  
+
   - [A. Convert your `.cer` to `.pfx`](sign-windows.html#a-convert-your-cer-to-pfx)
   - [B. Import your `.pfx` file into the keystore.](sign-windows.html#b-import-your-pfx-file-into-the-keystore)
   - [C. Prepare Variables](sign-windows.html#c-prepare-variables)
 - [Prepare `tauri.conf.json` file](sign-windows.html#prepare-tauriconfjson-file)
 - [BONUS: Sign your application with GitHub Actions.](sign-windows.html#bonus-sign-your-application-with-github-actions)
-  
+
   - [GitHub Secrets](sign-windows.html#github-secrets)
   - [Workflow Modifications](sign-windows.html#workflow-modifications)
 
@@ -10740,7 +10915,7 @@ The required keys are `"active"`, `"endpoints"` and `"pubkey"` to enable the upd
 
 `"active"` must be a boolean. By default it's set to false.
 
-`"endpoints"` must be an array of updater endpoint URLs as strings. TLS is enforced in production mode.  
+`"endpoints"` must be an array of updater endpoint URLs as strings. TLS is enforced in production mode.
 Each updater URL can contain the following variables allowing you to determine [server-side](updater.html#update-server-json-format) if an update is available:
 
 - `{{current_version}}`: The version of the app that is requesting the update.
@@ -10800,17 +10975,17 @@ $env:TAURI_KEY_PASSWORD="password"
 After that, you can run `tauri build` as usual and Tauri will generate the update bundle and its signature.
 
 - **Linux**: On Linux, Tauri will create a `.tar.gz` archive from the AppImage inside the `target/release/bundle/appimage/` folder:
-  
+
   - `myapp.AppImage` - the standard app bundle.
   - `myapp.AppImage.tar.gz` - the updater bundle.
   - `myapp.AppImage.tar.gz.sig` - the signature of the update bundle.
 - **macOS**: On macOS, Tauri will create a `.tar.gz` archive from the application bundle inside the `target/release/bundle/macos/` folder:
-  
+
   - `myapp.app` - the standard app bundle.
   - `myapp.app.tar.gz` - the updater bundle.
   - `myapp.app.tar.gz.sig` - the signature of the update bundle.
 - **Windows**: On Windows, Tauri will create `.zip` archives from the MSI and NSIS installers inside the `target/release/bundle/msi/` and `target/release/bundle/nsis` folders:
-  
+
   - `myapp-setup.exe` - the standard app bundle.
   - `myapp-setup.nsis.zip` - the updater bundle.
   - `myapp-setup.nsis.zip.sig` - the signature of the update bundle.
@@ -10968,21 +11143,3 @@ try {
 // you need to call unlisten if your handler goes out of scope, for example if the component is unmounted.
 unlisten()
 ```
-
-[Edit this page](https://github.com/tauri-apps/tauri-docs/edit/v1/docs/guides/distribution/updater.md)
-
-Last updated on **May 10, 2024**
-
-- [Signing Updates](updater.html#signing-updates)
-- [Tauri Configuration](updater.html#tauri-configuration)
-  
-  - [`installMode` on Windows](updater.html#installmode-on-windows)
-- [Update Artifacts](updater.html#update-artifacts)
-- [Server Support](updater.html#server-support)
-  
-  - [Static JSON File](updater.html#static-json-file)
-  - [Dynamic Update Server](updater.html#dynamic-update-server)
-- [Checking for Updates](updater.html#checking-for-updates)
-  
-  - [Built-In Dialog](updater.html#built-in-dialog)
-  - [Custom Dialog](updater.html#custom-dialog)
