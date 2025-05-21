@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Windows Font Explorer</title>
+        <style>
+            html {
+                background: #151515;
+            }
+            body {
+                font-family: "SF Pro Text", sans-serif;
+                margin: 20px;
+                line-height: 1.1;
+                color: #ddd;
+                background: #151515;
+                max-width: 1050px;
+                justify-items: normal;
+            }
+            h1 {
+                color: #74a3d2ff;
+                border-bottom: 2px solid #eee;
+                padding-bottom: 10px;
+            }
+            .stats {
+                margin-bottom: 20px;
+                color: #555;
+            }
+            .search-container {
+                margin: 14px 0;
+                background: #151515;
+            }
+            #fontFilter {
+                padding: 8px;
+                width: 200px;
+                font-size: 16px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+            }
+            table {
+                max-width: 950px;
+                border-collapse: collapse;
+                margin-top: 20px;
+            }
+            th,
+            td {
+                padding: 12px 15px;
+                text-align: left;
+                border-bottom: 1px solid #ddd;
+            }
+            th {
+                background-color: #292929;
+                color: #2c3e50;
+                cursor: pointer;
+            }
+            th:hover {
+                background-color: #eeeeee20;
+            }
+            tr:hover {
+                background-color: #f5f5f510;
+            }
+            .font-preview {
+                font-size: 16px;
+            }
+            .no-results {
+                text-align: center;
+                padding: 20px;
+                color: #777;
+                font-style: italic;
+                display: none;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1>Windows Font Explorer</h1>
+
+        <div class="stats">
+            Found <span id="totalFonts">1118</span> fonts in OS directory.
+            <div>Generated on: 2025-05-15 13:32:31</div>
+        </div>
+
+        <div class="search-container">
+            <input type="text" id="fontFilter" placeholder="Filter name by..." onkeyup="filterFonts()" />
+        </div>
+
+        <div id="noResults" class="no-results">No match!</div>
+
+        <table id="fontTable">
+            <thead>
+                <tr>
+                    <th onclick="sortTable(0)">Font Name</th>
+                    <th onclick="sortTable(1)">File Name</th>
+                    <th onclick="sortTable(2)">Type</th>
+                    <th onclick="sortTable(3)">Size</th>
+                    <th onclick="sortTable(4)">Modified Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- INJECT FONT DATA HERE -->
+            </tbody>
+        </table>
+
+        <script>
+            function filterFonts() {
+                // Get filter text
+                const filter = document.getElementById("fontFilter").value.toLowerCase();
+                const table = document.getElementById("fontTable");
+                const rows = table.getElementsByTagName("tr");
+                let visibleCount = 0;
+
+                // Loop through rows (skip header)
+                for (let i = 1; i < rows.length; i++) {
+                    const fontName = rows[i].getElementsByTagName("td")[0].textContent.toLowerCase();
+                    const fileName = rows[i].getElementsByTagName("td")[1].textContent.toLowerCase();
+
+                    if (fontName.includes(filter) || fileName.includes(filter)) {
+                        rows[i].style.display = "";
+                        visibleCount++;
+                    } else {
+                        rows[i].style.display = "none";
+                    }
+                }
+
+                // Update stats and show/hide no results message
+                document.getElementById("totalFonts").textContent = visibleCount;
+                document.getElementById("noResults").style.display = visibleCount === 0 ? "block" : "none";
+            }
+
+            function sortTable(columnIndex) {
+                const table = document.getElementById("fontTable");
+                let rows,
+                    switching,
+                    i,
+                    x,
+                    y,
+                    shouldSwitch,
+                    dir,
+                    switchcount = 0;
+                switching = true;
+                // Set the sorting direction to ascending
+                dir = "asc";
+
+                while (switching) {
+                    switching = false;
+                    rows = table.rows;
+
+                    for (i = 1; i < rows.length - 1; i++) {
+                        shouldSwitch = false;
+                        x = rows[i].getElementsByTagName("td")[columnIndex];
+                        y = rows[i + 1].getElementsByTagName("td")[columnIndex];
+
+                        // Check if the two rows should switch place
+                        if (dir == "asc") {
+                            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                                shouldSwitch = true;
+                                break;
+                            }
+                        } else if (dir == "desc") {
+                            if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                                shouldSwitch = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (shouldSwitch) {
+                        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                        switching = true;
+                        switchcount++;
+                    } else {
+                        if (switchcount == 0 && dir == "asc") {
+                            dir = "desc";
+                            switching = true;
+                        }
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>
