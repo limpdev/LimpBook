@@ -92,7 +92,7 @@
 - [ Pandoc](./cli/pandoc.md)
 	- [ Pandoc Help](./cli/pandoc/pandoc_help.md)
 	- [ Pandoc Resources](./cli/pandoc/pandoc_res.md)
-- [ Optimize Images](./cli/OptimizeIMG.md)
+- [ TOOLS](./cli/OptimizeIMG.md)
 	- [󰨊 bat](./cli/tools/bat-cli.md)
 	- [ Ascidoctor](./cli/tools/ascidoctor.md)
 	- [ Curlie](./cli/tools/curlie.md)
