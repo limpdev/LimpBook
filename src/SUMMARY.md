@@ -84,15 +84,16 @@
 #  Commandline
 
 - [ VIM](./cli/vim.md)
-- [ NVIM](./cli/nvim.md)
-- [ NvChad](./cli/NvChad.md)
+	- [ NVIM](./cli/vim/nvim.md)
+	- [ NvChad](./cli/vim/NvChad.md)
 - [ Docling](./cli/docling.md)
 	- [ Docling Features](./cli/docling/docling_features.md)
 	- [ Docling Usage](./cli/docling/docling_usage.md)
 - [ Pandoc](./cli/pandoc.md)
 	- [ Pandoc Help](./cli/pandoc/pandoc_help.md)
 	- [ Pandoc Resources](./cli/pandoc/pandoc_res.md)
-- [󰨊 bat](./cli/tools/bat-cli.md)
+- [ Optimize Images](./cli/OptimizeIMG.md)
+	- [󰨊 bat](./cli/tools/bat-cli.md)
 	- [ Ascidoctor](./cli/tools/ascidoctor.md)
 	- [ Curlie](./cli/tools/curlie.md)
 	- [ Gallery DL](./cli/tools/gallery-dl.md)
@@ -108,8 +109,6 @@
 	- [ Spaceship](./cli/tools/spaceship.md)
 	- [ WeasyPrint](./cli/tools/weasy.md)
 	- [ katana](./cli/tools/katana-cli.md)
-	- [ Wget Manual](./cli/tools/wget-manual.md)
-	- [ Wget Quickref](./cli/tools/wget-quickref.md)
 	- [ Xidel](./cli/tools/xidel.md)
 	- [ Yazi](./cli/tools/yazi-cli.md)
 	- [ YT-DLP](./cli/tools/ytdlp.md)
@@ -120,6 +119,8 @@
 	- [ Podman](./cli/tools/Podman.md)
 	- [ yarn](./cli/tools/yarn-cli.md)
 	- [ yq](./cli/tools/yq-man.md)
+- [ Wget](./cli/tools/wget-quickref.md)
+	- [ Wget Manual](./cli/wget/wget-manual.md)
 
 ---
 
