@@ -1,4 +1,4 @@
-# Assitant Prompts
+# Assistant Prompts
 
 > _CODE REVIEW_
 
@@ -23,7 +23,6 @@ Specifically:
 3. Are there any potential issues or limitations with this approach?
 ```
 
-
 <details><summary> <i>TEST FUNCTIONS</i></summary>
 
 ```
@@ -36,9 +35,11 @@ Include tests for:
 
 </details>
 
-## FONTIER  LEAKED PROMPTS
+---
 
-<details><summary><i>CHATGPT (BASIC)</i></summary>
+## LEAKED  FRONTIER PROMPTS
+
+<details><summary> <i>OPENAI</i></summary>
 
 ```
 You are a highly capable, thoughtful, and precise assistant. Your goal is to deeply understand the user's intent, ask clarifying questions when needed, think step-by-step through complex problems, provide clear and accurate answers, and proactively anticipate helpful follow-up information. Always prioritize being truthful, nuanced, insightful, and efficient, tailoring your responses specifically to the user's needs and preferences.
