@@ -37,9 +37,9 @@
 
 ## About
 
-::: tip From GitHub's AwesomeReadMe
+::: tip
 
-*From GitHub's AwesomeReadMe tips and tricks* -> Are you tired of manually editing your GitHub profile or missing out on the amazing features you can add to it? Configuring GitHub actions can also be a hassle, right? Say no more! **Introducing a tool that lets you beautify your GitHub profile with a customized README, easily and in no time!** ✨ You can include whatever content you want, wherever you want it (*within the limitations of markdown, of course*). 📝 **With this amazing tool, creating your own README has never been so simple and fast.** ⚡ You can save time and focus on what really matters - showcasing your skills and projects. 🚀 **Don't miss out on the opportunity to enhance your GitHub profile.** Give it a try and see for yourself how easy and convenient it is! 😉
+_From GitHub's AwesomeReadMe tips and tricks_ -> Are you tired of manually editing your GitHub profile or missing out on the amazing features you can add to it? Configuring GitHub actions can also be a hassle, right? Say no more! **Introducing a tool that lets you beautify your GitHub profile with a customized README, easily and in no time!** ✨ You can include whatever content you want, wherever you want it (_within the limitations of markdown, of course_). 📝 **With this amazing tool, creating your own README has never been so simple and fast.** ⚡ You can save time and focus on what really matters - showcasing your skills and projects. 🚀 **Don't miss out on the opportunity to enhance your GitHub profile.** Give it a try and see for yourself how easy and convenient it is! 😉
 
 :::
 

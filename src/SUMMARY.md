@@ -133,6 +133,7 @@
     - [Concept of Types](./golang/Concepts-Types.md)
     - [WebAssembly](./golang/WASM.md)
     - [PathType](./golang/pathtype.md)
+    - [Embed](./golang/embedfs.md)
     - [Context](./golang/Context.md)
     - [Concurrency](./golang/Concurrency.md)
     - [Argparse](./golang/argparse.md)

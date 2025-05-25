@@ -1,755 +1,760 @@
 "use strict";
-
 // Fix back button cache problem
 window.addEventListener("beforeunload", function () {});
-
 // Global variable, shared between modules
 function playground_text(playground, hidden = true) {
-	let code_block = playground.querySelector("code");
+    let code_block = playground.querySelector("code");
 
-	if (window.ace && code_block.classList.contains("editable")) {
-		let editor = window.ace.edit(code_block);
-		return editor.getValue();
-	} else if (hidden) {
-		return code_block.textContent;
-	} else {
-		return code_block.innerText;
-	}
+    if (window.ace && code_block.classList.contains("editable")) {
+        let editor = window.ace.edit(code_block);
+        return editor.getValue();
+    } else if (hidden) {
+        return code_block.textContent;
+    } else {
+        return code_block.innerText;
+    }
 }
-
 (function codeSnippets() {
-	function fetch_with_timeout(url, options, timeout = 6000) {
-		return Promise.race([fetch(url, options), new Promise((_, reject) => setTimeout(() => reject(new Error("timeout")), timeout))]);
-	}
+    function fetch_with_timeout(url, options, timeout = 6000) {
+        return Promise.race([
+            fetch(url, options),
+            new Promise((_, reject) => setTimeout(() => reject(new Error("timeout")), timeout)),
+        ]);
+    }
 
-	var playgrounds = Array.from(document.querySelectorAll(".playground"));
-	if (playgrounds.length > 0) {
-		fetch_with_timeout("https://play.rust-lang.org/meta/crates", {
-			headers: {
-				"Content-Type": "application/json",
-			},
-			method: "POST",
-			mode: "cors",
-		})
-			.then((response) => response.json())
-			.then((response) => {
-				// get list of crates available in the rust playground
-				let playground_crates = response.crates.map((item) => item["id"]);
-				playgrounds.forEach((block) => handle_crate_list_update(block, playground_crates));
-			});
-	}
+    var playgrounds = Array.from(document.querySelectorAll(".playground"));
+    if (playgrounds.length > 0) {
+        fetch_with_timeout("https://play.rust-lang.org/meta/crates", {
+            headers: {
+                "Content-Type": "application/json",
+            },
+            method: "POST",
+            mode: "cors",
+        })
+            .then((response) => response.json())
+            .then((response) => {
+                // get list of crates available in the rust playground
+                let playground_crates = response.crates.map((item) => item["id"]);
+                playgrounds.forEach((block) => handle_crate_list_update(block, playground_crates));
+            });
+    }
 
-	function handle_crate_list_update(playground_block, playground_crates) {
-		// update the play buttons after receiving the response
-		update_play_button(playground_block, playground_crates);
+    function handle_crate_list_update(playground_block, playground_crates) {
+        // update the play buttons after receiving the response
+        update_play_button(playground_block, playground_crates);
 
-		// and install on change listener to dynamically update ACE editors
-		if (window.ace) {
-			let code_block = playground_block.querySelector("code");
-			if (code_block.classList.contains("editable")) {
-				let editor = window.ace.edit(code_block);
-				editor.addEventListener("change", function (e) {
-					update_play_button(playground_block, playground_crates);
-				});
-				// add Ctrl-Enter command to execute rust code
-				editor.commands.addCommand({
-					name: "run",
-					bindKey: {
-						win: "Ctrl-Enter",
-						mac: "Ctrl-Enter",
-					},
-					exec: (_editor) => run_rust_code(playground_block),
-				});
-			}
-		}
-	}
+        // and install on change listener to dynamically update ACE editors
+        if (window.ace) {
+            let code_block = playground_block.querySelector("code");
+            if (code_block.classList.contains("editable")) {
+                let editor = window.ace.edit(code_block);
+                editor.addEventListener("change", function (e) {
+                    update_play_button(playground_block, playground_crates);
+                });
+                // add Ctrl-Enter command to execute rust code
+                editor.commands.addCommand({
+                    name: "run",
+                    bindKey: {
+                        win: "Ctrl-Enter",
+                        mac: "Ctrl-Enter",
+                    },
+                    exec: (_editor) => run_rust_code(playground_block),
+                });
+            }
+        }
+    }
 
-	// updates the visibility of play button based on `no_run` class and
-	// used crates vs ones available on https://play.rust-lang.org
-	function update_play_button(pre_block, playground_crates) {
-		var play_button = pre_block.querySelector(".play-button");
+    // updates the visibility of play button based on `no_run` class and
+    // used crates vs ones available on https://play.rust-lang.org
+    function update_play_button(pre_block, playground_crates) {
+        var play_button = pre_block.querySelector(".play-button");
 
-		// skip if code is `no_run`
-		if (pre_block.querySelector("code").classList.contains("no_run")) {
-			play_button.classList.add("hidden");
-			return;
-		}
+        // skip if code is `no_run`
+        if (pre_block.querySelector("code").classList.contains("no_run")) {
+            play_button.classList.add("hidden");
+            return;
+        }
 
-		// get list of `extern crate`'s from snippet
-		var txt = playground_text(pre_block);
-		var re = /extern\s+crate\s+([a-zA-Z_0-9]+)\s*;/g;
-		var snippet_crates = [];
-		var item;
-		while ((item = re.exec(txt))) {
-			snippet_crates.push(item[1]);
-		}
+        // get list of `extern crate`'s from snippet
+        var txt = playground_text(pre_block);
+        var re = /extern\s+crate\s+([a-zA-Z_0-9]+)\s*;/g;
+        var snippet_crates = [];
+        var item;
+        while ((item = re.exec(txt))) {
+            snippet_crates.push(item[1]);
+        }
 
-		// check if all used crates are available on play.rust-lang.org
-		var all_available = snippet_crates.every(function (elem) {
-			return playground_crates.indexOf(elem) > -1;
-		});
+        // check if all used crates are available on play.rust-lang.org
+        var all_available = snippet_crates.every(function (elem) {
+            return playground_crates.indexOf(elem) > -1;
+        });
 
-		if (all_available) {
-			play_button.classList.remove("hidden");
-		} else {
-			play_button.classList.add("hidden");
-		}
-	}
+        if (all_available) {
+            play_button.classList.remove("hidden");
+        } else {
+            play_button.classList.add("hidden");
+        }
+    }
 
-	function run_rust_code(code_block) {
-		var result_block = code_block.querySelector(".result");
-		if (!result_block) {
-			result_block = document.createElement("code");
-			result_block.className = "result hljs language-bash";
+    function run_rust_code(code_block) {
+        var result_block = code_block.querySelector(".result");
+        if (!result_block) {
+            result_block = document.createElement("code");
+            result_block.className = "result hljs language-bash";
 
-			code_block.append(result_block);
-		}
+            code_block.append(result_block);
+        }
 
-		let text = playground_text(code_block);
-		let classes = code_block.querySelector("code").classList;
-		let edition = "2015";
-		classes.forEach((className) => {
-			if (className.startsWith("edition")) {
-				edition = className.slice(7);
-			}
-		});
-		var params = {
-			version: "stable",
-			optimize: "0",
-			code: text,
-			edition: edition,
-		};
+        let text = playground_text(code_block);
+        let classes = code_block.querySelector("code").classList;
+        let edition = "2015";
+        classes.forEach((className) => {
+            if (className.startsWith("edition")) {
+                edition = className.slice(7);
+            }
+        });
+        var params = {
+            version: "stable",
+            optimize: "0",
+            code: text,
+            edition: edition,
+        };
 
-		if (text.indexOf("#![feature") !== -1) {
-			params.version = "nightly";
-		}
+        if (text.indexOf("#![feature") !== -1) {
+            params.version = "nightly";
+        }
 
-		result_block.innerText = "Running...";
+        result_block.innerText = "Running...";
 
-		fetch_with_timeout("https://play.rust-lang.org/evaluate.json", {
-			headers: {
-				"Content-Type": "application/json",
-			},
-			method: "POST",
-			mode: "cors",
-			body: JSON.stringify(params),
-		})
-			.then((response) => response.json())
-			.then((response) => {
-				if (response.result.trim() === "") {
-					result_block.innerText = "No output";
-					result_block.classList.add("result-no-output");
-				} else {
-					result_block.innerText = response.result;
-					result_block.classList.remove("result-no-output");
-				}
-			})
-			.catch((error) => (result_block.innerText = "Playground Communication: " + error.message));
-	}
+        fetch_with_timeout("https://play.rust-lang.org/evaluate.json", {
+            headers: {
+                "Content-Type": "application/json",
+            },
+            method: "POST",
+            mode: "cors",
+            body: JSON.stringify(params),
+        })
+            .then((response) => response.json())
+            .then((response) => {
+                if (response.result.trim() === "") {
+                    result_block.innerText = "No output";
+                    result_block.classList.add("result-no-output");
+                } else {
+                    result_block.innerText = response.result;
+                    result_block.classList.remove("result-no-output");
+                }
+            })
+            .catch((error) => (result_block.innerText = "Playground Communication: " + error.message));
+    }
 
-	// Syntax highlighting Configuration
-	hljs.configure({
-		tabReplace: "    ", // 4 spaces
-		languages: [], // Languages used for auto-detection
-	});
+    // Syntax highlighting Configuration
+    hljs.configure({
+        tabReplace: "    ", // 4 spaces
+        languages: [], // Languages used for auto-detection
+    });
 
-	let code_nodes = Array.from(document.querySelectorAll("code"))
-		// Don't highlight `inline code` blocks in headers.
-		.filter(function (node) {
-			return !node.parentElement.classList.contains("header");
-		});
+    let code_nodes = Array.from(document.querySelectorAll("code"))
+        // Don't highlight `inline code` blocks in headers.
+        .filter(function (node) {
+            return !node.parentElement.classList.contains("header");
+        });
 
-	if (window.ace) {
-		// language-rust class needs to be removed for editable
-		// blocks or highlightjs will capture events
-		code_nodes
-			.filter(function (node) {
-				return node.classList.contains("editable");
-			})
-			.forEach(function (block) {
-				block.classList.remove("language-rust");
-			});
+    if (window.ace) {
+        // language-rust class needs to be removed for editable
+        // blocks or highlightjs will capture events
+        code_nodes
+            .filter(function (node) {
+                return node.classList.contains("editable");
+            })
+            .forEach(function (block) {
+                block.classList.remove("language-rust");
+            });
 
-		code_nodes
-			.filter(function (node) {
-				return !node.classList.contains("editable");
-			})
-			.forEach(function (block) {
-				hljs.highlightBlock(block);
-			});
-	} else {
-		code_nodes.forEach(function (block) {
-			hljs.highlightBlock(block);
-		});
-	}
+        code_nodes
+            .filter(function (node) {
+                return !node.classList.contains("editable");
+            })
+            .forEach(function (block) {
+                hljs.highlightBlock(block);
+            });
+    } else {
+        code_nodes.forEach(function (block) {
+            hljs.highlightBlock(block);
+        });
+    }
 
-	// Adding the hljs class gives code blocks the color css
-	// even if highlighting doesn't apply
-	code_nodes.forEach(function (block) {
-		block.classList.add("hljs");
-	});
+    // Adding the hljs class gives code blocks the color css
+    // even if highlighting doesn't apply
+    code_nodes.forEach(function (block) {
+        block.classList.add("hljs");
+    });
 
-	Array.from(document.querySelectorAll("code.hljs")).forEach(function (block) {
-		var lines = Array.from(block.querySelectorAll(".boring"));
-		// If no lines were hidden, return
-		if (!lines.length) {
-			return;
-		}
-		block.classList.add("hide-boring");
+    Array.from(document.querySelectorAll("code.hljs")).forEach(function (block) {
+        var lines = Array.from(block.querySelectorAll(".boring"));
+        // If no lines were hidden, return
+        if (!lines.length) {
+            return;
+        }
+        block.classList.add("hide-boring");
 
-		var buttons = document.createElement("div");
-		buttons.className = "buttons";
-		buttons.innerHTML = '<button class="fa fa-eye" title="Show hidden lines" aria-label="Show hidden lines"></button>';
+        var buttons = document.createElement("div");
+        buttons.className = "buttons";
+        buttons.innerHTML = '<button class="fa fa-eye" title="Show hidden lines" aria-label="Show hidden lines"></button>';
 
-		// add expand button
-		var pre_block = block.parentNode;
-		pre_block.insertBefore(buttons, pre_block.firstChild);
+        // add expand button
+        var pre_block = block.parentNode;
+        pre_block.insertBefore(buttons, pre_block.firstChild);
 
-		pre_block.querySelector(".buttons").addEventListener("click", function (e) {
-			if (e.target.classList.contains("fa-eye")) {
-				e.target.classList.remove("fa-eye");
-				e.target.classList.add("fa-eye-slash");
-				e.target.title = "Hide lines";
-				e.target.setAttribute("aria-label", e.target.title);
+        pre_block.querySelector(".buttons").addEventListener("click", function (e) {
+            if (e.target.classList.contains("fa-eye")) {
+                e.target.classList.remove("fa-eye");
+                e.target.classList.add("fa-eye-slash");
+                e.target.title = "Hide lines";
+                e.target.setAttribute("aria-label", e.target.title);
 
-				block.classList.remove("hide-boring");
-			} else if (e.target.classList.contains("fa-eye-slash")) {
-				e.target.classList.remove("fa-eye-slash");
-				e.target.classList.add("fa-eye");
-				e.target.title = "Show hidden lines";
-				e.target.setAttribute("aria-label", e.target.title);
+                block.classList.remove("hide-boring");
+            } else if (e.target.classList.contains("fa-eye-slash")) {
+                e.target.classList.remove("fa-eye-slash");
+                e.target.classList.add("fa-eye");
+                e.target.title = "Show hidden lines";
+                e.target.setAttribute("aria-label", e.target.title);
 
-				block.classList.add("hide-boring");
-			}
-		});
-	});
+                block.classList.add("hide-boring");
+            }
+        });
+    });
 
-	if (window.playground_copyable) {
-		Array.from(document.querySelectorAll("pre code")).forEach(function (block) {
-			var pre_block = block.parentNode;
-			if (!pre_block.classList.contains("playground")) {
-				var buttons = pre_block.querySelector(".buttons");
-				if (!buttons) {
-					buttons = document.createElement("div");
-					buttons.className = "buttons";
-					pre_block.insertBefore(buttons, pre_block.firstChild);
-				}
+    if (window.playground_copyable) {
+        Array.from(document.querySelectorAll("pre code")).forEach(function (block) {
+            var pre_block = block.parentNode;
+            if (!pre_block.classList.contains("playground")) {
+                var buttons = pre_block.querySelector(".buttons");
+                if (!buttons) {
+                    buttons = document.createElement("div");
+                    buttons.className = "buttons";
+                    pre_block.insertBefore(buttons, pre_block.firstChild);
+                }
 
-				var clipButton = document.createElement("button");
-				clipButton.className = "clip-button";
-				clipButton.title = "Copy to clipboard";
-				clipButton.setAttribute("aria-label", clipButton.title);
-				clipButton.innerHTML =
-					'<svg version="1.1" id="clipSVG" viewBox="0 0 36 36" height="30" width="30"><path id="efyt-custom-script" d="m 19.658,22.84 5.75,-5.75 -5.75,-5.75 1.75,-1.7499999 7.5,7.4999999 -7.5,7.5 z m -3.316,0 -5.75,-5.75 5.75,-5.75 -1.75,-1.7499999 -7.5,7.4999999 7.5,7.5 z"/></svg>';
+                var clipButton = document.createElement("button");
+                clipButton.className = "clip-button";
+                clipButton.title = "Copy to clipboard";
+                clipButton.setAttribute("aria-label", clipButton.title);
+                clipButton.innerHTML =
+                    '<svg version="1.1" id="clipSVG" viewBox="0 0 36 36" height="30" width="30"><path id="efyt-custom-script" d="m 19.658,22.84 5.75,-5.75 -5.75,-5.75 1.75,-1.7499999 7.5,7.4999999 -7.5,7.5 z m -3.316,0 -5.75,-5.75 5.75,-5.75 -1.75,-1.7499999 -7.5,7.4999999 7.5,7.5 z"/></svg>';
 
-				buttons.insertBefore(clipButton, buttons.firstChild);
-			}
-		});
-	}
+                buttons.insertBefore(clipButton, buttons.firstChild);
+            }
+        });
+    }
 
-	// Process playground code blocks
-	Array.from(document.querySelectorAll(".playground")).forEach(function (pre_block) {
-		// Add play button
-		var buttons = pre_block.querySelector(".buttons");
-		if (!buttons) {
-			buttons = document.createElement("div");
-			buttons.className = "buttons";
-			pre_block.insertBefore(buttons, pre_block.firstChild);
-		}
+    // Process playground code blocks
+    Array.from(document.querySelectorAll(".playground")).forEach(function (pre_block) {
+        // Add play button
+        var buttons = pre_block.querySelector(".buttons");
+        if (!buttons) {
+            buttons = document.createElement("div");
+            buttons.className = "buttons";
+            pre_block.insertBefore(buttons, pre_block.firstChild);
+        }
 
-		var runCodeButton = document.createElement("button");
-		runCodeButton.className = "fa fa-play play-button";
-		runCodeButton.hidden = true;
-		runCodeButton.title = "Run this code";
-		runCodeButton.setAttribute("aria-label", runCodeButton.title);
+        var runCodeButton = document.createElement("button");
+        runCodeButton.className = "fa fa-play play-button";
+        runCodeButton.hidden = true;
+        runCodeButton.title = "Run this code";
+        runCodeButton.setAttribute("aria-label", runCodeButton.title);
 
-		buttons.insertBefore(runCodeButton, buttons.firstChild);
-		runCodeButton.addEventListener("click", function (e) {
-			run_rust_code(pre_block);
-		});
+        buttons.insertBefore(runCodeButton, buttons.firstChild);
+        runCodeButton.addEventListener("click", function (e) {
+            run_rust_code(pre_block);
+        });
 
-		if (window.playground_copyable) {
-			var copyCodeClipboardButton = document.createElement("button");
-			copyCodeClipboardButton.className = "clip-button";
-			copyCodeClipboardButton.innerHTML = '<i class="tooltiptext"></i>';
-			copyCodeClipboardButton.title = "Copy to clipboard";
-			copyCodeClipboardButton.setAttribute("aria-label", copyCodeClipboardButton.title);
+        if (window.playground_copyable) {
+            var copyCodeClipboardButton = document.createElement("button");
+            copyCodeClipboardButton.className = "clip-button";
+            copyCodeClipboardButton.innerHTML = '<i class="tooltiptext"></i>';
+            copyCodeClipboardButton.title = "Copy to clipboard";
+            copyCodeClipboardButton.setAttribute("aria-label", copyCodeClipboardButton.title);
 
-			buttons.insertBefore(copyCodeClipboardButton, buttons.firstChild);
-		}
+            buttons.insertBefore(copyCodeClipboardButton, buttons.firstChild);
+        }
 
-		let code_block = pre_block.querySelector("code");
-		if (window.ace && code_block.classList.contains("editable")) {
-			var undoChangesButton = document.createElement("button");
-			undoChangesButton.className = "fa fa-history reset-button";
-			undoChangesButton.title = "Undo changes";
-			undoChangesButton.setAttribute("aria-label", undoChangesButton.title);
+        let code_block = pre_block.querySelector("code");
+        if (window.ace && code_block.classList.contains("editable")) {
+            var undoChangesButton = document.createElement("button");
+            undoChangesButton.className = "fa fa-history reset-button";
+            undoChangesButton.title = "Undo changes";
+            undoChangesButton.setAttribute("aria-label", undoChangesButton.title);
 
-			buttons.insertBefore(undoChangesButton, buttons.firstChild);
+            buttons.insertBefore(undoChangesButton, buttons.firstChild);
 
-			undoChangesButton.addEventListener("click", function () {
-				let editor = window.ace.edit(code_block);
-				editor.setValue(editor.originalCode);
-				editor.clearSelection();
-			});
-		}
-	});
+            undoChangesButton.addEventListener("click", function () {
+                let editor = window.ace.edit(code_block);
+                editor.setValue(editor.originalCode);
+                editor.clearSelection();
+            });
+        }
+    });
 })();
-
 (function themes() {
-	var html = document.querySelector("html");
-	var themeToggleButton = document.getElementById("theme-toggle");
-	var themePopup = document.getElementById("theme-list");
-	var themeColorMetaTag = document.querySelector('meta[name="theme-color"]');
-	var themeIds = [];
-	themePopup.querySelectorAll("button.theme").forEach(function (el) {
-		themeIds.push(el.id);
-	});
-	var stylesheets = {
-		ayuHighlight: document.querySelector("#ayu-highlight-css"),
-		tomorrowNight: document.querySelector("#tomorrow-night-css"),
-		highlight: document.querySelector("#highlight-css"),
-	};
+    var html = document.querySelector("html");
+    var themeToggleButton = document.getElementById("theme-toggle");
+    var themePopup = document.getElementById("theme-list");
+    var themeColorMetaTag = document.querySelector('meta[name="theme-color"]');
+    var themeIds = [];
+    themePopup.querySelectorAll("button.theme").forEach(function (el) {
+        themeIds.push(el.id);
+    });
+    var stylesheets = {
+        ayuHighlight: document.querySelector("#ayu-highlight-css"),
+        tomorrowNight: document.querySelector("#tomorrow-night-css"),
+        highlight: document.querySelector("#highlight-css"),
+    };
 
-	function showThemes() {
-		themePopup.style.display = "block";
-		themeToggleButton.setAttribute("aria-expanded", true);
-		themePopup.querySelector("button#" + get_theme()).focus();
-	}
+    function showThemes() {
+        themePopup.style.display = "block";
+        themeToggleButton.setAttribute("aria-expanded", true);
+        themePopup.querySelector("button#" + get_theme()).focus();
+    }
 
-	function updateThemeSelected() {
-		themePopup.querySelectorAll(".theme-selected").forEach(function (el) {
-			el.classList.remove("theme-selected");
-		});
-		themePopup.querySelector("button#" + get_theme()).classList.add("theme-selected");
-	}
+    function updateThemeSelected() {
+        themePopup.querySelectorAll(".theme-selected").forEach(function (el) {
+            el.classList.remove("theme-selected");
+        });
+        themePopup.querySelector("button#" + get_theme()).classList.add("theme-selected");
+    }
 
-	function hideThemes() {
-		themePopup.style.display = "none";
-		themeToggleButton.setAttribute("aria-expanded", false);
-		themeToggleButton.focus();
-	}
+    function hideThemes() {
+        themePopup.style.display = "none";
+        themeToggleButton.setAttribute("aria-expanded", false);
+        themeToggleButton.focus();
+    }
 
-	function get_theme() {
-		var theme;
-		try {
-			theme = localStorage.getItem("mdbook-theme");
-		} catch (e) {}
-		if (theme === null || theme === undefined || !themeIds.includes(theme)) {
-			return default_theme;
-		} else {
-			return theme;
-		}
-	}
+    function get_theme() {
+        var theme;
+        try {
+            theme = localStorage.getItem("mdbook-theme");
+        } catch (e) {}
+        if (theme === null || theme === undefined || !themeIds.includes(theme)) {
+            return default_theme;
+        } else {
+            return theme;
+        }
+    }
 
-	function set_theme(theme, store = true) {
-		let ace_theme;
+    function set_theme(theme, store = true) {
+        let ace_theme;
 
-		if (theme == "coal" || theme == "navy") {
-			stylesheets.ayuHighlight.disabled = true;
-			stylesheets.tomorrowNight.disabled = false;
-			stylesheets.highlight.disabled = true;
+        if (theme == "coal" || theme == "navy") {
+            stylesheets.ayuHighlight.disabled = true;
+            stylesheets.tomorrowNight.disabled = false;
+            stylesheets.highlight.disabled = true;
 
-			ace_theme = "ace/theme/tomorrow_night";
-		} else if (theme == "ayu") {
-			stylesheets.ayuHighlight.disabled = false;
-			stylesheets.tomorrowNight.disabled = true;
-			stylesheets.highlight.disabled = true;
-			ace_theme = "ace/theme/tomorrow_night";
-		} else {
-			stylesheets.ayuHighlight.disabled = true;
-			stylesheets.tomorrowNight.disabled = true;
-			stylesheets.highlight.disabled = false;
-			ace_theme = "ace/theme/dawn";
-		}
+            ace_theme = "ace/theme/tomorrow_night";
+        } else if (theme == "ayu") {
+            stylesheets.ayuHighlight.disabled = false;
+            stylesheets.tomorrowNight.disabled = true;
+            stylesheets.highlight.disabled = true;
+            ace_theme = "ace/theme/tomorrow_night";
+        } else {
+            stylesheets.ayuHighlight.disabled = true;
+            stylesheets.tomorrowNight.disabled = true;
+            stylesheets.highlight.disabled = false;
+            ace_theme = "ace/theme/dawn";
+        }
 
-		setTimeout(function () {
-			themeColorMetaTag.content = getComputedStyle(document.documentElement).backgroundColor;
-		}, 1);
+        setTimeout(function () {
+            themeColorMetaTag.content = getComputedStyle(document.documentElement).backgroundColor;
+        }, 1);
 
-		if (window.ace && window.editors) {
-			window.editors.forEach(function (editor) {
-				editor.setTheme(ace_theme);
-			});
-		}
+        if (window.ace && window.editors) {
+            window.editors.forEach(function (editor) {
+                editor.setTheme(ace_theme);
+            });
+        }
 
-		var previousTheme = get_theme();
+        var previousTheme = get_theme();
 
-		if (store) {
-			try {
-				localStorage.setItem("mdbook-theme", theme);
-			} catch (e) {}
-		}
+        if (store) {
+            try {
+                localStorage.setItem("mdbook-theme", theme);
+            } catch (e) {}
+        }
 
-		html.classList.remove(previousTheme);
-		html.classList.add(theme);
-		updateThemeSelected();
-	}
+        html.classList.remove(previousTheme);
+        html.classList.add(theme);
+        updateThemeSelected();
+    }
 
-	// Set theme
-	var theme = get_theme();
+    // Set theme
+    var theme = get_theme();
 
-	set_theme(theme, false);
+    set_theme(theme, false);
 
-	themeToggleButton.addEventListener("click", function () {
-		if (themePopup.style.display === "block") {
-			hideThemes();
-		} else {
-			showThemes();
-		}
-	});
+    themeToggleButton.addEventListener("click", function () {
+        if (themePopup.style.display === "block") {
+            hideThemes();
+        } else {
+            showThemes();
+        }
+    });
 
-	themePopup.addEventListener("click", function (e) {
-		var theme;
-		if (e.target.className === "theme") {
-			theme = e.target.id;
-		} else if (e.target.parentElement.className === "theme") {
-			theme = e.target.parentElement.id;
-		} else {
-			return;
-		}
-		set_theme(theme);
-	});
+    themePopup.addEventListener("click", function (e) {
+        var theme;
+        if (e.target.className === "theme") {
+            theme = e.target.id;
+        } else if (e.target.parentElement.className === "theme") {
+            theme = e.target.parentElement.id;
+        } else {
+            return;
+        }
+        set_theme(theme);
+    });
 
-	themePopup.addEventListener("focusout", function (e) {
-		// e.relatedTarget is null in Safari and Firefox on macOS (see workaround below)
-		if (!!e.relatedTarget && !themeToggleButton.contains(e.relatedTarget) && !themePopup.contains(e.relatedTarget)) {
-			hideThemes();
-		}
-	});
+    themePopup.addEventListener("focusout", function (e) {
+        // e.relatedTarget is null in Safari and Firefox on macOS (see workaround below)
+        if (!!e.relatedTarget && !themeToggleButton.contains(e.relatedTarget) && !themePopup.contains(e.relatedTarget)) {
+            hideThemes();
+        }
+    });
 
-	// Should not be needed, but it works around an issue on macOS & iOS: https://github.com/rust-lang/mdBook/issues/628
-	document.addEventListener("click", function (e) {
-		if (themePopup.style.display === "block" && !themeToggleButton.contains(e.target) && !themePopup.contains(e.target)) {
-			hideThemes();
-		}
-	});
+    // Should not be needed, but it works around an issue on macOS & iOS: https://github.com/rust-lang/mdBook/issues/628
+    document.addEventListener("click", function (e) {
+        if (
+            themePopup.style.display === "block" &&
+            !themeToggleButton.contains(e.target) &&
+            !themePopup.contains(e.target)
+        ) {
+            hideThemes();
+        }
+    });
 
-	document.addEventListener("keydown", function (e) {
-		if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
-			return;
-		}
-		if (!themePopup.contains(e.target)) {
-			return;
-		}
+    document.addEventListener("keydown", function (e) {
+        if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
+            return;
+        }
+        if (!themePopup.contains(e.target)) {
+            return;
+        }
 
-		switch (e.key) {
-			case "Escape":
-				e.preventDefault();
-				hideThemes();
-				break;
-			case "ArrowUp":
-				e.preventDefault();
-				var li = document.activeElement.parentElement;
-				if (li && li.previousElementSibling) {
-					li.previousElementSibling.querySelector("button").focus();
-				}
-				break;
-			case "ArrowDown":
-				e.preventDefault();
-				var li = document.activeElement.parentElement;
-				if (li && li.nextElementSibling) {
-					li.nextElementSibling.querySelector("button").focus();
-				}
-				break;
-			case "Home":
-				e.preventDefault();
-				themePopup.querySelector("li:first-child button").focus();
-				break;
-			case "End":
-				e.preventDefault();
-				themePopup.querySelector("li:last-child button").focus();
-				break;
-		}
-	});
+        switch (e.key) {
+            case "Escape":
+                e.preventDefault();
+                hideThemes();
+                break;
+            case "ArrowUp":
+                e.preventDefault();
+                var li = document.activeElement.parentElement;
+                if (li && li.previousElementSibling) {
+                    li.previousElementSibling.querySelector("button").focus();
+                }
+                break;
+            case "ArrowDown":
+                e.preventDefault();
+                var li = document.activeElement.parentElement;
+                if (li && li.nextElementSibling) {
+                    li.nextElementSibling.querySelector("button").focus();
+                }
+                break;
+            case "Home":
+                e.preventDefault();
+                themePopup.querySelector("li:first-child button").focus();
+                break;
+            case "End":
+                e.preventDefault();
+                themePopup.querySelector("li:last-child button").focus();
+                break;
+        }
+    });
 })();
-
 (function sidebar() {
-	var body = document.querySelector("body");
-	var sidebar = document.getElementById("sidebar");
-	var sidebarLinks = document.querySelectorAll("#sidebar a");
-	var sidebarToggleButton = document.getElementById("sidebar-toggle");
-	var sidebarToggleAnchor = document.getElementById("sidebar-toggle-anchor");
-	var sidebarResizeHandle = document.getElementById("sidebar-resize-handle");
-	var firstContact = null;
+    var body = document.querySelector("body");
+    var sidebar = document.getElementById("sidebar");
+    var sidebarLinks = document.querySelectorAll("#sidebar a");
+    var sidebarToggleButton = document.getElementById("sidebar-toggle");
+    var sidebarToggleAnchor = document.getElementById("sidebar-toggle-anchor");
+    var sidebarResizeHandle = document.getElementById("sidebar-resize-handle");
+    var firstContact = null;
 
-	function showSidebar() {
-		body.classList.remove("sidebar-hidden");
-		body.classList.add("sidebar-visible");
-		Array.from(sidebarLinks).forEach(function (link) {
-			link.setAttribute("tabIndex", 0);
-		});
-		sidebarToggleButton.setAttribute("aria-expanded", true);
-		sidebar.setAttribute("aria-hidden", false);
-		try {
-			localStorage.setItem("mdbook-sidebar", "visible");
-		} catch (e) {}
-	}
+    function showSidebar() {
+        body.classList.remove("sidebar-hidden");
+        body.classList.add("sidebar-visible");
+        Array.from(sidebarLinks).forEach(function (link) {
+            link.setAttribute("tabIndex", 0);
+        });
+        sidebarToggleButton.setAttribute("aria-expanded", true);
+        sidebar.setAttribute("aria-hidden", false);
+        try {
+            localStorage.setItem("mdbook-sidebar", "visible");
+        } catch (e) {}
+    }
 
-	function hideSidebar() {
-		body.classList.remove("sidebar-visible");
-		body.classList.add("sidebar-hidden");
-		Array.from(sidebarLinks).forEach(function (link) {
-			link.setAttribute("tabIndex", -1);
-		});
-		sidebarToggleButton.setAttribute("aria-expanded", false);
-		sidebar.setAttribute("aria-hidden", true);
-		try {
-			localStorage.setItem("mdbook-sidebar", "hidden");
-		} catch (e) {}
-	}
+    function hideSidebar() {
+        body.classList.remove("sidebar-visible");
+        body.classList.add("sidebar-hidden");
+        Array.from(sidebarLinks).forEach(function (link) {
+            link.setAttribute("tabIndex", -1);
+        });
+        sidebarToggleButton.setAttribute("aria-expanded", false);
+        sidebar.setAttribute("aria-hidden", true);
+        try {
+            localStorage.setItem("mdbook-sidebar", "hidden");
+        } catch (e) {}
+    }
 
-	// Toggle sidebar
-	sidebarToggleAnchor.addEventListener("change", function sidebarToggle() {
-		if (sidebarToggleAnchor.checked) {
-			var current_width = parseInt(document.documentElement.style.getPropertyValue("--sidebar-width"), 10);
-			if (current_width < 150) {
-				document.documentElement.style.setProperty("--sidebar-width", "150px");
-			}
-			showSidebar();
-		} else {
-			hideSidebar();
-		}
-	});
+    // Toggle sidebar
+    sidebarToggleAnchor.addEventListener("change", function sidebarToggle() {
+        if (sidebarToggleAnchor.checked) {
+            var current_width = parseInt(document.documentElement.style.getPropertyValue("--sidebar-width"), 10);
+            if (current_width < 150) {
+                document.documentElement.style.setProperty("--sidebar-width", "150px");
+            }
+            showSidebar();
+        } else {
+            hideSidebar();
+        }
+    });
 
-	sidebarResizeHandle.addEventListener("mousedown", initResize, false);
+    sidebarResizeHandle.addEventListener("mousedown", initResize, false);
 
-	function initResize(e) {
-		window.addEventListener("mousemove", resize, false);
-		window.addEventListener("mouseup", stopResize, false);
-		body.classList.add("sidebar-resizing");
-	}
-	function resize(e) {
-		var pos = e.clientX - sidebar.offsetLeft;
-		if (pos < 20) {
-			hideSidebar();
-		} else {
-			if (body.classList.contains("sidebar-hidden")) {
-				showSidebar();
-			}
-			pos = Math.min(pos, window.innerWidth - 100);
-			document.documentElement.style.setProperty("--sidebar-width", pos + "px");
-		}
-	}
-	//on mouseup remove windows functions mousemove & mouseup
-	function stopResize(e) {
-		body.classList.remove("sidebar-resizing");
-		window.removeEventListener("mousemove", resize, false);
-		window.removeEventListener("mouseup", stopResize, false);
-	}
+    function initResize(e) {
+        window.addEventListener("mousemove", resize, false);
+        window.addEventListener("mouseup", stopResize, false);
+        body.classList.add("sidebar-resizing");
+    }
+    function resize(e) {
+        var pos = e.clientX - sidebar.offsetLeft;
+        if (pos < 20) {
+            hideSidebar();
+        } else {
+            if (body.classList.contains("sidebar-hidden")) {
+                showSidebar();
+            }
+            pos = Math.min(pos, window.innerWidth - 100);
+            document.documentElement.style.setProperty("--sidebar-width", pos + "px");
+        }
+    }
+    //on mouseup remove windows functions mousemove & mouseup
+    function stopResize(e) {
+        body.classList.remove("sidebar-resizing");
+        window.removeEventListener("mousemove", resize, false);
+        window.removeEventListener("mouseup", stopResize, false);
+    }
 
-	document.addEventListener(
-		"touchstart",
-		function (e) {
-			firstContact = {
-				x: e.touches[0].clientX,
-				time: Date.now(),
-			};
-		},
-		{ passive: true },
-	);
+    document.addEventListener(
+        "touchstart",
+        function (e) {
+            firstContact = {
+                x: e.touches[0].clientX,
+                time: Date.now(),
+            };
+        },
+        { passive: true },
+    );
 
-	document.addEventListener(
-		"touchmove",
-		function (e) {
-			if (!firstContact) return;
+    document.addEventListener(
+        "touchmove",
+        function (e) {
+            if (!firstContact) return;
 
-			var curX = e.touches[0].clientX;
-			var xDiff = curX - firstContact.x,
-				tDiff = Date.now() - firstContact.time;
+            var curX = e.touches[0].clientX;
+            var xDiff = curX - firstContact.x,
+                tDiff = Date.now() - firstContact.time;
 
-			if (tDiff < 250 && Math.abs(xDiff) >= 150) {
-				if (xDiff >= 0 && firstContact.x < Math.min(document.body.clientWidth * 0.25, 300)) showSidebar();
-				else if (xDiff < 0 && curX < 300) hideSidebar();
+            if (tDiff < 250 && Math.abs(xDiff) >= 150) {
+                if (xDiff >= 0 && firstContact.x < Math.min(document.body.clientWidth * 0.25, 300)) showSidebar();
+                else if (xDiff < 0 && curX < 300) hideSidebar();
 
-				firstContact = null;
-			}
-		},
-		{ passive: true },
-	);
+                firstContact = null;
+            }
+        },
+        { passive: true },
+    );
 })();
-
 (function chapterNavigation() {
-	document.addEventListener("keydown", function (e) {
-		if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
-			return;
-		}
-		if (window.search && window.search.hasFocus()) {
-			return;
-		}
-		var html = document.querySelector("html");
+    document.addEventListener("keydown", function (e) {
+        if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
+            return;
+        }
+        if (window.search && window.search.hasFocus()) {
+            return;
+        }
+        var html = document.querySelector("html");
 
-		function next() {
-			var nextButton = document.querySelector(".nav-chapters.next");
-			if (nextButton) {
-				window.location.href = nextButton.href;
-			}
-		}
-		function prev() {
-			var previousButton = document.querySelector(".nav-chapters.previous");
-			if (previousButton) {
-				window.location.href = previousButton.href;
-			}
-		}
-		switch (e.key) {
-			case "ArrowRight":
-				e.preventDefault();
-				if (html.dir == "rtl") {
-					prev();
-				} else {
-					next();
-				}
-				break;
-			case "ArrowLeft":
-				e.preventDefault();
-				if (html.dir == "rtl") {
-					next();
-				} else {
-					prev();
-				}
-				break;
-		}
-	});
+        function next() {
+            var nextButton = document.querySelector(".nav-chapters.next");
+            if (nextButton) {
+                window.location.href = nextButton.href;
+            }
+        }
+        function prev() {
+            var previousButton = document.querySelector(".nav-chapters.previous");
+            if (previousButton) {
+                window.location.href = previousButton.href;
+            }
+        }
+        switch (e.key) {
+            case "ArrowRight":
+                e.preventDefault();
+                if (html.dir == "rtl") {
+                    prev();
+                } else {
+                    next();
+                }
+                break;
+            case "ArrowLeft":
+                e.preventDefault();
+                if (html.dir == "rtl") {
+                    next();
+                } else {
+                    prev();
+                }
+                break;
+        }
+    });
 })();
-
 (function clipboard() {
-	var clipButtons = document.querySelectorAll(".clip-button");
+    var clipButtons = document.querySelectorAll(".clip-button");
 
-	function hideTooltip(elem) {
-		elem.firstChild.innerText = "";
-		elem.className = "clip-button";
-	}
+    function hideTooltip(elem) {
+        elem.firstChild.innerText = "";
+        elem.className = "clip-button";
+    }
 
-	function showTooltip(elem, msg) {
-		elem.firstChild.innerText = msg;
-		elem.className = "clip-button tooltipped";
-	}
+    function showTooltip(elem, msg) {
+        elem.firstChild.innerText = msg;
+        elem.className = "clip-button tooltipped";
+    }
 
-	var clipboardSnippets = new ClipboardJS(".clip-button", {
-		text: function (trigger) {
-			hideTooltip(trigger);
-			let playground = trigger.closest("pre");
-			return playground_text(playground, false);
-		},
-	});
+    var clipboardSnippets = new ClipboardJS(".clip-button", {
+        text: function (trigger) {
+            hideTooltip(trigger);
+            let playground = trigger.closest("pre");
+            return playground_text(playground, false);
+        },
+    });
 
-	Array.from(clipButtons).forEach(function (clipButton) {
-		clipButton.addEventListener("mouseout", function (e) {
-			hideTooltip(e.currentTarget);
-		});
-	});
+    Array.from(clipButtons).forEach(function (clipButton) {
+        clipButton.addEventListener("mouseout", function (e) {
+            hideTooltip(e.currentTarget);
+        });
+    });
 
-	clipboardSnippets.on("success", function (e) {
-		e.clearSelection();
-		showTooltip(e.trigger, "Copied!");
-	});
+    clipboardSnippets.on("success", function (e) {
+        e.clearSelection();
+        showTooltip(e.trigger, "Copied!");
+    });
 
-	clipboardSnippets.on("error", function (e) {
-		showTooltip(e.trigger, "Clipboard error!");
-	});
+    clipboardSnippets.on("error", function (e) {
+        showTooltip(e.trigger, "Clipboard error!");
+    });
 })();
-
 (function scrollToTop() {
-	var menuTitle = document.querySelector(".menu-title");
+    var menuTitle = document.querySelector(".menu-title");
 
-	menuTitle.addEventListener("click", function () {
-		document.scrollingElement.scrollTo({ top: 0, behavior: "smooth" });
-	});
+    menuTitle.addEventListener("click", function () {
+        document.scrollingElement.scrollTo({ top: 0, behavior: "smooth" });
+    });
 })();
-
 (function controlMenu() {
-	var menu = document.getElementById("menu-bar");
+    var menu = document.getElementById("menu-bar");
 
-	(function controlPosition() {
-		var scrollTop = document.scrollingElement.scrollTop;
-		var prevScrollTop = scrollTop;
-		var minMenuY = -menu.clientHeight - 50;
-		// When the script loads, the page can be at any scroll (e.g. if you reforesh it).
-		menu.style.top = scrollTop + "px";
-		// Same as parseInt(menu.style.top.slice(0, -2), but faster
-		var topCache = menu.style.top.slice(0, -2);
-		menu.classList.remove("sticky");
-		var stickyCache = false; // Same as menu.classList.contains('sticky'), but faster
-		document.addEventListener(
-			"scroll",
-			function () {
-				scrollTop = Math.max(document.scrollingElement.scrollTop, 0);
-				// `null` means that it doesn't need to be updated
-				var nextSticky = null;
-				var nextTop = null;
-				var scrollDown = scrollTop > prevScrollTop;
-				var menuPosAbsoluteY = topCache - scrollTop;
-				if (scrollDown) {
-					nextSticky = false;
-					if (menuPosAbsoluteY > 0) {
-						nextTop = prevScrollTop;
-					}
-				} else {
-					if (menuPosAbsoluteY > 0) {
-						nextSticky = true;
-					} else if (menuPosAbsoluteY < minMenuY) {
-						nextTop = prevScrollTop + minMenuY;
-					}
-				}
-				if (nextSticky === true && stickyCache === false) {
-					menu.classList.add("sticky");
-					stickyCache = true;
-				} else if (nextSticky === false && stickyCache === true) {
-					menu.classList.remove("sticky");
-					stickyCache = false;
-				}
-				if (nextTop !== null) {
-					menu.style.top = nextTop + "px";
-					topCache = nextTop;
-				}
-				prevScrollTop = scrollTop;
-			},
-			{ passive: true },
-		);
-	})();
-	(function controlBorder() {
-		function updateBorder() {
-			if (menu.offsetTop === 0) {
-				menu.classList.remove("bordered");
-			} else {
-				menu.classList.add("bordered");
-			}
-		}
-		updateBorder();
-		document.addEventListener("scroll", updateBorder, { passive: true });
-	})();
+    (function controlPosition() {
+        var scrollTop = document.scrollingElement.scrollTop;
+        var prevScrollTop = scrollTop;
+        var minMenuY = -menu.clientHeight - 50;
+        // When the script loads, the page can be at any scroll (e.g. if you reforesh it).
+        menu.style.top = scrollTop + "px";
+        // Same as parseInt(menu.style.top.slice(0, -2), but faster
+        var topCache = menu.style.top.slice(0, -2);
+        menu.classList.remove("sticky");
+        var stickyCache = false; // Same as menu.classList.contains('sticky'), but faster
+        document.addEventListener(
+            "scroll",
+            function () {
+                scrollTop = Math.max(document.scrollingElement.scrollTop, 0);
+                // `null` means that it doesn't need to be updated
+                var nextSticky = null;
+                var nextTop = null;
+                var scrollDown = scrollTop > prevScrollTop;
+                var menuPosAbsoluteY = topCache - scrollTop;
+                if (scrollDown) {
+                    nextSticky = false;
+                    if (menuPosAbsoluteY > 0) {
+                        nextTop = prevScrollTop;
+                    }
+                } else {
+                    if (menuPosAbsoluteY > 0) {
+                        nextSticky = true;
+                    } else if (menuPosAbsoluteY < minMenuY) {
+                        nextTop = prevScrollTop + minMenuY;
+                    }
+                }
+                if (nextSticky === true && stickyCache === false) {
+                    menu.classList.add("sticky");
+                    stickyCache = true;
+                } else if (nextSticky === false && stickyCache === true) {
+                    menu.classList.remove("sticky");
+                    stickyCache = false;
+                }
+                if (nextTop !== null) {
+                    menu.style.top = nextTop + "px";
+                    topCache = nextTop;
+                }
+                prevScrollTop = scrollTop;
+            },
+            { passive: true },
+        );
+    })();
+    (function controlBorder() {
+        function updateBorder() {
+            if (menu.offsetTop === 0) {
+                menu.classList.remove("bordered");
+            } else {
+                menu.classList.add("bordered");
+            }
+        }
+        updateBorder();
+        document.addEventListener("scroll", updateBorder, { passive: true });
+    })();
 })();
 
-/* HERE ARE MY ADDITIONS */
+// -----------------------------------------
+// --------------ADDITIONS------------------
+// -----------------------------------------
+
+// mdCallouts.js
+// ----------------------------------------------------------------------------
 /**
- * Converts GitHub-style markdown callouts to HTML callouts within existing HTML blockquotes
+ * Converts GitHub-style callouts within an HTML string to custom styled divs.
+ * @param {string} htmlText - The HTML string to process.
+ * @returns {string} The HTML string with callouts transformed.
  */
-function convertMarkdownCalloutsToHtml(htmlText) {
-	// Define callout types and their icons
-	const calloutTypes = {
-		NOTE: '<i class="note-icon">󱞁</i>',
-		TIP: '<i class="tip-icon">󰴓</i>',
-		IMPORTANT: '<i class="important-icon">󱁯</i>',
-		WARNING: '<i class="warning-icon">󰉀</i>',
-		CAUTION: '<i class="caution-icon"></i>',
-	};
+function mdCallouts(htmlText) {
+    // Define callout types and their icons
+    const calloutTypes = {
+        NOTE: '<i class="note-icon">󱞁</i>', // Ensure these icons are supported by your font
+        TIP: '<i class="tip-icon">󰴓</i>',
+        IMPORTANT: '<i class="important-icon">󱁯</i>',
+        WARNING: '<i class="warning-icon">󰉀</i>',
+        CAUTION: '<i class="caution-icon"></i>',
+    };
 
-	// Regex to match GitHub-style callouts inside blockquotes in HTML
-	// Matches: <blockquote><p>[!TYPE] ... </p></blockquote>
-	const calloutRegex = /<blockquote>\s*<p>\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*([\s\S]*?)<\/p>\s*<\/blockquote>/gm;
+    // Regex to match GitHub-style callouts inside blockquotes in HTML
+    // Matches: <blockquote><p>[!TYPE] ... </p></blockquote>
+    // Added 'i' flag for case-insensitive type matching in [!TYPE]
+    const calloutRegex =
+        /<blockquote>\s*<p>\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*([\s\S]*?)<\/p>\s*<\/blockquote>/gim;
 
-	return htmlText.replace(calloutRegex, function (match, type, content) {
-		// Normalize the type to handle case variations
-		const normalizedType = type.toUpperCase();
+    // const calloutRegex =
+    //     /(?:<blockquote>\s*<p>\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*([\s\S]*?)<\/p>\s*<\/blockquote>|:::\s*(note|tip|important|warning|caution)\s*([\s\S]*?):::)/gim;
 
-		// Make sure we have a valid type, or default to NOTE
-		const calloutType = Object.keys(calloutTypes).includes(normalizedType) ? normalizedType : "NOTE";
+    return htmlText.replace(calloutRegex, (match, type, content) => {
+        const normalizedType = type.toUpperCase();
+        // Ensure valid type, default to NOTE
+        const calloutType = Object.keys(calloutTypes).includes(normalizedType) ? normalizedType : "NOTE";
+        const processedContent = content.trim();
 
-		// Process the content - trim whitespace
-		const processedContent = content.trim();
-
-		// Build the HTML replacement
-		return `<div class="callout callout-${calloutType.toLowerCase()}">
+        return `<div class="callout callout-${calloutType.toLowerCase()}">
   <div class="callout-header">
     <span class="callout-icon">${calloutTypes[calloutType]}</span>
     <span class="callout-title">${calloutType}</span>
@@ -758,324 +763,476 @@ function convertMarkdownCalloutsToHtml(htmlText) {
     <p>${processedContent}</p>
   </div>
 </div>`;
-	});
+    });
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-	// Get the current HTML content of the body
-	let bodyHTML = document.body.innerHTML;
+(function () {
+    /**
+     * Applies mdCallouts transformation to the innerHTML of a targeted element.
+     * @param {string} [selector="body"] - CSS selector for the parent element to process.
+     *                                     It's highly recommended to use a more specific selector
+     *                                     than 'body' for performance and to avoid unintended side effects.
+     *                                     For example, '.article-content' or '#main-text'.
+     */
+    function applyMdCalloutsToElement(selector = "body") {
+        const targetElement = document.querySelector(selector);
+        if (targetElement) {
+            // IMPORTANT: Replacing innerHTML can be destructive to event listeners
+            // or complex DOM structures within the target element.
+            // Use with caution and preferably on static content containers.
+            targetElement.innerHTML = mdCallouts(targetElement.innerHTML);
+        } else {
+            console.warn(`[mdCallouts] Element with selector "${selector}" not found.`);
+        }
+    }
 
-	// Convert the markdown callouts in the HTML to proper callout divs
-	bodyHTML = convertMarkdownCalloutsToHtml(bodyHTML);
+    document.addEventListener("DOMContentLoaded", function () {
+        // Example: Apply to an element with class 'main-content'.
+        // Change this selector to target the specific area of your page
+        // where these markdown callouts appear.
+        applyMdCalloutsToElement("body");
 
-	// Replace the body's HTML with the converted content
-	document.body.innerHTML = bodyHTML;
-});
+        // If you absolutely must process the entire body (e.g., for very simple static pages):
+        // applyMdCalloutsToElement('body');
+        // console.warn("[mdCallouts] Processing the entire 'body'. This is generally not recommended for complex pages.");
+    });
+})();
+// Codeblock SVGs.js
+// -----------------------------------------------------------------------------
+(function () {
+    const RESET_TIMEOUT_MS = 2000; // Duration to show success state
 
-// Add click listener to codeblock copy buttons + an SVG transformation
-document.querySelectorAll(".clip-button").forEach((button) => {
-	button.addEventListener("click", () => {
-		try {
-			// Get the SVG element
-			const svg = button.querySelector("svg");
+    document.querySelectorAll(".clip-button").forEach((button) => {
+        button.addEventListener("click", () => {
+            try {
+                const svg = button.querySelector("svg");
+                if (!svg) {
+                    console.error("SVG not found in .clip-button");
+                    return;
+                }
 
-			// Save original attributes
-			const originalViewBox = svg.getAttribute("viewBox");
-			const originalWidth = svg.getAttribute("width");
-			const originalHeight = svg.getAttribute("height");
+                // Save original attributes
+                const originalAttributes = {
+                    viewBox: svg.getAttribute("viewBox"),
+                    width: svg.getAttribute("width"),
+                    height: svg.getAttribute("height"),
+                    fill: svg.getAttribute("fill"), // Save original fill too
+                };
+                // Save original content (paths)
+                const originalSvgContent = svg.innerHTML;
 
-			// Clear the SVG content and update attributes
-			svg.innerHTML = "";
-			svg.setAttribute("viewBox", "0 0 24 24");
-			svg.setAttribute("width", "1.5em");
-			svg.setAttribute("height", "1.5em");
-			svg.setAttribute("fill", "green");
+                // Clear the SVG content and update attributes for success state
+                svg.innerHTML = ""; // Clear existing paths
+                svg.setAttribute("viewBox", "0 0 24 24");
+                svg.setAttribute("width", "1.5em");
+                svg.setAttribute("height", "1.5em");
+                svg.setAttribute("fill", "green");
 
-			// Create a new success path
-			const successPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-			successPath.setAttribute(
-				"d",
-				"M10 2a3 3 0 0 0-2.83 2H6a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3h-1.17A3 3 0 0 0 14 2zM9 5a1 1 0 0 1 1-1h4a1 1 0 1 1 0 2h-4a1 1 0 0 1-1-1m6.78 6.625a1 1 0 1 0-1.56-1.25l-3.303 4.128l-1.21-1.21a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.488-.082l4-5z",
-			);
-			svg.appendChild(successPath);
+                const successPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                successPath.setAttribute(
+                    "d",
+                    "M10 2a3 3 0 0 0-2.83 2H6a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3h-1.17A3 3 0 0 0 14 2zM9 5a1 1 0 0 1 1-1h4a1 1 0 1 1 0 2h-4a1 1 0 0 1-1-1m6.78 6.625a1 1 0 1 0-1.56-1.25l-3.303 4.128l-1.21-1.21a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.488-.082l4-5z",
+                );
+                svg.appendChild(successPath);
+                button.setAttribute("aria-label", "Copied!");
 
-			// Update the aria label
-			button.setAttribute("aria-label", "Copied!");
+                // Reset to original after timeout
+                setTimeout(() => {
+                    svg.innerHTML = originalSvgContent; // Restore original paths/content
 
-			// Reset to original after 2 seconds
-			setTimeout(() => {
-				// Clear the SVG
-				svg.innerHTML = "";
+                    // Restore original attributes
+                    if (originalAttributes.viewBox) svg.setAttribute("viewBox", originalAttributes.viewBox);
+                    else svg.removeAttribute("viewBox");
 
-				// Restore original attributes
-				svg.setAttribute("viewBox", originalViewBox);
-				svg.setAttribute("width", originalWidth);
-				svg.setAttribute("height", originalHeight);
-				svg.removeAttribute("fill");
+                    if (originalAttributes.width) svg.setAttribute("width", originalAttributes.width);
+                    else svg.removeAttribute("width");
 
-				// Create and add the original path back
-				const originalPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-				originalPath.setAttribute("id", "clipSVG");
-				originalPath.setAttribute(
-					"d",
-					"m 19.658,22.84 5.75,-5.75 -5.75,-5.75 1.75,-1.7499999 7.5,7.4999999 -7.5,7.5 z m -3.316,0 -5.75,-5.75 5.75,-5.75 -1.75,-1.7499999 -7.5,7.4999999 7.5,7.5 z",
-				);
-				svg.appendChild(originalPath);
+                    if (originalAttributes.height) svg.setAttribute("height", originalAttributes.height);
+                    else svg.removeAttribute("height");
 
-				// Reset the aria label
-				button.setAttribute("aria-label", "Copy to clipboard");
-			}, 2000);
-		} catch (err) {
-			console.error("Could NOT achieve transformation, see ", err);
-		}
-	});
-});
+                    if (originalAttributes.fill) svg.setAttribute("fill", originalAttributes.fill);
+                    else svg.removeAttribute("fill");
 
-// Add ripple effect for every mouse click, anywhere on the page using an SVG
-document.addEventListener("click", function (e) {
-	// Create a container for the ripple effect
-	const rippleContainer = document.createElement("div");
-	rippleContainer.style.position = "fixed";
-	rippleContainer.style.left = e.clientX - 48 + "px"; // Center the ripple at click position
-	rippleContainer.style.top = e.clientY - 48 + "px";
-	rippleContainer.style.pointerEvents = "none"; // Don't interfere with further clicks
-	rippleContainer.style.zIndex = "9999";
+                    button.setAttribute("aria-label", "Copy to clipboard");
+                }, RESET_TIMEOUT_MS);
+            } catch (err) {
+                console.error("Could not transform SVG on copy button:", err);
+            }
+        });
+    });
+})();
+// RIPPLE CLICKS.js
+// -----------------------------------------------------------------------------
+(function () {
+    const RIPPLE_SIZE = 96; // px
+    const RIPPLE_DURATION_MS = 500; // Corresponds to the longest SVG animation duration
 
-	// Create SVG element
-	const svgNS = "http://www.w3.org/2000/svg";
-	const svg = document.createElementNS(svgNS, "svg");
-	svg.setAttribute("width", "96");
-	svg.setAttribute("height", "96");
-	svg.setAttribute("viewBox", "0 0 24 24");
+    document.addEventListener("click", function (e) {
+        // Create a container for the ripple effect
+        const rippleContainer = document.createElement("div");
+        rippleContainer.style.position = "fixed";
+        // Center the ripple at click position using transform
+        rippleContainer.style.left = e.clientX + "px";
+        rippleContainer.style.top = e.clientY + "px";
+        rippleContainer.style.width = RIPPLE_SIZE + "px";
+        rippleContainer.style.height = RIPPLE_SIZE + "px";
+        rippleContainer.style.transform = "translate(-50%, -50%)"; // Center on click
+        rippleContainer.style.pointerEvents = "none";
+        rippleContainer.style.zIndex = "9999";
+        rippleContainer.style.overflow = "visible"; // Ensure SVG is not clipped if it animates outside bounds temporarily
 
-	// Create circle element
-	const circle = document.createElementNS(svgNS, "circle");
-	circle.setAttribute("cx", "12");
-	circle.setAttribute("cy", "12");
-	circle.setAttribute("r", "0");
-	circle.setAttribute("fill", "rgba(168, 168, 168, 0.7)");
+        const svgNS = "http://www.w3.org/2000/svg";
+        const svg = document.createElementNS(svgNS, "svg");
+        svg.setAttribute("width", String(RIPPLE_SIZE));
+        svg.setAttribute("height", String(RIPPLE_SIZE));
+        svg.setAttribute("viewBox", "0 0 24 24"); // Keep viewBox consistent for relative r values
 
-	// Create animate elements
-	const animateRadius = document.createElementNS(svgNS, "animate");
-	animateRadius.setAttribute("attributeName", "r");
-	animateRadius.setAttribute("calcMode", "spline");
-	animateRadius.setAttribute("dur", "0.5s");
-	animateRadius.setAttribute("keySplines", ".52,.6,.25,.99");
-	animateRadius.setAttribute("values", "0;11");
-	animateRadius.setAttribute("fill", "freeze");
+        const circle = document.createElementNS(svgNS, "circle");
+        circle.setAttribute("cx", "12"); // Center in viewBox
+        circle.setAttribute("cy", "12"); // Center in viewBox
+        circle.setAttribute("r", "0");
+        circle.setAttribute("fill", "rgba(168, 168, 168, 0.7)");
 
-	const animateOpacity = document.createElementNS(svgNS, "animate");
-	animateOpacity.setAttribute("attributeName", "opacity");
-	animateOpacity.setAttribute("calcMode", "spline");
-	animateOpacity.setAttribute("dur", "0.33s");
-	animateOpacity.setAttribute("keySplines", ".52,.6,.25,.99");
-	animateOpacity.setAttribute("values", "1;0");
-	animateOpacity.setAttribute("fill", "freeze");
+        const animateRadius = document.createElementNS(svgNS, "animate");
+        animateRadius.setAttribute("attributeName", "r");
+        animateRadius.setAttribute("calcMode", "spline");
+        animateRadius.setAttribute("dur", `${RIPPLE_DURATION_MS / 1000}s`);
+        animateRadius.setAttribute("keySplines", ".52,.6,.25,.99");
+        animateRadius.setAttribute("values", "0;11"); // Max radius within 24x24 viewBox
+        animateRadius.setAttribute("fill", "freeze");
 
-	// Assemble the SVG
-	circle.appendChild(animateRadius);
-	circle.appendChild(animateOpacity);
-	svg.appendChild(circle);
-	rippleContainer.appendChild(svg);
+        const animateOpacity = document.createElementNS(svgNS, "animate");
+        animateOpacity.setAttribute("attributeName", "opacity");
+        animateOpacity.setAttribute("calcMode", "spline");
+        // Opacity animation should be shorter or equal to radius animation
+        animateOpacity.setAttribute("dur", `${Math.min(330, RIPPLE_DURATION_MS) / 1000}s`);
+        animateOpacity.setAttribute("keySplines", ".52,.6,.25,.99");
+        animateOpacity.setAttribute("values", "1;0");
+        animateOpacity.setAttribute("fill", "freeze");
 
-	// Add to document
-	document.body.appendChild(rippleContainer);
+        circle.appendChild(animateRadius);
+        circle.appendChild(animateOpacity);
+        svg.appendChild(circle);
+        rippleContainer.appendChild(svg);
+        document.body.appendChild(rippleContainer);
 
-	// Remove after animation completes
-	setTimeout(() => {
-		document.body.removeChild(rippleContainer);
-	}, 1500); // Match the duration of the animation
-});
-
-// MARK TAGS FOR TEXT - AKA, Highlighting!
+        setTimeout(() => {
+            if (rippleContainer.parentElement) {
+                rippleContainer.parentElement.removeChild(rippleContainer);
+            }
+        }, RIPPLE_DURATION_MS); // Remove after the main animation completes
+    });
+})();
+// addMarkTags.js
+// -----------------------------------------------------------------------------
+/**
+ * Replaces text wrapped with ... with <mark>...</mark> tags in a given string.
+ * Example: "Hello world" becomes "Hello <mark>world</mark>"
+ * @param {string} text - The input string (can be plain text or HTML string).
+ * @returns {string} The string with replacements.
+ */
 function addMarkTags(text) {
-	// Replace text wrapped between == and == with <mark> tags
-	// This regex finds any text between =: and := regardless of its location
-	const markRegex = /==(.*?)==/g;
-	const markReplace = (match, content) => {
-		return `<mark>${content}</mark>`;
-	};
-	return text.replace(markRegex, markReplace);
+    // Regex finds any text between  and  (non-greedy)
+    const markRegex = /==(.*?)==/g;
+    // Using a replacer function for clarity, though direct string could also work
+    const markReplace = (match, content) => {
+        return `<mark>${content}</mark>`;
+    };
+    return text.replace(markRegex, markReplace);
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-	// Get the current HTML content of the body
-	let bodyHTML = document.body.innerHTML;
-	// First apply the mark tags (highlighting)
-	bodyHTML = addMarkTags(bodyHTML);
-	// Then convert the markdown callouts
-	bodyHTML = convertMarkdownCalloutsToHtml(bodyHTML);
-	// Replace the body's HTML with the converted content
-	document.body.innerHTML = bodyHTML;
-});
-
-// --------------------------------------------------------------------------
-// --------------------------------------------------------------------------
-// ADD PAGE-TOC FOR CURRENTLY VIEWED Content
-
-let scrollTimeout;
-
-const listenActive = () => {
-	const elems = document.querySelector(".pagetoc").children;
-	[...elems].forEach((el) => {
-		el.addEventListener("click", (event) => {
-			clearTimeout(scrollTimeout);
-			[...elems].forEach((el) => el.classList.remove("active"));
-			el.classList.add("active");
-			// Prevent scroll updates for a short period
-			scrollTimeout = setTimeout(() => {
-				scrollTimeout = null;
-			}, 100); // Adjust timing as needed
-		});
-	});
-};
-
-const getPagetoc = () => document.querySelector(".pagetoc") || autoCreatePagetoc();
-
-const autoCreatePagetoc = () => {
-	const main = document.querySelector("#content > main");
-	const content = Object.assign(document.createElement("div"), {
-		className: "content-wrap",
-	});
-	content.append(...main.childNodes);
-	main.prepend(content);
-	main.insertAdjacentHTML("afterbegin", '<div class="sidetoc"><nav class="pagetoc"></nav></div>');
-	return document.querySelector(".pagetoc");
-};
-const updateFunction = () => {
-	if (scrollTimeout) return; // Skip updates if within the cooldown period from a click
-	const headers = [...document.getElementsByClassName("header")];
-	const scrolledY = window.scrollY;
-	let lastHeader = null;
-
-	// Find the last header that is above the current scroll position
-	for (let i = headers.length - 1; i >= 0; i--) {
-		if (scrolledY >= headers[i].offsetTop) {
-			lastHeader = headers[i];
-			break;
-		}
-	}
-
-	const pagetocLinks = [...document.querySelector(".pagetoc").children];
-	pagetocLinks.forEach((link) => link.classList.remove("active"));
-
-	if (lastHeader) {
-		const activeLink = pagetocLinks.find((link) => lastHeader.href === link.href);
-		if (activeLink) activeLink.classList.add("active");
-	}
-};
-
-window.addEventListener("load", () => {
-	const pagetoc = getPagetoc();
-	const headers = [...document.getElementsByClassName("header")];
-	headers.forEach((header) => {
-		const link = Object.assign(document.createElement("a"), {
-			textContent: header.text,
-			href: header.href,
-			className: `pagetoc-${header.parentElement.tagName}`,
-		});
-		pagetoc.appendChild(link);
-	});
-	updateFunction();
-	listenActive();
-	window.addEventListener("scroll", updateFunction);
-});
-
-// --------------------------------------------------------------------------
-// ----------------------- CUSTOM DETAILS -----------------------------------
-// --------------------------------------------------------------------------
+// Example Usage (typically run after DOM content is loaded):
+function applyMarkTagsToElement(selector) {
+    const element = document.querySelector(selector);
+    if (element) {
+        // CAUTION: Modifying innerHTML can destroy event listeners on child elements.
+        // Best used on elements with static content.
+        element.innerHTML = addMarkTags(element.innerHTML);
+    } else {
+        console.warn(`[addMarkTags] Element with selector "${selector}" not found.`);
+    }
+}
 document.addEventListener("DOMContentLoaded", () => {
-	// Find all details elements
-	const detailsElements = document.querySelectorAll("details");
-
-	detailsElements.forEach((details) => {
-		const summary = details.querySelector("summary");
-
-		// Get all content after the summary
-		const contentNodes = [];
-		let currentNode = summary.nextSibling;
-
-		while (currentNode) {
-			contentNodes.push(currentNode);
-			currentNode = currentNode.nextSibling;
-		}
-
-		// Create a wrapper div for the content
-		const contentWrapper = document.createElement("div");
-		contentWrapper.className = "details-content";
-		contentWrapper.style.overflow = "hidden";
-
-		// Move all content nodes into the wrapper
-		contentNodes.forEach((node) => {
-			// Clone the node and remove the original
-			const clonedNode = node.cloneNode(true);
-			contentWrapper.appendChild(clonedNode);
-			details.removeChild(node);
-		});
-
-		// Add the wrapper to the details element
-		details.appendChild(contentWrapper);
-
-		// Set initial state
-		if (!details.open) {
-			contentWrapper.style.height = "0px";
-		} else {
-			contentWrapper.style.height = contentWrapper.scrollHeight + "px";
-		}
-
-		// Add click handler for animation
-		summary.addEventListener("click", (e) => {
-			e.preventDefault();
-
-			if (details.open) {
-				// Closing animation
-				contentWrapper.style.height = contentWrapper.scrollHeight + "px";
-				// Force reflow
-				contentWrapper.offsetHeight;
-				contentWrapper.style.height = "0px";
-
-				// After animation completes, set open to false
-				setTimeout(
-					() => {
-						details.open = false;
-					},
-					parseFloat(getComputedStyle(contentWrapper).transitionDuration) * 1000,
-				);
-			} else {
-				// Opening animation
-				details.open = true;
-
-				// Get the scroll height and apply it
-				setTimeout(() => {
-					contentWrapper.style.height = contentWrapper.scrollHeight + "px";
-
-					// After animation completes, set height to auto for flexible content
-					setTimeout(
-						() => {
-							contentWrapper.style.height = "auto";
-						},
-						parseFloat(getComputedStyle(contentWrapper).transitionDuration) * 1000,
-					);
-				}, 10);
-			}
-		});
-	});
-
-	// Optional: Style toggle buttons (kept from your original code)
-	const arrowStyle = document.getElementById("arrow-style");
-	const plusStyle = document.getElementById("plus-style");
-
-	if (arrowStyle && plusStyle) {
-		arrowStyle.addEventListener("click", () => {
-			detailsElements.forEach((el) => el.classList.remove("plus-minus"));
-			arrowStyle.classList.add("active");
-			plusStyle.classList.remove("active");
-		});
-
-		plusStyle.addEventListener("click", () => {
-			detailsElements.forEach((el) => el.classList.add("plus-minus"));
-			plusStyle.classList.add("active");
-			arrowStyle.classList.remove("active");
-		});
-	}
+    applyMarkTagsToElement("body");
 });
+
+// floatingTOC.js
+// -----------------------------------------------------------------------------
+(function () {
+    let scrollTimeout; // Used to temporarily disable scrollspy after a click
+    const SCROLL_DEBOUNCE_DELAY = 50; // ms, for debouncing scroll handler
+    const CLICK_SCROLLSPY_PAUSE_DURATION = 150; // ms, pause scrollspy after click
+
+    // Simple debounce function
+    function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), delay);
+        };
+    }
+
+    const listenActive = (pagetocElement) => {
+        const tocLinks = pagetocElement.children;
+        [...tocLinks].forEach((link) => {
+            link.addEventListener("click", (event) => {
+                // event.preventDefault(); // Only if you are manually handling scroll
+                // and default anchor behavior is not desired.
+                // If hrefs are #id, default behavior is usually fine.
+                clearTimeout(scrollTimeout);
+                [...tocLinks].forEach((el) => el.classList.remove("active"));
+                link.classList.add("active");
+                scrollTimeout = setTimeout(() => {
+                    scrollTimeout = null;
+                }, CLICK_SCROLLSPY_PAUSE_DURATION);
+            });
+        });
+    };
+
+    const getPagetoc = () => document.querySelector(".pagetoc") || autoCreatePagetoc();
+
+    // This function makes strong assumptions about your existing DOM structure.
+    // For better modularity, ensure your HTML provides the .pagetoc container.
+    const autoCreatePagetoc = () => {
+        console.warn(
+            "[floatingTOC] '.pagetoc' not found. Attempting to auto-create. This is not recommended for production if HTML structure varies.",
+        );
+        // Assumes specific structure: #content > main
+        const mainContainer = document.querySelector("#content > main");
+        if (!mainContainer) {
+            console.error("[floatingTOC] Cannot auto-create TOC: '#content > main' not found.");
+            return null;
+        }
+
+        // Check if content is already wrapped
+        if (!mainContainer.querySelector(".content-wrap")) {
+            const contentWrap = Object.assign(document.createElement("div"), {
+                className: "content-wrap",
+            });
+            contentWrap.append(...mainContainer.childNodes); // Move existing children
+            mainContainer.prepend(contentWrap);
+        }
+
+        // Check if sidetoc container exists
+        if (!mainContainer.querySelector(".sidetoc")) {
+            mainContainer.insertAdjacentHTML("afterbegin", '<div class="sidetoc"><nav class="pagetoc"></nav></div>');
+        } else if (!mainContainer.querySelector(".sidetoc > .pagetoc")) {
+            const sidetocDiv = mainContainer.querySelector(".sidetoc");
+            sidetocDiv.innerHTML = '<nav class="pagetoc"></nav>'; // Ensure pagetoc is inside sidetoc
+        }
+
+        return document.querySelector(".pagetoc");
+    };
+
+    const updateActiveLink = () => {
+        if (scrollTimeout) return; // Skip updates if paused (e.g., after a click)
+
+        // Assumes headers for TOC have class 'header' and are typically <a> tags with hrefs
+        const headers = Array.from(document.getElementsByClassName("header"))
+            .map((h) => ({ element: h, offsetTop: h.offsetTop, href: h.href }))
+            .sort((a, b) => a.offsetTop - b.offsetTop); // Ensure sorted by position
+
+        if (!headers.length) return;
+
+        const pagetocElement = document.querySelector(".pagetoc");
+        if (!pagetocElement) return;
+
+        const pagetocLinks = Array.from(pagetocElement.children);
+        const scrolledY = window.scrollY;
+        let lastVisibleHeader = null;
+
+        // Find the last header that is scrolled past or is at the top of the viewport
+        // Add a small offset (e.g., 10 pixels) to account for styling/padding
+        const offset = 10;
+        for (let i = headers.length - 1; i >= 0; i--) {
+            if (scrolledY >= headers[i].offsetTop - offset) {
+                lastVisibleHeader = headers[i];
+                break;
+            }
+        }
+
+        // If no header is scrolled past (e.g., at the very top), activate the first one if visible
+        if (!lastVisibleHeader && headers.length > 0 && scrolledY < headers[0].offsetTop) {
+            // Optionally, you could activate the first link or none
+            // lastVisibleHeader = headers[0];
+        }
+
+        pagetocLinks.forEach((link) => link.classList.remove("active"));
+
+        if (lastVisibleHeader) {
+            const activeLink = pagetocLinks.find((link) => link.href === lastVisibleHeader.href);
+            if (activeLink) {
+                activeLink.classList.add("active");
+            }
+        } else if (pagetocLinks.length > 0 && scrolledY < headers[0].offsetTop - offset) {
+            // If scrolled to top above first header, make first TOC item active.
+            // pagetocLinks[0].classList.add("active");
+            // Or clear all active, depending on desired behavior. Current logic clears all.
+        }
+    };
+
+    const debouncedUpdateActiveLink = debounce(updateActiveLink, SCROLL_DEBOUNCE_DELAY);
+
+    window.addEventListener("load", () => {
+        const pagetocElement = getPagetoc();
+        if (!pagetocElement) {
+            console.error("[floatingTOC] Pagetoc element not found and could not be created. TOC will not function.");
+            return;
+        }
+
+        // Assumes elements with class 'header' are the source for TOC items.
+        // These should be <a> tags within or associated with headings, having an href.
+        const headers = Array.from(document.getElementsByClassName("header"));
+
+        if (!headers.length) {
+            console.warn("[floatingTOC] No elements with class 'header' found. TOC will be empty.");
+            // Optionally hide pagetocElement or its parent if empty
+            // if (pagetocElement.parentElement.classList.contains('sidetoc')) {
+            //    pagetocElement.parentElement.style.display = 'none';
+            // }
+            return;
+        }
+
+        headers.forEach((header) => {
+            // Ensure header elements have necessary properties, or skip
+            if (!header.href || typeof header.textContent === "undefined") {
+                console.warn("[floatingTOC] Skipping header for TOC due to missing href or textContent:", header);
+                return;
+            }
+            const link = document.createElement("a");
+            link.textContent = header.textContent.trim(); // Use textContent, trim whitespace
+            link.href = header.href;
+            // Class based on parent Hx tag: assumes .header is <a> inside <Hx>
+            // e.g. <h2><a class="header" href="#section2">Section 2</a></h2>
+            if (header.parentElement && header.parentElement.tagName.match(/^H[1-6]$/)) {
+                link.className = `pagetoc-${header.parentElement.tagName.toLowerCase()}`;
+            } else {
+                link.className = "pagetoc-default"; // Fallback class
+            }
+            pagetocElement.appendChild(link);
+        });
+
+        if (pagetocElement.children.length > 0) {
+            updateActiveLink(); // Initial active state
+            listenActive(pagetocElement);
+            window.addEventListener("scroll", debouncedUpdateActiveLink, { passive: true });
+        } else {
+            console.warn("[floatingTOC] TOC is empty after processing headers.");
+            // Optionally hide pagetocElement or its parent if empty
+        }
+    });
+})();
+// customDetails.js
+// -----------------------------------------------------------------------------
+// IMPORTANT: This script assumes you have CSS transitions defined for the
+// .details-content 'height' property for the animation to be visible.
+// e.g., .details-content { transition: height 0.3s ease; }
+(function () {
+    document.addEventListener("DOMContentLoaded", () => {
+        const detailsElements = document.querySelectorAll("details");
+
+        detailsElements.forEach((details) => {
+            const summary = details.querySelector("summary");
+            if (!summary) return; // Skip if no summary
+
+            // Collect all nodes that are direct children of <details> and after <summary>
+            const contentNodes = [];
+            let currentNode = summary.nextSibling;
+            while (currentNode) {
+                contentNodes.push(currentNode);
+                currentNode = currentNode.nextSibling;
+            }
+
+            // If no content nodes, or if a .details-content wrapper already exists, skip
+            if (contentNodes.length === 0 || details.querySelector(".details-content")) {
+                return;
+            }
+
+            const contentWrapper = document.createElement("div");
+            contentWrapper.className = "details-content";
+            contentWrapper.style.overflow = "hidden"; // Essential for height animation
+
+            // Move collected content nodes into the wrapper
+            contentNodes.forEach((node) => {
+                contentWrapper.appendChild(node); // No need to clone, just move
+            });
+            details.appendChild(contentWrapper);
+
+            // Set initial state based on `open` attribute
+            if (!details.open) {
+                contentWrapper.style.height = "0px";
+            } else {
+                // If initially open, set height to scrollHeight, then auto
+                contentWrapper.style.height = contentWrapper.scrollHeight + "px";
+                // Defer setting to 'auto' to allow any initial transition to finish
+                // if one was accidentally triggered by setting height.
+                requestAnimationFrame(() => {
+                    // Check if still open, in case state changed rapidly
+                    if (details.open) {
+                        contentWrapper.style.height = "auto";
+                    }
+                });
+            }
+
+            summary.addEventListener("click", (e) => {
+                e.preventDefault(); // We'll manage the 'open' attribute manually
+
+                if (details.open) {
+                    // Closing animation
+                    contentWrapper.style.height = contentWrapper.scrollHeight + "px";
+                    requestAnimationFrame(() => {
+                        // Ensure height is set before transitioning to 0
+                        contentWrapper.style.height = "0px";
+                    });
+
+                    // Use transitionend event to set details.open = false
+                    // and ensure it's only fired for the height property
+                    contentWrapper.addEventListener("transitionend", function onTransitionEnd(event) {
+                        if (event.propertyName === "height") {
+                            details.open = false;
+                            contentWrapper.removeEventListener("transitionend", onTransitionEnd);
+                        }
+                    });
+                } else {
+                    // Opening animation
+                    details.open = true; // Set open attribute first
+
+                    // Height needs to be set in next frame after 'open' is true
+                    // and display styles are applied by the browser.
+                    requestAnimationFrame(() => {
+                        contentWrapper.style.height = contentWrapper.scrollHeight + "px";
+                    });
+
+                    // Use transitionend event to set height to 'auto'
+                    contentWrapper.addEventListener("transitionend", function onTransitionEnd(event) {
+                        if (event.propertyName === "height") {
+                            // Check if it's still open, in case it was rapidly closed
+                            if (details.open) {
+                                contentWrapper.style.height = "auto";
+                            }
+                            contentWrapper.removeEventListener("transitionend", onTransitionEnd);
+                        }
+                    });
+                }
+            });
+        });
+
+        // Optional: Style toggle buttons (kept from original)
+        // This part is specific to having #arrow-style and #plus-style buttons on the page.
+        const arrowStyleButton = document.getElementById("arrow-style");
+        const plusStyleButton = document.getElementById("plus-style");
+
+        if (arrowStyleButton && plusStyleButton) {
+            arrowStyleButton.addEventListener("click", () => {
+                detailsElements.forEach((el) => el.classList.remove("plus-minus"));
+                arrowStyleButton.classList.add("active");
+                plusStyleButton.classList.remove("active");
+            });
+            plusStyleButton.addEventListener("click", () => {
+                detailsElements.forEach((el) => el.classList.add("plus-minus"));
+                plusStyleButton.classList.add("active");
+                arrowStyleButton.classList.remove("active");
+            });
+        }
+    });
+})();
