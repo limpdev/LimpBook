@@ -11,6 +11,7 @@
     - [ Table of Contents](./meta/topics/TOC.md)
     - [ AutoSum](./meta/topics/autosum.md)
     - [ DOpus](./meta/topics/dopustools.md)
+    - [ SwiftBar](./meta/topics/swiftbar.md)
 
 ---
 
