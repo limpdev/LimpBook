@@ -3,14 +3,18 @@ authors = ["Limp Cheney"]
 language = "en"
 multilingual = false
 src = "src"
-title = "LimpBook"
-description = "Documentation for all of my favourite shit"
+title = " limpbook"
+description = "Some serious shit right here"
+
+[build]
+create-missing = false
 
 [output.html]
 smart-punctuation = true
 mathjax-support = true
 no-section-label = true
 additional-css = ["theme/css/page-toc.css"]
+additional-js = ["theme/page-toc.js"]
 git-repository-url = "https://github.com/limpdev/LimpBook"
 git-repository-icon = "fa-github"
 
@@ -20,6 +24,7 @@ level = 0
 
 [output.html.search]
 enable = false
+
 
 [output.html.playground]
 runnable = false

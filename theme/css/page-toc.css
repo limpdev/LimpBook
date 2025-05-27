@@ -4,7 +4,7 @@
 	}
 }
 
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: 1250px) {
 	main {
 		position: relative;
 	}
@@ -21,8 +21,8 @@
 		width: 175px;
 		height: calc(100vh - var(--menu-bar-height) - 0.67em * 4);
 		padding-top: 80px;
-		margin-right: 20px;
-		padding-bottom: 40px;
+		margin-right: 1em;
+		padding-bottom: 20px;
 		overflow: auto;
 	}
 	.pagetoc > :last-child {
@@ -32,11 +32,10 @@
 		font-weight: 400;
 		opacity: 0.4;
 		width: fit-content;
-		font-size: 1.3rem;
 		border-left: 1px solid var(--sidebar-bg);
 		color: var(--fg) !important;
 		display: block;
-		padding: 2px;
+		/* padding: 2px; */
 		margin: 8px 0 8px 12px;
 		text-align: left;
 		text-decoration: none;
@@ -53,7 +52,6 @@
 		opacity: 1;
 		font-weight: 500;
 		border-radius: 7px;
-		background-color: #00000035;
 		color: var(--sidebar-active) !important;
 		text-decoration-color: transparent;
 	}
@@ -62,22 +60,27 @@
 		text-decoration-color: transparent;
 	}
 	.pagetoc .active {
-		background: #00000035;
 		color: var(--sidebar-fg);
 	}
-	.pagetoc .pagetoc-H1 {
+	a.pagetoc-h1 {
 		display: none;
 	}
-	.pagetoc .pagetoc-H3 {
-		margin-left: 24px;
+	.pagetoc-h2 {
+		font-size: 0.86em;
+		padding-left: 1em !important;
 	}
-	.pagetoc .pagetoc-H4 {
-		margin-left: 42px;
+	a.pagetoc-h3 {
+		font-size: 0.83em;
+		padding-left: 1.75em !important;
 	}
-	.pagetoc .pagetoc-H5 {
+	a.pagetoc-h4 {
+		font-size: 0.83em;
+		padding-left: 2em !important;
+	}
+	a.pagetoc-h5 {
 		display: none;
 	}
-	.pagetoc .pagetoc-H6 {
+	a.pagetoc-h6 {
 		display: none;
 	}
 	.toc-title {
