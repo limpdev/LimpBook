@@ -21,7 +21,7 @@
 	--page-padding: 15px;
 	--content-max-width: 875px;
 	--menu-bar-height: 50px;
-	--mono-font: "SF Mono", "Symbols Nerd Font", monospace;
+	--mono-font: "Reddit Mono", "Symbols Nerd Font", monospace;
 	--code-font-size: 1em; /* please adjust the ace font size accordingly in editor.js */
 	scrollbar-width: none !important;
 	--crosshair:

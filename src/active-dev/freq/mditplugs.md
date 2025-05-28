@@ -1,18 +1,6 @@
-[Skip to main content](abbr.html#main-content)
-
 # @mdit/plugin-abbr
 
-* * *
-
-Plugin to support abbreviation tag `<abbr>`.
-
-## [Usage](abbr.html#usage)
-
-TSJS
-
-TS
-
-```
+```ts
 import MarkdownIt from "markdown-it";
 import { abbr } from "@mdit/plugin-abbr";
 
@@ -25,9 +13,7 @@ The HTML specification is maintained by the W3C.
 `);
 ```
 
-JS
-
-```
+```js
 const MarkdownIt = require("markdown-it");
 const { abbr } = require("@mdit/plugin-abbr");
 
@@ -44,7 +30,7 @@ The HTML specification is maintained by the W3C.
 
 With this plugin you can declare abbreviations using reference beginning with an extra `*`:
 
-```
+```ts
 *[Abbr word]: Abbr content
 ```
 
@@ -52,7 +38,7 @@ Escaping
 
 Escaping can be done by adding `\` to escape the `*` `[` or `]` marker:
 
-```
+```ts
 \*[text]: content
 ```
 
@@ -66,12 +52,12 @@ Demo
 
 The HTML specificationis maintained by the W3C.
 
-```
+```ts
 *[HTML]: Hyper Text Markup Language
 *[W3C]: World Wide Web Consortium
 
 The HTML specificationis maintained by the W3C.
-```[Skip to main content](alert.html#main-content)
+```
 
 # @mdit/plugin-alert
 
@@ -81,11 +67,7 @@ Plugin to support GFM style alerts. ([Ref](https://github.com/orgs/community/dis
 
 ## [Usage](alert.html#usage)
 
-TSJS
-
-TS
-
-```
+```ts
 import MarkdownIt from "markdown-it";
 import { alert } from "@mdit/plugin-alert";
 
@@ -97,9 +79,7 @@ mdIt.render(`
 `);
 ```
 
-JS
-
-```
+```js
 const MarkdownIt = require("markdown-it");
 const { alert } = require("@mdit/plugin-alert");
 
@@ -115,7 +95,7 @@ mdIt.render(`
 
 With this plugin you can create block alerts with blockquote starting with `[!ALERT_NAME]` like:
 
-```
+```md
 > [!warning]
 > This is warning text
 ```
@@ -131,52 +111,52 @@ The `ALERT_NAME` isn't case sensitive and can be the following string:
 Nesting and escaping
 
 - By default, GFM style alerts can only be placed at root, but you can use `deep: true` to enable deep and nesting support:
-  
-  ```
+
+  ```ts
   md.use(alert, {
     name: "warning",
     deep: true,
   });
   ```
-  
-  ```
+
+  ```md
   > [!warning]
   > This is warning text
   >
   > > [!warning]
   > > This is a nested warning
-  
+
   - > [!warning]
     > This is warning text
   ```
-  
+
   will be
-  
+
   Warning
-  
+
   This is warning text
-  
+
   Warning
-  
+
   This is a nested warning
-  
+
   - Warning
-    
+
     This is warning text
 - Escaping can be done by adding `\` to escape the `!` `[` or `]` marker:
-  
-  ```
+
+  ```md
   > [\!warning]
   > This is warning text
-  
+
   > \[!warning]
   > This is warning text
   ```
-  
+
   will be
-  
+
   > \[!warning] This is warning text
-  
+
   > \[!warning] This is warning text
 
 ## [Options](alert.html#options)
@@ -238,7 +218,7 @@ Caution
 
 This is caution text
 
-```
+```md
 > [!note]
 > This is note text
 
@@ -271,11 +251,8 @@ This plugin is based on [@mdit/plugin-container](container.html).
 
 ## [Usage](align.html#usage)
 
-TSJS
 
-TS
-
-```
+```ts
 import MarkdownIt from "markdown-it";
 import { align } from "@mdit/plugin-align";
 
@@ -288,9 +265,7 @@ Contents to align center
 `);
 ```
 
-JS
-
-```
+```js
 const MarkdownIt = require("markdown-it");
 const { align } = require("@mdit/plugin-align");
 
@@ -305,7 +280,7 @@ Contents to align center
 
 ## [Syntax](align.html#syntax)
 
-```
+```md
 ::: left
 Contents to align left
 :::
@@ -326,7 +301,7 @@ Contents to align justify
 Nesting and escaping
 
 - Nestings can be done by increasing marker number of outer container:
-  
+
   ```
   :::: center
   Center contents...
@@ -336,26 +311,26 @@ Nesting and escaping
   Center contents...
   ::::
   ```
-  
+
   will be
-  
+
   Center contents...
-  
+
   Left contents..
-  
+
   Center contents...
 - Escaping can be done by adding `\` to escape the marker:
-  
+
   ```
   \::: left
-  
+
   :::
   ```
-  
+
   will be
-  
+
   ::: left
-  
+
   :::
 
 ## [Demo](align.html#demo)
@@ -468,11 +443,8 @@ Plugins to add attrs to Markdown content.
 
 ## [Usage](attrs.html#usage)
 
-TSJS
 
-TS
-
-```
+```ts
 import MarkdownIt from "markdown-it";
 import { attrs } from "@mdit/plugin-attrs";
 
@@ -485,7 +457,7 @@ mdIt.render("# Heading 🎉{#heading}");
 
 JS
 
-```
+```js
 const MarkdownIt = require("markdown-it");
 const { attrs } = require("@mdit/plugin-attrs");
 
@@ -634,7 +606,7 @@ Table
 List
 
 - list item
-  
+
   - nested list item
 
 ```
@@ -659,7 +631,7 @@ Softbreak
 A line with break
 
 ```
-A line with break  
+A line with break
 {.break}
 ```[Skip to main content](container.html#main-content)
 
@@ -671,9 +643,6 @@ Plugin for creating block-level custom containers.
 
 ## [Usage](container.html#usage)
 
-TSJS
-
-TS
 
 ```
 import MarkdownIt from "markdown-it";
@@ -736,7 +705,7 @@ Markup is the same as for fenced code blocks. However by default the plugin use 
 Nesting and escaping
 
 - Nestings can be done by increasing marker number of outer container:
-  
+
   ```
   :::: warning
   Warning contents...
@@ -745,28 +714,28 @@ Nesting and escaping
   :::
   ::::
   ```
-  
+
   will be
-  
+
   Warning
-  
+
   Warning contents...
-  
+
   Details
-  
+
   Some details
 - Escaping can be done by adding `\` to escape the marker:
-  
+
   ```
   \::: warning
-  
+
   :::
   ```
-  
+
   will be
-  
+
   ::: warning
-  
+
   :::
 
 ## [Options](container.html#options)
@@ -836,7 +805,7 @@ Hint
 Here is a **hint** for you!
 
 - Hint 1
-  
+
   - Hint 1.1
   - Hint 1.2
 - Hint 2
@@ -865,9 +834,6 @@ Display snippet render result and code at the same time.
 
 ## [Usage](demo.html#usage)
 
-TSJS
-
-TS
 
 ```
 import MarkdownIt from "markdown-it";
@@ -990,9 +956,6 @@ Plugin to support definition list.
 
 ## [Usage](dl.html#usage)
 
-TSJS
-
-TS
 
 ```
 import MarkdownIt from "markdown-it";
@@ -1110,9 +1073,6 @@ Plugin for generating figures with captions from images.
 
 ## [Usage](figure.html#usage)
 
-TSJS
-
-TS
 
 ```
 import MarkdownIt from "markdown-it";
@@ -1195,9 +1155,6 @@ Plugin to support footnotes.
 
 ## [Usage](footnote.html#usage)
 
-TSJS
-
-TS
 
 ```
 import MarkdownIt from "markdown-it";
@@ -1228,22 +1185,22 @@ mdIt.render("Inline footnote^[Text of inline footnote] definition.");
 Nesting and escaping
 
 - Nestings are supported:
-  
+
   ```
   Footnote 1 link[^first].
-  
+
   [^first]: Footnote can reference [^second].
-  
+
   [^second]: Other footnote.
   ```
 - Escaping can be done by adding `\`:
-  
+
   ```
   The following \[^first] is not a footnote.
   ```
-  
+
   will be
-  
+
   The following \[^first] is not a footnote.
 
 ## [Demo](footnote.html#demo)
@@ -1277,7 +1234,7 @@ Duplicated footnote reference.
 * * *
 
 1. Footnote **can have markup**
-   
+
    and multiple paragraphs[\[2:1\]](footnote.html#footnote2)[](). [↩︎](footnote.html#footnote-ref1)
 2. Footnote text. [↩︎](footnote.html#footnote-ref2) [↩︎](footnote.html#footnote-ref2:1)
 3. Text of inline footnote [↩︎](footnote.html#footnote-ref3)[Skip to main content](icon.html#main-content)
@@ -1290,9 +1247,6 @@ Plugins with icon support.
 
 ## [Usage](icon.html#usage)
 
-TSJS
-
-TS
 
 ```
 import MarkdownIt from "markdown-it";
@@ -1383,9 +1337,6 @@ Plugin to add lazy loading for images.
 
 ## [Usage](img-lazyload.html#usage)
 
-TSJS
-
-TS
 
 ```
 import MarkdownIt from "markdown-it";
@@ -1423,9 +1374,6 @@ Plugins to mark images by ID suffix for theme mode.
 
 ## [Usage](img-mark.html#usage)
 
-TSJS
-
-TS
 
 ```
 import MarkdownIt from "markdown-it";
@@ -1534,9 +1482,6 @@ Plugins to support setting size for images.
 
 ## [Usage](img-size.html#usage)
 
-TSJS
-
-TS
 
 ```
 import MarkdownIt from "markdown-it";
@@ -1685,9 +1630,6 @@ Plugin to include other files in markdown.
 
 ## [Usage Node.js runtime only](include.html#usage)
 
-TSJS
-
-TS
 
 ```
 import MarkdownIt from "markdown-it";
@@ -2013,13 +1955,13 @@ Nesting and Escaping
 
 - Nesting is supported by setting `deep: true` in the options, the plugin recursively process the `<!-- @include: -->` syntax for imported Markdown files.
 - Escaping can be done by adding zeo-width space (`U+200B` or `&#8203;`) before `<!-- @include: -->` syntax:
-  
+
   ```
   &#8203;<!-- @include: ./demo.snippet.md -->
   ```
-  
+
   will be
-  
+
   ​
 
 ## [Options](include.html#options)
@@ -2116,119 +2058,119 @@ Hey how are **you**? :smile:
 
 Some powerful markdown-it plugins
 
-[**abbr**  
+[**abbr**
 \
 Abbreviation](abbr.html)
 
-[**alert**  
+[**alert**
 \
 GFM alerts](alert.html)
 
-[**align**  
+[**align**
 \
 Align contents](align.html)
 
-[**attrs**  
+[**attrs**
 \
 Add attrs to Markdown content](attrs.html)
 
-[**container**  
+[**container**
 \
 Creating block-level custom containers](container.html)
 
-[**demo**  
+[**demo**
 \
 Display snippets and render result both](demo.html)
 
-[**dl**  
+[**dl**
 \
 Definition lists](dl.html)
 
-[**figure**  
+[**figure**
 \
 Generating figures with captions from images](figure.html)
 
-[**footnote**  
+[**footnote**
 \
 Support footnotes](footnote.html)
 
-[**icon**  
+[**icon**
 \
 Add icon support](icon.html)
 
-[**img-lazyload**  
+[**img-lazyload**
 \
 Add lazy loading for images](img-lazyload.html)
 
-[**img-mark**  
+[**img-mark**
 \
 Mark images by ID suffix for theme mode](img-mark.html)
 
-[**img-size**  
+[**img-size**
 \
 Support setting size for images](img-size.html)
 
-[**include**  
+[**include**
 \
 Include other files in markdown](include.html)
 
-[**ins**  
+[**ins**
 \
 Ins tag support](ins.html)
 
-[**katex**  
+[**katex**
 \
 Render math expressions with KaTeX](katex.html)
 
-[**mark**  
+[**mark**
 \
 Mark and highlight contents](mark.html)
 
-[**mathjax**  
+[**mathjax**
 \
 Render math expressions with Mathjax](mathjax.html)
 
-[**plantuml**  
+[**plantuml**
 \
 Add plantuml diagram support](plantuml.html)
 
-[**ruby**  
+[**ruby**
 \
 Add ruby tag support](ruby.html)
 
-[**snippet**  
+[**snippet**
 \
 Import code snippets in markdown](snippet.html)
 
-[**spoiler**  
+[**spoiler**
 \
 Hiding contents](spoiler.html)
 
-[**stylize**  
+[**stylize**
 \
 Stylizing tokens](stylize.html)
 
-[**sub**  
+[**sub**
 \
 Support subscript](sub.html)
 
-[**sup**  
+[**sup**
 \
 Support superscript](sup.html)
 
-[**tab**  
+[**tab**
 \
 Creating block-level custom tabs](tab.html)
 
-[**tasklist**  
+[**tasklist**
 \
 Support tasklist](tasklist.html)
 
-[**tex**  
+[**tex**
 \
 TeX grammar support](tex.html)
 
-[**uml**  
+[**uml**
 \
 Support splitting contents from context](uml.html)[Skip to main content](ins.html#main-content)
 
@@ -2240,9 +2182,6 @@ Plugins to add insert tag support.
 
 ## [Usage](ins.html#usage)
 
-TSJS
-
-TS
 
 ```
 import MarkdownIt from "markdown-it";
@@ -2290,9 +2229,6 @@ This plugin is based on [@mdit/plugin-tex](tex.html).
 
 ## [Usage Node.js runtime only](katex.html#usage)
 
-TSJS
-
-TS
 
 ```
 import MarkdownIt from "markdown-it";
@@ -2327,13 +2263,13 @@ You should import `katex/dist/katex.min.css` from `katex` package or CDN yoursel
 Escaping
 
 - You can use `\` to escape `$`:
-  
+
   ```
   Euler’s identity \$e^{i\pi}+1=0$
   ```
-  
+
   will be
-  
+
   Euler’s identity $e^{i\\pi}+1=0$
 
 ## [Demo](katex.html#demo)
@@ -2427,9 +2363,6 @@ Plugins to mark and highlight contents.
 
 ## [Usage](mark.html#usage)
 
-TSJS
-
-TS
 
 ```
 import MarkdownIt from "markdown-it";
@@ -2477,9 +2410,6 @@ This plugin is based on [@mdit/plugin-tex](tex.html).
 
 ## [Usage Node.js runtime only](mathjax.html#usage)
 
-TSJS
-
-TS
 
 ```
 import MarkdownIt from "markdown-it";
@@ -2574,13 +2504,13 @@ You should use `$tex expression$` inline, and use `$$tex expression$$` for block
 Escaping
 
 - You can use `\` to escape `$`:
-  
+
   ```
   Euler’s identity \$e^{i\pi}+1=0$
   ```
-  
+
   will be
-  
+
   Euler’s identity $e^{i\\pi}+1=0$
 
 ## [Demo](mathjax.html#demo)
@@ -2616,9 +2546,6 @@ Plugin to support plant uml base on [@mdit/plugin-uml](uml.html).
 
 ## [Usage](plantuml.html#usage)
 
-TSJS
-
-TS
 
 ```
 import MarkdownIt from "markdown-it";
@@ -2744,9 +2671,6 @@ Plugin to support ruby annotation `<ruby>`.
 
 ## [Usage](ruby.html#usage)
 
-TSJS
-
-TS
 
 ```
 import MarkdownIt from "markdown-it";
@@ -2775,13 +2699,13 @@ Use `{ruby base:ruby text1|ruby text2|...}` to add ruby annotation.
 Escaping
 
 - You can use `\` to escape `{` `:` or `}`:
-  
+
   ```
   \{中国:zhōng|guó}
   ```
-  
+
   will be
-  
+
   {中国:zhōng|guó}
 
 ## [Demo](ruby.html#demo)
@@ -2796,9 +2720,6 @@ Plugin to import code snippets in markdown.
 
 ## [Usage Node.js runtime only](snippet.html#usage)
 
-TSJS
-
-TS
 
 ```
 import MarkdownIt from "markdown-it";
@@ -3122,13 +3043,13 @@ namespace HelloWorldApp {
 Escaping
 
 - You can escape `<` by `\`
-  
+
   ```
   \<<< test.js
   ```
-  
+
   will be
-  
+
   &lt;&lt;&lt; test.js
 
 ## [Options](snippet.html#options)
@@ -3202,9 +3123,6 @@ Plugins to hide content.
 
 ## [Usage](spoiler.html#usage)
 
-TSJS
-
-TS
 
 ```
 import MarkdownIt from "spoilerdown-it";
@@ -3266,9 +3184,6 @@ Plugin for stylizing tokens.
 
 ## [Usage](stylize.html#usage)
 
-TSJS
-
-TS
 
 ```
 import MarkdownIt from "markdown-it";
@@ -3436,9 +3351,6 @@ Plugin to support subscript.
 
 ## [Usage](sub.html#usage)
 
-TSJS
-
-TS
 
 ```
 import MarkdownIt from "markdown-it";
@@ -3467,13 +3379,13 @@ Use `~ ~` to mark the subscript.
 Escaping
 
 - You can use `\` to escape `~`:
-  
+
   ```
   H\~2~O
   ```
-  
+
   will be
-  
+
   H\~2\~O
 
 ## [Demo](sub.html#demo)
@@ -3488,9 +3400,6 @@ Plugin to support superscript.
 
 ## [Usage](sup.html#usage)
 
-TSJS
-
-TS
 
 ```
 import MarkdownIt from "markdown-it";
@@ -3519,13 +3428,13 @@ Use `^ ^` to mark the superscript.
 Escaping
 
 - You can use `\` to escape `^`:
-  
+
   ```
   19\^th^
   ```
-  
+
   will be
-  
+
   19^th^
 
 ## [Demo](sup.html#demo)
@@ -3540,9 +3449,6 @@ Plugin for creating block-level custom tabs.
 
 ## [Usage](tab.html#usage)
 
-TSJS
-
-TS
 
 ```
 import MarkdownIt from "markdown-it";
@@ -3591,7 +3497,7 @@ Nesting and escaping
 - Nesting is **not** supported because `@tab` does not contain any information about what tab container it's marking.
 - If you need to use `@tab` at the beginning of the line, you can use `\` to escape it to `\@tab`
 - If your tab title contain `#`, you can escape it with `\`:
-  
+
   ```
   @tab c\#
   ```
@@ -3781,9 +3687,6 @@ Plugins to support tasklist.
 
 ## [Usage](tasklist.html#usage)
 
-TSJS
-
-TS
 
 ```
 import MarkdownIt from "markdown-it";
@@ -3894,9 +3797,6 @@ If you are looking for an out of box solution, you should try [@mdit/plugin-kate
 
 ## [Usage](tex.html#usage)
 
-TSJS
-
-TS
 
 ```
 import MarkdownIt from "markdown-it";
@@ -3932,10 +3832,10 @@ This plugin registers markdown rules for TEX. It will replace the TEX tokens wit
 
 - Inline mode: `$xxx$`
 - Display mode:
-  
+
   ```
   $$xxx$$
-  
+
   $$
   xxx
   $$
@@ -4005,7 +3905,7 @@ $$
 ### [Operator](tex.html#operator)
 
 - Some operators can be entered directly in math mode; others need to be generated using control sequences:
-  
+
   - `+`: +
   - `-`: −
   - `\times`: ×
@@ -4027,7 +3927,7 @@ $$
 - Limit: `\lim` lim
 - Points: `\int` ∫
 - Multiple points:
-  
+
   - `\iint`: ∬
   - `\iiint`: ∭
   - `\iiiint`: ⨌
@@ -4070,23 +3970,23 @@ $$\iint_1^2 x^2\; \iiint_1^2 x^2\; \iiiint_1^2 x^2\; \idotsint_1^2 x^2$$
 ### [Symbol](tex.html#symbol)
 
 - English letters can be entered directly
-  
+
   abcxyzABC
-  
+
   ```
   $a \quad b \quad c \quad x \quad y \quad z \quad A \quad B \quad C$
   ```
 - Greek characters use `\characterName` to enter symbols, and output capital letters when the first letter is capitalized.
-  
+
   αβγΩΔΓ
-  
+
   ```
   $\alpha \quad \beta \quad \gamma \quad \Omega \quad \Delta \quad \Gamma$
   ```
 - Other mathematical expressions can be used correspondingly
-  
+
   loga⁡b∂x
-  
+
   ```
   $\log_{a}{b} \quad \partial x$
   ```
@@ -4174,28 +4074,28 @@ A small matrix: $( \begin{smallmatrix} a&b\\c&d \end{smallmatrix} )$.
 ### [Multi-line Formula](tex.html#multi-line-formula)
 
 - **newline**
-  
+
   Use `\\` or `\newline` to wrap
-  
+
   x=a+b+c+d+e+f+gx=a+b+c+d+e+f+g
-  
+
   ```
   $$
   x = a+b+c+ \\
   d+e+f+g
   $$
-  
+
   $$
   x = a+b+c+ \newline
   d+e+f+g
   $$
   ```
 - **Alignment**
-  
+
   You can use the `aligned` environment to achieve alignment, and`&`to identify fixed anchor points
-  
+
   x=a+b+c+d+e+f+g10x+3y=23x+13y=4
-  
+
   ```
   $$
   \begin{aligned}
@@ -4203,7 +4103,7 @@ A small matrix: $( \begin{smallmatrix} a&b\\c&d \end{smallmatrix} )$.
   &d+e+f+g
   \end{aligned}
   $$
-  
+
   $$
   \begin{alignedat}{2}
      10&x+ &3&y = 2 \\
@@ -4264,9 +4164,6 @@ Plugin to support splitting contents from context.
 
 ## [Usage](uml.html#usage)
 
-TSJS
-
-TS
 
 ```
 import MarkdownIt from "markdown-it";
@@ -4321,10 +4218,10 @@ The plugin is different from container plugin as contents inside container will 
 Escaping
 
 - You can use `\` to escape `@`, so the following won't be parsed:
-  
+
   ```
   \@demostart
-  
+
   \@demoend
   ```
 

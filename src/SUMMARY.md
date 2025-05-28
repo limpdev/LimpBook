@@ -2,8 +2,7 @@
 
 #  Home
 
-- [ META](./meta/-readme.md)
-    - [ Playground](./meta/topics/GitHubFlavour.md)
+- [ Playground](./meta/topics/GitHubFlavour.md)
     - [ DevDocs](./meta/topics/DevDocs.md)
     - [ Base Transformations](./meta/topics/defaultJS.md)
     - [ My Design](./meta/topics/MyDesign.md)

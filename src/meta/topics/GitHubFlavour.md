@@ -71,13 +71,11 @@ Quia et enim dignissimos commodi molestiae earum impedit.
 Corporis recusandae in doloremque unde commodi.
 :::
 
-::: warning
-Earum illum nesciunt corporis quam reprehenderit sequi rerum eos nostrum facere.
-:::
+> [!warning]
+> Earum illum nesciunt corporis quam reprehenderit sequi rerum eos nostrum facere.
 
-::: caution
-Ut esse ea soluta beatae tenetur nemo suscipit dolorem tenetur.
-:::
+> [!caution]
+> Ut esse ea soluta beatae tenetur nemo suscipit dolorem tenetur.
 
 ## Text Scripts (sub/sup/align)
 
