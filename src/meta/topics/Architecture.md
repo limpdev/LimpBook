@@ -1,5 +1,7 @@
 # LimpBook Architecture
 
+<details><summary>📦<i>Questions over the Wails project's focus</i></summary>
+
 > [!NOTE] > _For the project's focus_, this will serve as a starting point for brainstorming. Use this document to flesh out considerations for expansion and/or refactoring.
 
 ==Let's break down the pros and cons in the context of your Wails app serving documentation and potentially other content==
@@ -129,6 +131,8 @@
 - Your Wails app might eventually interact with a _remote_ MinIO or S3 instance, and you want local dev parity.
 
 For a Wails app, moving from filesystem to SQLite for content metadata and potentially storing smaller content directly is a very logical and beneficial step when complexity grows. MinIO is a more significant architectural addition, best suited when its specific strengths around object storage at scale and API compatibility are primary drivers.
+
+</details>
 
 ---
 
