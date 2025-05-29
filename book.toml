@@ -22,9 +22,11 @@ git-repository-icon = "fa-github"
 enable = true
 level = 0
 
+[preprocessor.codeport]
+command = "pre/mdbook-codeport/target/debug/mdbook-codeport.exe"
+
 [output.html.search]
 enable = false
-
 
 [output.html.playground]
 runnable = false

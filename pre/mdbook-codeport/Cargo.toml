@@ -1,0 +1,14 @@
+[package]
+name = "mdbook-codeport"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1.0.98"
+mdbook = "0.4.51"
+pulldown-cmark = "0.13.0"
+pulldown-cmark-to-cmark = "21.0.0"
+regex = "1.11.1"
+serde = "1.0.219"
+serde_json = "1.0.140"
+toml = "0.8.22"

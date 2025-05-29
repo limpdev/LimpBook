@@ -1,0 +1,11 @@
+C:\Users\drewg\proj\markdown\LimpBook\pre\mdbook-codeport\target\debug\deps\libtoml_write-3dc4abd1ef6a3376.rmeta: C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml_write-0.1.1\src\lib.rs C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml_write-0.1.1\src\key.rs C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml_write-0.1.1\src\string.rs C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml_write-0.1.1\src\value.rs C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml_write-0.1.1\src\write.rs
+
+C:\Users\drewg\proj\markdown\LimpBook\pre\mdbook-codeport\target\debug\deps\libtoml_write-3dc4abd1ef6a3376.rlib: C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml_write-0.1.1\src\lib.rs C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml_write-0.1.1\src\key.rs C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml_write-0.1.1\src\string.rs C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml_write-0.1.1\src\value.rs C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml_write-0.1.1\src\write.rs
+
+C:\Users\drewg\proj\markdown\LimpBook\pre\mdbook-codeport\target\debug\deps\toml_write-3dc4abd1ef6a3376.d: C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml_write-0.1.1\src\lib.rs C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml_write-0.1.1\src\key.rs C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml_write-0.1.1\src\string.rs C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml_write-0.1.1\src\value.rs C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml_write-0.1.1\src\write.rs
+
+C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml_write-0.1.1\src\lib.rs:
+C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml_write-0.1.1\src\key.rs:
+C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml_write-0.1.1\src\string.rs:
+C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml_write-0.1.1\src\value.rs:
+C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml_write-0.1.1\src\write.rs:

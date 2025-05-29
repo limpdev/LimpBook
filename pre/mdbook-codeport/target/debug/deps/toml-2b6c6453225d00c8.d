@@ -1,0 +1,13 @@
+C:\Users\drewg\proj\markdown\LimpBook\pre\mdbook-codeport\target\debug\deps\libtoml-2b6c6453225d00c8.rmeta: C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml-0.5.11\src\lib.rs C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml-0.5.11\src\map.rs C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml-0.5.11\src\value.rs C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml-0.5.11\src\datetime.rs C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml-0.5.11\src\ser.rs C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml-0.5.11\src\de.rs C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml-0.5.11\src\tokens.rs C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml-0.5.11\src\macros.rs C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml-0.5.11\src\spanned.rs
+
+C:\Users\drewg\proj\markdown\LimpBook\pre\mdbook-codeport\target\debug\deps\toml-2b6c6453225d00c8.d: C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml-0.5.11\src\lib.rs C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml-0.5.11\src\map.rs C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml-0.5.11\src\value.rs C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml-0.5.11\src\datetime.rs C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml-0.5.11\src\ser.rs C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml-0.5.11\src\de.rs C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml-0.5.11\src\tokens.rs C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml-0.5.11\src\macros.rs C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml-0.5.11\src\spanned.rs
+
+C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml-0.5.11\src\lib.rs:
+C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml-0.5.11\src\map.rs:
+C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml-0.5.11\src\value.rs:
+C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml-0.5.11\src\datetime.rs:
+C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml-0.5.11\src\ser.rs:
+C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml-0.5.11\src\de.rs:
+C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml-0.5.11\src\tokens.rs:
+C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml-0.5.11\src\macros.rs:
+C:\Users\drewg\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\toml-0.5.11\src\spanned.rs:
