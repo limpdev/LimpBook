@@ -681,6 +681,12 @@ html:not(.sidebar-resizing) .sidebar {
 .chapter li.expanded > a.toggle div {
 	transform: rotate(90deg);
 }
+.chapter-item {
+    font-family: "Karla", "Symbols Nerd Font";
+    font-weight: 300;
+    font-size: 1.1em;
+    margin-left: 1em;
+}
 
 .spacer {
 	width: 100%;
