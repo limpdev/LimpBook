@@ -4,12 +4,23 @@
     background-color: #91919115; /* Change to your preferred color */
     /* color: #000000; Text color when highlighted */
 }
-
 ::-moz-selection {
     /* Firefox requires its own rule */
     background-color: #91919115;
     /* color: #000000; */
 }
+/* hide page scrollbar */
+html {
+    scrollbar-width: none;
+} /* Firefox */
+body {
+    -ms-overflow-style: none;
+} /* IE and Edge */
+body::-webkit-scrollbar,
+body::-webkit-scrollbar-button {
+    display: none;
+} /* Chrome */
+/* end hide page scrollbar */
 
 :root {
     --sidebar-width: 200px;
