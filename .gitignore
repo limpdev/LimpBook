@@ -5,3 +5,5 @@ book
 /#book
 LICENSE
 ./Icon*
+pre/mdbook-codeport/target
+Cargo.lock
