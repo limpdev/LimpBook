@@ -11,7 +11,7 @@ create-missing = false
 
 [output.html]
 smart-punctuation = true
-mathjax-support = true
+mathjax-support = false
 no-section-label = true
 additional-css = ["theme/css/page-toc.css"]
 additional-js = ["theme/page-toc.js"]
