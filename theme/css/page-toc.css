@@ -1,100 +1,100 @@
 #theme-toggle {
-    display: none;
+	display: none;
 }
 
 @media only screen and (max-width: 1200px) {
-    .sidetoc {
-        display: none;
-    }
+	.sidetoc {
+		display: none;
+	}
 }
 
 @media only screen and (min-width: 1250px) {
-    main {
-        position: relative;
-    }
-    .sidetoc {
-        margin-left: auto;
-        margin-right: auto;
-        left: calc(100% + (var(--content-max-width)) / 3 - 160px);
-        position: absolute;
-    }
-    .pagetoc {
-        position: fixed;
-        top: 64px;
-        right: 20px;
-        width: 175px;
-        height: calc(100vh - var(--menu-bar-height) - 0.67em * 4);
-        padding-top: 80px;
-        margin-right: 1em;
-        padding-bottom: 20px;
-        overflow: auto;
-    }
-    .pagetoc > :last-child {
-        margin-bottom: 64px;
-    }
-    .pagetoc a {
-        font-size: 0.8em;
-        font-family: "Karla", "Symbols Nerd Font";
-        font-weight: 200;
-        opacity: 0.4;
-        width: fit-content;
-        border-left: 1px solid var(--sidebar-bg);
-        color: var(--fg) !important;
-        display: block;
-        margin: 8px 0 8px 12px;
-        text-align: left;
-        text-decoration: none;
-        text-decoration-color: transparent;
-        transition: all 150ms ease;
-    }
-    .pagetoc a:hover {
-        opacity: 1;
-        font-weight: 500;
-        transform: translate(-0.93em, 0);
-        text-decoration-color: transparent;
-    }
-    .pagetoc a.active {
-        opacity: 1;
-        font-weight: 200;
-        border-radius: 7px;
-        color: var(--sidebar-active) !important;
-        transform: translate(-0.5em, 0);
-        text-decoration-color: transparent;
-    }
-    .pagetoc a.active:hover {
-        opacity: 1;
-        text-decoration-color: transparent;
-    }
-    .pagetoc .active {
-        color: var(--sidebar-fg);
-    }
-    a.pagetoc-h1 {
-        display: none;
-    }
-    .pagetoc-h2 {
-        font-size: 0.83em;
-        padding-left: 1em !important;
-    }
-    a.pagetoc-h3 {
-        font-size: 0.83em;
-        padding-left: 1.75em !important;
-    }
-    a.pagetoc-h4 {
-        font-size: 0.83em;
-        padding-left: 2em !important;
-    }
-    a.pagetoc-h5 {
-        display: none;
-    }
-    a.pagetoc-h6 {
-        display: none;
-    }
-    .toc-title {
-        display: none;
-        margin: 0;
-        margin-bottom: 12px;
-        padding-left: 12px;
-        font-size: 1.4rem;
-        color: var(--full-contrast);
-    }
+	main {
+		position: relative;
+	}
+	.sidetoc {
+		margin-left: auto;
+		margin-right: auto;
+		left: calc(100% + (var(--content-max-width)) / 3 - 160px);
+		position: absolute;
+	}
+	.pagetoc {
+		position: fixed;
+		top: 64px;
+		right: 20px;
+		width: 175px;
+		height: calc(100vh - var(--menu-bar-height) - 0.67em * 4);
+		padding-top: 80px;
+		margin-right: 1em;
+		padding-bottom: 20px;
+		overflow: auto;
+	}
+	.pagetoc > :last-child {
+		margin-bottom: 64px;
+	}
+	.pagetoc a {
+		font-size: 0.8em;
+		font-family: "Karla", "Symbols Nerd Font";
+		font-weight: 500;
+		opacity: 0.4;
+		width: fit-content;
+		border-left: 1px solid var(--sidebar-bg);
+		color: var(--fg) !important;
+		display: block;
+		margin: 8px 0 8px 12px;
+		text-align: left;
+		text-decoration: none;
+		text-decoration-color: transparent;
+		transition: all 150ms ease;
+	}
+	.pagetoc a:hover {
+		opacity: 1;
+		font-weight: 600;
+		transform: translate(-0.93em, 0) scale(1.02);
+		text-decoration-color: transparent;
+	}
+	.pagetoc a.active {
+		opacity: 1;
+		font-weight: 600;
+		border-radius: 7px;
+		color: var(--sidebar-active) !important;
+		transform: translate(-0.5em, 0);
+		text-decoration-color: transparent;
+	}
+	.pagetoc a.active:hover {
+		opacity: 1;
+		text-decoration-color: transparent;
+	}
+	.pagetoc .active {
+		color: var(--sidebar-fg);
+	}
+	a.pagetoc-h1 {
+		display: none;
+	}
+	.pagetoc-h2 {
+		font-size: 0.9em;
+		padding-left: 1em !important;
+	}
+	a.pagetoc-h3 {
+		font-size: 0.9em;
+		padding-left: 1.75em !important;
+	}
+	a.pagetoc-h4 {
+		font-size: 0.9em;
+		padding-left: 2em !important;
+	}
+	a.pagetoc-h5 {
+		display: none;
+	}
+	a.pagetoc-h6 {
+		display: none;
+	}
+	.toc-title {
+		display: none;
+		margin: 0;
+		margin-bottom: 12px;
+		padding-left: 12px;
+		font-size: 1.4rem;
+		color: var(--full-contrast);
+	}
 }

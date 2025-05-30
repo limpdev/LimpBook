@@ -393,7 +393,9 @@ pre > .result {
 }
 
 mark {
-	border-radius: 4px;
+	color: #fff;
+	font-weight: 600;
+	border-radius: 3px;
 	padding-block-start: 0;
 	padding-block-end: 1px;
 	padding-inline-start: 4px;
@@ -402,7 +404,7 @@ mark {
 	margin-block-end: -1px;
 	margin-inline-start: -3px;
 	margin-inline-end: -3px;
-	background-color: var(--search-mark-bg);
+	background-color: #ffe40045;
 	transition: background-color 300ms linear;
 	cursor: var(--crosshair);
 	color: #bbbbbb;
@@ -538,7 +540,7 @@ ul#searchresults span.teaser em {
 }
 
 html:not(.sidebar-resizing) .sidebar {
-	transition: transform 0.6s;
+	transition: transform 0.4s;
 	/* Animation: slide away */
 }
 
@@ -559,7 +561,7 @@ html:not(.sidebar-resizing) .sidebar {
 
 .sidebar .sidebar-resize-handle {
 	position: absolute;
-	cursor: e-resize;
+	cursor: grab;
 	width: 0;
 	right: calc(var(--sidebar-resize-indicator-width) * -1);
 	top: 0;
@@ -571,7 +573,7 @@ html:not(.sidebar-resizing) .sidebar {
 .sidebar-resize-handle .sidebar-resize-indicator {
 	width: 100%;
 	height: 12px;
-	background-color: var(--icons);
+	background-color: inherit;
 	margin-inline-start: var(--sidebar-resize-indicator-space);
 }
 
@@ -581,7 +583,7 @@ html:not(.sidebar-resizing) .sidebar {
 }
 
 .js .sidebar .sidebar-resize-handle {
-	cursor: e-resize;
+	cursor: grabbing;
 	width: calc(var(--sidebar-resize-indicator-width) - var(--sidebar-resize-indicator-space));
 }
 
@@ -662,6 +664,7 @@ html:not(.sidebar-resizing) .sidebar {
 	padding: 0 10px;
 	user-select: none;
 	opacity: 0.68;
+	margin-right: 1em;
 }
 
 .chapter li > a.toggle div {
@@ -684,8 +687,12 @@ html:not(.sidebar-resizing) .sidebar {
 .chapter-item {
     font-family: "Karla", "Symbols Nerd Font";
     font-weight: 300;
-    font-size: 1.1em;
+    font-size: 1.25em;
     margin-left: 1em;
+    transition: all 125ms ease;
+}
+.chapter-item:hover {
+	transform: translate(0.5em, 0);
 }
 
 .spacer {

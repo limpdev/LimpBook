@@ -1,6 +1,8 @@
 # My Snippet Collection
 
-<details><summary><em>  Tale of the Eternal Babysitter</em></summary>
+##  Tale of the Eternal Babysitter
+
+<details><summary></summary>
 <div align="left" style="font-size: 1em;font-family: Karla;">
 	<blockquote>
 		<em>
@@ -21,7 +23,9 @@ wget --mirror --convert-links --adjust-extension --page-requisites --no-parent <
 
 ---
 
-<details><summary> <i>CONFIGURATION FOR <code>ESPANSO</code></i></summary>
+## ESPANSO
+
+<details><summary></summary>
 
 ```yaml
     - trigger: ";js"
@@ -110,7 +114,7 @@ If good programming abilites correlated to getting laid, here would lie the keys
 
 ##### Frosted Glass Effect
 
-<details><summary>🎁<i></i></summary>
+<details><summary></summary>
     
 
 ```html
@@ -189,7 +193,7 @@ If good programming abilites correlated to getting laid, here would lie the keys
 
 #### MISC TEXT EFFECTS
 
-<details><summary>🎁</summary>
+<details><summary></summary>
 
 ```html
 <style>
@@ -364,7 +368,7 @@ If good programming abilites correlated to getting laid, here would lie the keys
 
 > A pretty decent module for ==clip-enabled== code blocks
 
-<details><summary>  </summary>
+<details><summary></summary>
 
 For 
 ```js

@@ -2,6 +2,18 @@
 
 > [!NOTE]
 > This file should contain and up-to-date accounting of my standards for CSS styling and JavaScript functionality. It is intended to be a living document that reflects my current practices and conventions - which, now are referencable in this single document.
+>> it doesn't
+
+- Here's some dope ass nerdfont glyphs sitting in my Espanso matches:
+
+```
+                     
+               → ← ↑ ↓   
+                🦖    
+   ♿︎    ∑ ∞ Ω ◌
+```
+- [Link](../../../images/katex.html) for some KaTeX fonts to look into implementing for the math transformations
+
 
 <details><summary><i>Optional Extras</i></summary>
 

@@ -16,12 +16,12 @@
 
 #  Active Projects
 
-- [� Frequents](./active-dev/Snippets.md)
-    - [ devodocs](./active-dev/freq/devowails.md)
-    - [ Plugins](./active-dev/freq/mditplugs.md)
-    - [ Chromem](./active-dev/freq/ChromeGo.md)
-    - [ Mojo](./active-dev/freq/Mojo.md)
-    - [ AwesomeRemark](./active-dev/remarkJS/AwesomeRemark.md)
+- [ Frequents](./active-dev/Snippets.md)
+- [ devodocs](./active-dev/devowails.md)
+- [ Chromem](./active-dev/ChromeGo.md)
+- [ Mojo](./active-dev/Mojo.md)
+- [ astro](./active-dev/astroDocs.md)
+- [ AwesomeRemark](./active-dev/remarkJS/AwesomeRemark.md)
         - [ ReMark](./active-dev/remarkJS/ReMark.md)
         - [ ReHype](./active-dev/remarkJS/re-hype.md)
         - [ GFM](./active-dev/remarkJS/re-gfm.md)

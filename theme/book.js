@@ -775,41 +775,6 @@ function mdCallouts(htmlText) {
 
     return htmlText;
 }
-
-// Alternative single-regex approach (more complex but potentially more efficient)
-// function mdCalloutsAdvanced(htmlText) {
-// const calloutTypes = {
-// NOTE: '<i class="note-icon">󱞁</i>',
-// TIP: '<i class="tip-icon">󰴓</i>',
-// IMPORTANT: '<i class="important-icon">󱁯</i>',
-// WARNING: '<i class="warning-icon">󰉀</i>',
-// CAUTION: '<i class="caution-icon">⚠</i>',
-// };
-//
-// Combined regex to match both formats
-// const calloutRegex = /(?:<blockquote>\s*<p>\s*\[!(note|tip|important|warning|caution)\]\s*([\s\S]*?)<\/p>\s*<\/blockquote>|:::\s*(note|tip|important|warning|caution)\s*\n([\s\S]*?)\n:::)/gim;
-//
-// return htmlText.replace(calloutRegex, (match, blockquoteType, blockquoteContent, tripleColonType, tripleColonContent) => {
-// Determine which format was matched
-// const type = blockquoteType || tripleColonType;
-// const content = blockquoteContent || tripleColonContent;
-//
-// const normalizedType = type.toUpperCase();
-// const calloutType = Object.keys(calloutTypes).includes(normalizedType) ? normalizedType : "NOTE";
-// const processedContent = content.trim();
-//
-// return `<div class="callout callout-${calloutType.toLowerCase()}">
-// <div class="callout-header">
-// <span class="callout-icon">${calloutTypes[calloutType]}</span>
-// <span class="callout-title">${calloutType}</span>
-// </div>
-// <div class="callout-content">
-// <p>${processedContent}</p>
-// </div>
-// </div>`;
-// });
-// }
-
 (function () {
     /**
      * Applies mdCallouts transformation to the innerHTML of a targeted element.
@@ -841,6 +806,7 @@ function mdCallouts(htmlText) {
         // console.warn("[mdCallouts] Processing the entire 'body'. This is generally not recommended for complex pages.");
     });
 })();
+// -----------------------------------------------------------------------------
 // Codeblock SVGs.js
 // -----------------------------------------------------------------------------
 (function () {
@@ -905,6 +871,7 @@ function mdCallouts(htmlText) {
         });
     });
 })();
+// -----------------------------------------------------------------------------
 // RIPPLE CLICKS.js
 // -----------------------------------------------------------------------------
 (function () {
@@ -967,6 +934,7 @@ function mdCallouts(htmlText) {
         }, RIPPLE_DURATION_MS); // Remove after the main animation completes
     });
 })();
+// -----------------------------------------------------------------------------
 // addMarkTags.js
 // -----------------------------------------------------------------------------
 /**
@@ -984,7 +952,6 @@ function addMarkTags(text) {
     };
     return text.replace(markRegex, markReplace);
 }
-
 // Example Usage (typically run after DOM content is loaded):
 function applyMarkTagsToElement(selector) {
     const element = document.querySelector(selector);
@@ -999,7 +966,7 @@ function applyMarkTagsToElement(selector) {
 document.addEventListener("DOMContentLoaded", () => {
     applyMarkTagsToElement("body");
 });
-
+// -----------------------------------------------------------------------------
 // customDetails.js
 // -----------------------------------------------------------------------------
 // IMPORTANT: This script assumes you have CSS transitions defined for the
@@ -1007,6 +974,10 @@ document.addEventListener("DOMContentLoaded", () => {
 // e.g., .details-content { transition: height 0.3s ease; }
 (function () {
     document.addEventListener("DOMContentLoaded", () => {
+        // SVG constants for easy customization
+        const SVG_CLOSED = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 218"><path fill="#5595ff" d="M63.995 0L0 40.771l63.995 40.772L128 40.771zM192 0l-64 40.775l64 40.775l64.001-40.775zM0 122.321l63.995 40.772L128 122.321L63.995 81.55zM192 81.55l-64 40.775l64 40.774l64-40.774zM64 176.771l64.005 40.772L192 176.771L128.005 136z"/></svg>';
+        const SVG_OPEN = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 218"><path fill="#5595ff" d="M63.995 0L0 40.771l63.995 40.772L128 40.771zM192 0l-64 40.775l64 40.775l64.001-40.775zM0 122.321l63.995 40.772L128 122.321L63.995 81.55zM192 81.55l-64 40.775l64 40.774l64-40.774zM64 176.771l64.005 40.772L192 176.771L128.005 136z"/></svg>';
+
         const detailsElements = document.querySelectorAll("details");
 
         detailsElements.forEach((details) => {
@@ -1030,19 +1001,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const detailsBtn = document.createElement("button");
             detailsBtn.className = "details-toggle-btn";
             detailsBtn.type = "button";
-            detailsBtn.innerHTML = "▼"; // Down arrow for closed state
+            detailsBtn.innerHTML = SVG_CLOSED; // Default to closed state SVG
             detailsBtn.setAttribute("aria-label", "Toggle details");
-
-            // Add hover effect
-            detailsBtn.addEventListener("mouseenter", () => {
-                detailsBtn.style.backgroundColor = "#e9ecef";
-                detailsBtn.style.borderColor = "#999";
-            });
-
-            detailsBtn.addEventListener("mouseleave", () => {
-                detailsBtn.style.backgroundColor = "#f8f9fa";
-                detailsBtn.style.borderColor = "#ccc";
-            });
 
             // Insert button into summary
             summary.appendChild(detailsBtn);
@@ -1060,9 +1020,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 e.stopPropagation();
 
                 if (details.open) {
-                    // Closing animation
-                    detailsBtn.innerHTML = "▼";
-                    detailsBtn.style.transform = "rotate(0deg)";
+                    detailsBtn.innerHTML = SVG_OPEN;
 
                     contentWrapper.style.height = contentWrapper.scrollHeight + "px";
                     requestAnimationFrame(() => {
@@ -1076,9 +1034,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         }
                     });
                 } else {
-                    // Opening animation
-                    detailsBtn.innerHTML = "▲";
-                    detailsBtn.style.transform = "rotate(0deg)";
+                    detailsBtn.innerHTML = SVG_CLOSED;
 
                     details.open = true;
 
@@ -1101,7 +1057,6 @@ document.addEventListener("DOMContentLoaded", () => {
             const contentWrapper = document.createElement("div");
             contentWrapper.className = "details-content";
             contentWrapper.style.overflow = "hidden";
-            contentWrapper.style.transition = "height 0.3s ease";
 
             // Move collected content nodes into the wrapper
             contentNodes.forEach((node) => {
@@ -1112,10 +1067,10 @@ document.addEventListener("DOMContentLoaded", () => {
             // Set initial state based on `open` attribute
             if (!details.open) {
                 contentWrapper.style.height = "0px";
-                detailsBtn.innerHTML = "▼";
+                detailsBtn.innerHTML = SVG_CLOSED;
             } else {
                 contentWrapper.style.height = contentWrapper.scrollHeight + "px";
-                detailsBtn.innerHTML = "▲";
+                detailsBtn.innerHTML = SVG_OPEN;
                 requestAnimationFrame(() => {
                     if (details.open) {
                         contentWrapper.style.height = "auto";

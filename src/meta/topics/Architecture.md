@@ -625,13 +625,16 @@ fn main() -> Result<()> {
 
     Here's some JavaScript code from an external file:
 
-    ```js file="path/to/your/code.js" linenumbers
-    ```
+```
+js file="path/to/your/code.js" linenumbers
+```
 
     And some Rust code:
 
-    ```rust file="../examples/another_code.rs"
-    ```
+```
+rust file="../examples/another_code.rs"
+```
+
     The `path/to/your/code.js` should be relative to `chapter1.md` (or absolute if you use an absolute path in the `file` attribute).
     For example, if `chapter1.md` is in `src/intro/chapter1.md`, and your code is in `src/assets/code.js`, then you'd use `file="../assets/code.js"`.
 
