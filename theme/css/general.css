@@ -344,19 +344,21 @@ sup {
 details {
     border-radius: 13px;
     margin-bottom: 16px;
+    border: none;
 }
 
 /* Remove default triangle marker */
 details summary {
-    font-size: 0.9em;
-    font-family: "SF Compact Rounded", "Symbols Nerd Font";
-    padding: 1em 2em;
+    font-size: 1em;
+    font-weight: 200;
+    font-family: "Arsenal SC", "Symbols Nerd Font";
+    padding: 1em 1.5em;
     cursor: var(--crosshair);
     border-radius: 13px;
+    border: none;
     user-select: none;
     list-style: none;
     position: relative;
-    font-weight: 500;
     background: #000004;
     transition:
         background 400ms ease,
@@ -405,6 +407,7 @@ details[open] summary::before {
 details > summary {
     display: inline-flex;
     padding-right: 3em;
+    border-radius: 23px;
 }
 
 /* Different icon styles - uncomment to try them */
