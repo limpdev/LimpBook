@@ -466,111 +466,6 @@ function playground_text(playground, hidden = true) {
         }
     });
 })();
-// (function sidebar() {
-//     var body = document.querySelector("body");
-//     var sidebar = document.getElementById("sidebar");
-//     var sidebarLinks = document.querySelectorAll("#sidebar a");
-//     var sidebarToggleButton = document.getElementById("sidebar-toggle");
-//     var sidebarToggleAnchor = document.getElementById("sidebar-toggle-anchor");
-//     var sidebarResizeHandle = document.getElementById("sidebar-resize-handle");
-//     var firstContact = null;
-
-//     function showSidebar() {
-//         body.classList.remove("sidebar-hidden");
-//         body.classList.add("sidebar-visible");
-//         Array.from(sidebarLinks).forEach(function (link) {
-//             link.setAttribute("tabIndex", 0);
-//         });
-//         sidebarToggleButton.setAttribute("aria-expanded", true);
-//         sidebar.setAttribute("aria-hidden", false);
-//         try {
-//             localStorage.setItem("mdbook-sidebar", "visible");
-//         } catch (e) {}
-//     }
-
-//     function hideSidebar() {
-//         body.classList.remove("sidebar-visible");
-//         body.classList.add("sidebar-hidden");
-//         Array.from(sidebarLinks).forEach(function (link) {
-//             link.setAttribute("tabIndex", -1);
-//         });
-//         sidebarToggleButton.setAttribute("aria-expanded", false);
-//         sidebar.setAttribute("aria-hidden", true);
-//         try {
-//             localStorage.setItem("mdbook-sidebar", "hidden");
-//         } catch (e) {}
-//     }
-
-//     // Toggle sidebar
-//     sidebarToggleAnchor.addEventListener("change", function sidebarToggle() {
-//         if (sidebarToggleAnchor.checked) {
-//             var current_width = parseInt(document.documentElement.style.getPropertyValue("--sidebar-width"), 10);
-//             if (current_width < 150) {
-//                 document.documentElement.style.setProperty("--sidebar-width", "150px");
-//             }
-//             showSidebar();
-//         } else {
-//             hideSidebar();
-//         }
-//     });
-
-//     sidebarResizeHandle.addEventListener("mousedown", initResize, false);
-
-//     function initResize(e) {
-//         window.addEventListener("mousemove", resize, false);
-//         window.addEventListener("mouseup", stopResize, false);
-//         body.classList.add("sidebar-resizing");
-//     }
-//     function resize(e) {
-//         var pos = e.clientX - sidebar.offsetLeft;
-//         if (pos < 20) {
-//             hideSidebar();
-//         } else {
-//             if (body.classList.contains("sidebar-hidden")) {
-//                 showSidebar();
-//             }
-//             pos = Math.min(pos, window.innerWidth - 100);
-//             document.documentElement.style.setProperty("--sidebar-width", pos + "px");
-//         }
-//     }
-//     //on mouseup remove windows functions mousemove & mouseup
-//     function stopResize(e) {
-//         body.classList.remove("sidebar-resizing");
-//         window.removeEventListener("mousemove", resize, false);
-//         window.removeEventListener("mouseup", stopResize, false);
-//     }
-
-//     document.addEventListener(
-//         "touchstart",
-//         function (e) {
-//             firstContact = {
-//                 x: e.touches[0].clientX,
-//                 time: Date.now(),
-//             };
-//         },
-//         { passive: true },
-//     );
-
-//     document.addEventListener(
-//         "touchmove",
-//         function (e) {
-//             if (!firstContact) return;
-
-//             var curX = e.touches[0].clientX;
-//             var xDiff = curX - firstContact.x,
-//                 tDiff = Date.now() - firstContact.time;
-
-//             if (tDiff < 250 && Math.abs(xDiff) >= 150) {
-//                 if (xDiff >= 0 && firstContact.x < Math.min(document.body.clientWidth * 0.25, 300)) showSidebar();
-//                 else if (xDiff < 0 && curX < 300) hideSidebar();
-
-//                 firstContact = null;
-//             }
-//         },
-//         { passive: true },
-//     );
-// })();
-
 (function clipboard() {
     var clipButtons = document.querySelectorAll(".clip-button");
 
@@ -896,12 +791,6 @@ function mdCallouts(htmlText) {
 // -----------------------------------------------------------------------------
 // addMarkTags.js
 // -----------------------------------------------------------------------------
-/**
- * Replaces text wrapped with ... with <mark>...</mark> tags in a given string.
- * Example: "Hello world" becomes "Hello <mark>world</mark>"
- * @param {string} text - The input string (can be plain text or HTML string).
- * @returns {string} The string with replacements.
- */
 function addMarkTags(text) {
     // Regex finds any text between  and  (non-greedy)
     const markRegex = /==(.*?)==/g;
@@ -911,7 +800,6 @@ function addMarkTags(text) {
     };
     return text.replace(markRegex, markReplace);
 }
-// Example Usage (typically run after DOM content is loaded):
 function applyMarkTagsToElement(selector) {
     const element = document.querySelector(selector);
     if (element) {
@@ -935,9 +823,9 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("DOMContentLoaded", () => {
         // SVG constants for easy customization
         const SVG_CLOSED =
-            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 218"><path fill="#5595ff" d="M63.995 0L0 40.771l63.995 40.772L128 40.771zM192 0l-64 40.775l64 40.775l64.001-40.775zM0 122.321l63.995 40.772L128 122.321L63.995 81.55zM192 81.55l-64 40.775l64 40.774l64-40.774zM64 176.771l64.005 40.772L192 176.771L128.005 136z"/></svg>';
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#feefef" d="M5.616 20q-.691 0-1.153-.462T4 18.384V5.616q0-.691.463-1.153T5.616 4h12.769q.69 0 1.153.463T20 5.616v12.769q0 .69-.462 1.153T18.384 20zM12 19h6.385q.23 0 .423-.192t.192-.424V5.616q0-.231-.192-.424T18.384 5H12z" stroke-width="0.3" stroke="#feefef"/></svg>';
         const SVG_OPEN =
-            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 218"><path fill="#5595ff" d="M63.995 0L0 40.771l63.995 40.772L128 40.771zM192 0l-64 40.775l64 40.775l64.001-40.775zM0 122.321l63.995 40.772L128 122.321L63.995 81.55zM192 81.55l-64 40.775l64 40.774l64-40.774zM64 176.771l64.005 40.772L192 176.771L128.005 136z"/></svg>';
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#feefef" d="M5.616 20q-.691 0-1.153-.462T4 18.384V5.616q0-.691.463-1.153T5.616 4h12.769q.69 0 1.153.463T20 5.616v12.769q0 .69-.462 1.153T18.384 20zM12 19h6.385q.23 0 .423-.192t.192-.424V5.616q0-.231-.192-.424T18.384 5H12z" stroke-width="0.3" stroke="#feefef"/></svg>';
 
         const detailsElements = document.querySelectorAll("details");
 
@@ -1093,7 +981,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Show sidebar
     function showSidebar() {
         const SVG_SIDEBAR =
-            '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16"><path d="M2 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5m0 4a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5m0 4a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5" stroke-width="0.3" stroke="#feefef"/></svg>';
+            '<svg xmlns="http://www.w3.org/2000/svg" width="32" viewBox="0 0 24 24"><path d="M5.616 20q-.691 0-1.153-.462T4 18.384V5.616q0-.691.463-1.153T5.616 4h12.769q.69 0 1.153.463T20 5.616v12.769q0 .69-.462 1.153T18.384 20zM12 19h6.385q.23 0 .423-.192t.192-.424V5.616q0-.231-.192-.424T18.384 5H12z" stroke-width="0.3" stroke="#feefef"/></svg>';
         body.classList.remove("sidebar-hidden");
         body.classList.add("sidebar-visible");
         sidebarLinks.forEach((link) => {
@@ -1117,7 +1005,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
         sidebarToggleButton.setAttribute("aria-expanded", "false");
         sidebar.setAttribute("aria-hidden", "true");
-        sidebarToggleButton.innerHTML = "☰";
+        sidebarToggleButton.innerHTML = SVG_SIDEBAR;
         try {
             localStorage.setItem("mdbook-sidebar", "hidden");
         } catch (e) {
