@@ -25,6 +25,9 @@ level = 0
 [preprocessor.codeport]
 command = "pre/mdbook-codeport/target/debug/mdbook-codeport.exe"
 
+# [preprocessor.color-picker]
+# command = "sed 's/:!pick:/{{color_picker_html}}/g'"
+
 [output.html.search]
 enable = false
 

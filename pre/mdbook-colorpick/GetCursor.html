@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cursor Position on Click</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            min-height: 150vh; /* Make page scrollable to demonstrate pageX/Y */
+            padding: 20px;
+            background-color: #161616;
+            color: #ddd;
+        }
+        #myElement {
+            width: 200px;
+            height: 100px;
+            background-color: lightblue;
+            padding: 10px; /* To show difference for offsetX/Y */
+            border: 5px solid blue;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #output {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Click Anywhere!</h1>
+
+    <div id="myElement">Click Me Specifically</div>
+
+    <div id="output">
+        <p><strong>Viewport:</strong> <span id="clientCoords">-</span></p>
+        <p><strong>Document:</strong> <span id="pageCoords">-</span></p>
+        <p><strong>Screen:</strong> <span id="screenCoords">-</span></p>
+        <p><strong>Offset (on #myElement):</strong> <span id="offsetCoords">-</span> (Only updated if #myElement is clicked)</p>
+        <p><strong>Relative to #myElement (calculated):</strong> <span id="relativeCoords">-</span> (Only updated if #myElement is clicked)</p>
+    </div>
+
+    <script>
+        const clientCoordsEl = document.getElementById('clientCoords');
+        const pageCoordsEl = document.getElementById('pageCoords');
+        const screenCoordsEl = document.getElementById('screenCoords');
+        const offsetCoordsEl = document.getElementById('offsetCoords');
+        const relativeCoordsEl = document.getElementById('relativeCoords');
+        const myElement = document.getElementById('myElement');
+
+        // Listen for clicks on the entire document
+        document.addEventListener('click', function(event) {
+            // event is the MouseEvent object
+            const clientX = event.clientX;
+            const clientY = event.clientY;
+            clientCoordsEl.textContent = `X: ${clientX}, Y: ${clientY}`;
+            const pageX = event.pageX;
+            const pageY = event.pageY;
+            pageCoordsEl.textContent = `X: ${pageX}, Y: ${pageY}`;
+            const screenX = event.screenX;
+            const screenY = event.screenY;
+            screenCoordsEl.textContent = `X: ${screenX}, Y: ${screenY}`;
+            // If the click was specifically on #myElement
+            if (event.target === myElement || myElement.contains(event.target)) {
+                const offsetX = event.offsetX;
+                const offsetY = event.offsetY;
+                offsetCoordsEl.textContent = `X: ${offsetX}, Y: ${offsetY}`;
+                // To get coordinates relative to a specific element (like your color picker canvas):
+                const rect = myElement.getBoundingClientRect();
+                const xInsideElement = event.clientX - rect.left;
+                const yInsideElement = event.clientY - rect.top;
+                relativeCoordsEl.textContent = `X: ${xInsideElement.toFixed(2)}, Y: ${yInsideElement.toFixed(2)}`;
+            } else {
+                offsetCoordsEl.textContent = '-';
+                relativeCoordsEl.textContent = '-';
+            }
+            console.log("Clicked Event Object:", event);
+        });
+        // You can also attach the listener to a specific element
+        // myElement.addEventListener('click', function(event) {
+        //     // Stop the event from bubbling up to the document's listener if you want
+        //     // event.stopPropagation();
+        //     const offsetX = event.offsetX;
+        //     const offsetY = event.offsetY;
+        //     console.log(`Clicked inside #myElement at offsetX: ${offsetX}, offsetY: ${offsetY}`);
+        //     const rect = myElement.getBoundingClientRect();
+        //     const xInsideElement = event.clientX - rect.left;
+        //     const yInsideElement = event.clientY - rect.top;
+        //     console.log(`Calculated relative to #myElement: X=${xInsideElement}, Y=${yInsideElement}`);
+        // });
+    </script>
+
+</body>
+</html>

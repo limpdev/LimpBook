@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Color Picker Component</title>
+    <style>
+      html {
+        background: #121212;
+        color: #ccc;
+      }
+      .color-picker-container {
+        max-width: 400px;
+        font-family: var(--sans-font);
+        background: #232323;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        margin: 20px 0;
+        border: none;
+      }
+
+      .picker-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+
+      .color-preview {
+        width: 48px;
+        height: 48px;
+        border-radius: 13px;
+        cursor: var(--crosshair);
+        transition: all 0.2s ease;
+      }
+
+      .color-preview:hover {
+        transform: scale(1.05);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .color-info {
+        flex: 1;
+      }
+
+      .color-name {
+        font-weight: 600;
+        font-size: 16px;
+        margin: 0 0 4px 0;
+      }
+
+      .color-values {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .color-value {
+        font-size: 12px;
+        padding: 2px 6px;
+        background: #f5f5f520;
+        border-radius: 4px;
+        font-family: var(--mono-font);
+        cursor: var(--crosshair);
+        transition: background 0.2s ease;
+      }
+
+      .color-value:hover {
+        background: #e0e0e020;
+      }
+
+      .color-canvas {
+        position: relative;
+        width: 100%;
+        height: 200px;
+        border-radius: 8px;
+        margin: 16px 0;
+        cursor: var(--crosshair);
+        border: none;
+      }
+
+      #canvasCursor {
+        position: absolute;
+        width: 15px; /* Or your desired size */
+        height: 15px; /* Or your desired size */
+        border-radius: 50%;
+        border: 2px solid white;
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5); /* For better visibility on light/dark colors */
+        pointer-events: none; /* Crucial */
+        box-sizing: border-box; /* Recommended to include padding/border in width/height */
+      }
+
+      .hue-slider {
+        width: 100%;
+        height: 20px;
+        border-radius: 10px;
+        margin: 16px 0;
+        cursor: var(--crosshair);
+        background: linear-gradient(
+          to right,
+          #ff0000 0%,
+          #ffff00 16.66%,
+          #00ff00 33.33%,
+          #00ffff 50%,
+          #0000ff 66.66%,
+          #ff00ff 83.33%,
+          #ff0000 100%
+        );
+        position: relative;
+      }
+
+      #hueHandle {
+        position: absolute;
+        width: 6px; /* Example width */
+        height: 100%; /* To fill the height of the hue slider */
+        background-color: #ccc;
+        border: 1px solid #333;
+        pointer-events: none; /* Crucial */
+        box-sizing: border-box;
+        /* top: 0; (if height is 100%) */
+        /* Or for vertical centering if it's a small square/circle: */
+        /* height: 12px; top: 50%; transform: translateY(-50%); */
+      }
+
+      .preset-colors {
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        gap: 8px;
+        margin-top: 16px;
+      }
+
+      .preset-color {
+        width: 32px;
+        height: 32px;
+        border-radius: 6px;
+        cursor: var(--crosshair);
+        border: 2px solid transparent;
+        transition: all 0.2s ease;
+      }
+
+      .preset-color:hover {
+        transform: scale(1.1);
+        border-color: #333;
+      }
+
+      .copy-notification {
+        display: none;
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #4caf50;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 14px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 1000;
+      }
+
+      .copy-notification.show {
+        opacity: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="color-picker-container">
+      <div class="picker-header">
+        <div class="color-preview" id="colorPreview"></div>
+        <div class="color-info">
+          <div class="color-name" id="colorName">Crimson Red</div>
+          <div class="color-values">
+            <span class="color-value" id="hexValue" title="Click to copy"
+              >#DC143C</span
+            >
+            <span class="color-value" id="rgbValue" title="Click to copy"
+              >rgb(220, 20, 60)</span
+            >
+            <span class="color-value" id="hslValue" title="Click to copy"
+              >hsl(348, 83%, 47%)</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <canvas
+        class="color-canvas"
+        id="colorCanvas"
+        width="400"
+        height="200"
+      ></canvas>
+      <div class="canvas-cursor" id="canvasCursor"></div>
+
+      <div class="hue-slider" id="hueSlider">
+        <div class="hue-handle" id="hueHandle"></div>
+      </div>
+
+      <div class="preset-colors" id="presetColors"></div>
+    </div>
+
+    <div class="copy-notification" id="copyNotification">
+      Copied to clipboard!
+    </div>
+
+    <script>
+      class ColorPicker {
+        clientCoordsEl = document.getElementById('clientCoords');
+        pageCoordsEl = document.getElementById('pageCoords');
+        screenCoordsEl = document.getElementById('screenCoords');
+        offsetCoordsEl = document.getElementById('offsetCoords');
+        relativeCoordsEl = document.getElementById('relativeCoords');
+        myElement = document.getElementById('myElement');
+
+        // Listen for clicks on the entire document
+        clickListen = document.addEventListener('click', function(event) {
+            // event is the MouseEvent object
+            const clientX = event.clientX;
+            const clientY = event.clientY;
+            clientCoordsEl.textContent = `X: ${clientX}, Y: ${clientY}`;
+            const pageX = event.pageX;
+            const pageY = event.pageY;
+            pageCoordsEl.textContent = `X: ${pageX}, Y: ${pageY}`;
+            const screenX = event.screenX;
+            const screenY = event.screenY;
+            screenCoordsEl.textContent = `X: ${screenX}, Y: ${screenY}`;
+            // If the click was specifically on #myElement
+            if (event.target === myElement || myElement.contains(event.target)) {
+                const offsetX = event.offsetX;
+                const offsetY = event.offsetY;
+                offsetCoordsEl.textContent = `X: ${offsetX}, Y: ${offsetY}`;
+                // To get coordinates relative to a specific element (like your color picker canvas):
+                const rect = myElement.getBoundingClientRect();
+                const xInsideElement = event.clientX - rect.left;
+                const yInsideElement = event.clientY - rect.top;
+                relativeCoordsEl.textContent = `X: ${xInsideElement.toFixed(2)}, Y: ${yInsideElement.toFixed(2)}`;
+            } else {
+                offsetCoordsEl.textContent = '-';
+                relativeCoordsEl.textContent = '-';
+            }
+            console.log("Clicked Event Object:", event);
+        });
+        // You can also attach the listener to a specific element
+        // myElement.addEventListener('click', function(event) {
+        //     // Stop the event from bubbling up to the document's listener if you want
+        //     // event.stopPropagation();
+        //     const offsetX = event.offsetX;
+        //     const offsetY = event.offsetY;
+        //     console.log(`Clicked inside #myElement at offsetX: ${offsetX}, offsetY: ${offsetY}`);
+        //     const rect = myElement.getBoundingClientRect();
+        //     const xInsideElement = event.clientX - rect.left;
+        //     const yInsideElement = event.clientY - rect.top;
+        //     console.log(`Calculated relative to #myElement: X=${xInsideElement}, Y=${yInsideElement}`);
+        // });
+        constructor() {
+          this.canvas = document.getElementById("colorCanvas");
+          this.ctx = this.canvas.getContext("2d");
+          this.cursor = document.getElementById("canvasCursor");
+          this.hueSlider = document.getElementById("hueSlider");
+          this.hueHandle = document.getElementById("hueHandle");
+          this.preview = document.getElementById("colorPreview");
+          this.currentHue = null;
+          this.currentSat = null;
+          this.currentLight = null;
+          this.isDraggingCanvas = false;
+          this.isDraggingHue = false;
+          this.init();
+        }
+
+        init() {
+          this.drawColorCanvas();
+          this.drawPresets();
+          this.updateDisplay(); // Call this first to ensure color values are up-to-date
+          this.updateCursorPosition(); // Then update positions based on initial HSL
+          this.updateHueHandle(); // Same for hue handle
+          this.bindEvents(); // Then bind events
+        }
+
+        bindEvents() {
+          // Canvas events
+          this.canvas.addEventListener("mousedown", (e) =>
+            this.handleCanvasMouseDown(e)
+          );
+          this.canvas.addEventListener("mousemove", (e) =>
+            this.handleCanvasMouseMove(e)
+          );
+          document.addEventListener("mouseup", () => this.handleMouseUp());
+
+          // Hue slider events
+          this.hueSlider.addEventListener("mousedown", (e) =>
+            this.handleHueMouseDown(e)
+          );
+          this.hueSlider.addEventListener("mousemove", (e) =>
+            this.handleHueMouseMove(e)
+          );
+          // It's good practice to also add mouseup to document for hue slider dragging
+          // (already covered by the existing document mouseup handler)
+
+          // Copy to clipboard events
+          document
+            .getElementById("hexValue")
+            .addEventListener("click", () =>
+              this.copyToClipboard(this.getHex())
+            );
+          document
+            .getElementById("rgbValue")
+            .addEventListener("click", () =>
+              this.copyToClipboard(this.getRgb())
+            );
+          document
+            .getElementById("hslValue")
+            .addEventListener("click", () =>
+              this.copyToClipboard(this.getHsl())
+            );
+        }
+
+        handleCanvasMouseDown(e) {
+          this.isDraggingCanvas = true;
+          this.updateColorFromCanvas(e);
+        }
+
+        handleCanvasMouseMove(e) {
+          if (this.isDraggingCanvas) {
+            this.updateColorFromCanvas(e);
+          }
+        }
+
+        handleHueMouseDown(e) {
+          this.isDraggingHue = true;
+          this.updateHueFromSlider(e);
+        }
+
+        handleHueMouseMove(e) {
+          if (this.isDraggingHue) {
+            this.updateHueFromSlider(e);
+          }
+        }
+
+        handleMouseUp() {
+          this.isDraggingCanvas = false;
+          this.isDraggingHue = false;
+        }
+
+        updateColorFromCanvas(e) {
+          const rect = this.canvas.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+
+          this.currentSat = Math.round((x / this.canvas.offsetWidth) * 100);
+          this.currentLight = Math.round(
+            100 - (y / this.canvas.offsetHeight) * 100
+          );
+
+          this.currentSat = Math.max(0, Math.min(100, this.currentSat));
+          this.currentLight = Math.max(0, Math.min(100, this.currentLight));
+
+          this.updateDisplay();
+          this.updateCursorPosition();
+        }
+
+        updateHueFromSlider(e) {
+          const rect = this.hueSlider.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          // Ensure hue slider width is not zero to prevent division by zero
+          const sliderWidth = this.hueSlider.offsetWidth;
+          if (sliderWidth === 0) return;
+
+          this.currentHue = Math.round((x / sliderWidth) * 360);
+          this.currentHue = Math.max(0, Math.min(360, this.currentHue));
+
+          this.drawColorCanvas();
+          this.updateDisplay();
+          this.updateHueHandle();
+        }
+
+        drawColorCanvas() {
+          const width = this.canvas.width;
+          const height = this.canvas.height;
+
+          // Create gradient based on current hue
+          // Horizontal: Saturation (0-100)
+          // Vertical: Lightness (100-0)
+          for (let y = 0; y < height; y++) {
+            // Iterate y (lightness) first for better performance potentially
+            for (let x = 0; x < width; x++) {
+              const sat = (x / width) * 100;
+              const light = 100 - (y / height) * 100; // Lightness decreases as y increases
+              const color = this.hslToRgb(this.currentHue, sat, light);
+
+              this.ctx.fillStyle = `rgb(${color.r}, ${color.g}, ${color.b})`;
+              this.ctx.fillRect(x, y, 1, 1);
+            }
+          }
+        }
+
+        drawPresets() {
+          const presets = [
+            "#FF0000",
+            "#FF8000",
+            "#FFFF00",
+            "#80FF00",
+            "#00FF00",
+            "#00FF80",
+            "#00FFFF",
+            "#0080FF",
+            "#0000FF",
+            "#8000FF",
+            "#FF00FF",
+            "#FF0080",
+            "#FFFFFF",
+            "#C0C0C0",
+            "#808080",
+            "#404040",
+            "#000000",
+            "#8B4513",
+            "#A0522D",
+            "#D2691E",
+            "#FF4500",
+            "#FF6347",
+            "#FFA500",
+            "#FFD700",
+          ];
+
+          const container = document.getElementById("presetColors");
+          if (!container) return; // Guard against missing element
+          container.innerHTML = "";
+
+          presets.forEach((color) => {
+            const div = document.createElement("div");
+            div.className = "preset-color";
+            div.style.backgroundColor = color;
+            div.addEventListener("click", () => this.setColorFromHex(color));
+            container.appendChild(div);
+          });
+        }
+
+        setColorFromHex(hex) {
+          const rgb = this.hexToRgb(hex);
+          if (!rgb) return; // Handle invalid hex
+          const hsl = this.rgbToHsl(rgb.r, rgb.g, rgb.b);
+
+          this.currentHue = hsl.h;
+          this.currentSat = hsl.s;
+          this.currentLight = hsl.l;
+
+          this.drawColorCanvas();
+          this.updateDisplay();
+          this.updateCursorPosition();
+          this.updateHueHandle();
+        }
+
+        updateDisplay() {
+          const color = this.hslToRgb(
+            this.currentHue,
+            this.currentSat,
+            this.currentLight
+          );
+          const hex = this.rgbToHex(color.r, color.g, color.b);
+
+          if (this.preview) {
+            this.preview.style.backgroundColor = hex;
+          }
+          const colorNameEl = document.getElementById("colorName");
+          if (colorNameEl) colorNameEl.textContent = this.getColorName(hex);
+
+          const hexValEl = document.getElementById("hexValue");
+          if (hexValEl) hexValEl.textContent = hex;
+
+          const rgbValEl = document.getElementById("rgbValue");
+          if (rgbValEl)
+            rgbValEl.textContent = `rgb(${color.r}, ${color.g}, ${color.b})`;
+
+          const hslValEl = document.getElementById("hslValue");
+          if (hslValEl)
+            hslValEl.textContent = `hsl(${this.currentHue}, ${this.currentSat}%, ${this.currentLight}%)`;
+        }
+
+        updateCursorPosition() {
+          if (!this.cursor || !this.canvas) return; // Guard against missing elements
+
+          const cursorWidth = this.cursor.offsetWidth;
+          const cursorHeight = this.cursor.offsetHeight;
+          const canvasWidth = this.canvas.offsetWidth;
+          const canvasHeight = this.canvas.offsetHeight;
+
+          // Ensure canvas dimensions are not zero to prevent division by zero or NaN positions
+          if (canvasWidth === 0 || canvasHeight === 0) return;
+
+          // Calculate the target X and Y for the center of the cursor on the canvas
+          const targetCenterX = (this.currentSat / 100) * canvasWidth;
+          const targetCenterY =
+            ((100 - this.currentLight) / 100) * canvasHeight;
+
+          // Adjust the style.left and style.top to position the cursor's top-left corner
+          // such that its center aligns with (targetCenterX, targetCenterY)
+          this.cursor.style.left = targetCenterX - cursorWidth / 2 + "px";
+          this.cursor.style.top = targetCenterY - cursorHeight / 2 + "px";
+        }
+
+        updateHueHandle() {
+          if (!this.hueHandle || !this.hueSlider) return; // Guard against missing elements
+
+          const handleWidth = this.hueHandle.offsetWidth;
+          const sliderWidth = this.hueSlider.offsetWidth;
+
+          // Ensure slider width is not zero
+          if (sliderWidth === 0) return;
+
+          // Calculate the target X for the center of the handle on the slider
+          const targetCenterX = (this.currentHue / 360) * sliderWidth;
+
+          // Adjust style.left to position the handle's top-left corner
+          // such that its center aligns with targetCenterX
+          this.hueHandle.style.left = targetCenterX - handleWidth / 2 + "px";
+        }
+
+        getHex() {
+          const color = this.hslToRgb(
+            this.currentHue,
+            this.currentSat,
+            this.currentLight
+          );
+          return this.rgbToHex(color.r, color.g, color.b);
+        }
+
+        getRgb() {
+          const color = this.hslToRgb(
+            this.currentHue,
+            this.currentSat,
+            this.currentLight
+          );
+          return `rgb(${color.r}, ${color.g}, ${color.b})`;
+        }
+
+        getHsl() {
+          return `hsl(${this.currentHue}, ${this.currentSat}%, ${this.currentLight}%)`;
+        }
+
+        // Color conversion utilities
+        hslToRgb(h, s, l) {
+          h /= 360;
+          s /= 100;
+          l /= 100;
+
+          let r, g, b;
+
+          if (s === 0) {
+            r = g = b = l; // achromatic
+          } else {
+            const hue2rgb = (p, q, t) => {
+              if (t < 0) t += 1;
+              if (t > 1) t -= 1;
+              if (t < 1 / 6) return p + (q - p) * 6 * t;
+              if (t < 1 / 2) return q;
+              if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+              return p;
+            };
+
+            const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+            const p = 2 * l - q;
+            r = hue2rgb(p, q, h + 1 / 3);
+            g = hue2rgb(p, q, h);
+            b = hue2rgb(p, q, h - 1 / 3);
+          }
+
+          return {
+            r: Math.round(r * 255),
+            g: Math.round(g * 255),
+            b: Math.round(b * 255),
+          };
+        }
+
+        rgbToHex(r, g, b) {
+          return (
+            "#" +
+            [r, g, b]
+              .map((x) => {
+                const hex = x.toString(16);
+                return hex.length === 1 ? "0" + hex : hex;
+              })
+              .join("")
+              .toUpperCase()
+          );
+        }
+
+        hexToRgb(hex) {
+          const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+          hex = hex.replace(shorthandRegex, (m, r, g, b) => {
+            return r + r + g + g + b + b;
+          });
+          const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+          return result
+            ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16),
+              }
+            : null;
+        }
+
+        rgbToHsl(r, g, b) {
+          r /= 255;
+          g /= 255;
+          b /= 255;
+
+          const max = Math.max(r, g, b);
+          const min = Math.min(r, g, b);
+          let h,
+            s,
+            l = (max + min) / 2;
+
+          if (max === min) {
+            h = s = 0; // achromatic
+          } else {
+            const d = max - min;
+            s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+
+            switch (max) {
+              case r:
+                h = (g - b) / d + (g < b ? 6 : 0);
+                break;
+              case g:
+                h = (b - r) / d + 2;
+                break;
+              case b:
+                h = (r - g) / d + 4;
+                break;
+            }
+            h /= 6;
+          }
+
+          return {
+            h: Math.round(h * 360),
+            s: Math.round(s * 100),
+            l: Math.round(l * 100),
+          };
+        }
+
+        getColorName(hex) {
+          // This is a very basic map. For more accurate names, a larger library or service is needed.
+          const colorNames = {
+            "#FF0000": "Red",
+            "#00FF00": "Green",
+            "#0000FF": "Blue",
+            "#FFFF00": "Yellow",
+            "#FF00FF": "Magenta",
+            "#00FFFF": "Cyan",
+            "#FFFFFF": "White",
+            "#000000": "Black",
+            "#808080": "Gray",
+            "#FFA500": "Orange",
+            "#800080": "Purple",
+            "#A52A2A": "Brown", // A52A2A is sienna, not generic brown
+            "#FFC0CB": "Pink",
+            "#90EE90": "Light Green",
+            "#87CEEB": "Sky Blue",
+            "#FF8000": "Orange Red",
+            "#80FF00": "Lime Green",
+            "#00FF80": "Spring Green",
+            "#0080FF": "Azure",
+            "#8000FF": "Violet",
+            "#FF0080": "Deep Pink",
+            "#C0C0C0": "Silver",
+            "#404040": "Dark Gray",
+            "#8B4513": "Saddle Brown",
+            "#A0522D": "Sienna",
+            "#D2691E": "Chocolate",
+            "#FF4500": "OrangeRed",
+            "#FF6347": "Tomato",
+            "#FFD700": "Gold",
+          };
+
+          return colorNames[hex.toUpperCase()] || "Custom Color";
+        }
+
+        copyToClipboard(text) {
+          if (!navigator.clipboard) {
+            // Fallback for older browsers or non-secure contexts
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed"; // Avoid scrolling to bottom
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+              document.execCommand("copy");
+              this.showCopyNotification(`Copied (fallback): ${text}`);
+            } catch (err) {
+              this.showCopyNotification("Failed to copy (fallback)");
+            }
+            document.body.removeChild(textArea);
+            return;
+          }
+          navigator.clipboard
+            .writeText(text)
+            .then(() => {
+              this.showCopyNotification(`Copied: ${text}`);
+            })
+            .catch((err) => {
+              this.showCopyNotification("Failed to copy");
+              console.error("Could not copy text: ", err);
+            });
+        }
+
+        showCopyNotification(message) {
+          const notification = document.getElementById("copyNotification");
+          if (!notification) return;
+          notification.textContent = message;
+          notification.classList.add("show");
+          setTimeout(() => notification.classList.remove("show"), 2000);
+        }
+      }
+
+      // Initialize the color picker when the page loads
+      document.addEventListener("DOMContentLoaded", () => {
+        new ColorPicker();
+      });
+    </script>
+  </body>
+</html>

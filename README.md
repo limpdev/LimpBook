@@ -19,7 +19,9 @@ mdbook build
 
 > Preprocessor for mdbook written in Rust!
 
-<details><summary> <i>Codeport Preprocessor</i></summary>
+####  `Codeport` Preprocessor
+
+<details><summary></summary>
 
 > This is an attempt at implementing a copy-cat of the imported codeblocks found commonly in MDX static site generators.
 
@@ -333,5 +335,110 @@ fn main() -> Result<()> {
     Check the `book/` directory (or your configured output directory) for the generated HTML. The code blocks should now contain the content from the specified files.
 
 This preprocessor provides a solid foundation. You could extend it further, for example, to support importing specific line ranges or regions from files, similar to `rustdoc` or other advanced tools.
+
+</details>
+
+#### `ColorBook` Preprocessor
+
+<details><summary></summary>
+
+For integrating a color picker into mdbook docs, I'd recommend creating a self-contained HTML component that can be easily inserted wherever you use the `:!pick:` alias. Here's a comprehensive approach:For integrating this into your mdbook workflow, here's the best approach:
+
+## 1. **mdbook Preprocessor Approach** (Recommended)
+
+Create a simple preprocessor that replaces `:!pick:` with the color picker HTML:
+
+```rust
+// In your Cargo.toml, add mdbook as a dependency
+// Then create a preprocessor that transforms the markdown
+
+use mdbook::preprocess::{Preprocessor, PreprocessorContext};
+use mdbook::book::{Book, BookItem};
+
+struct ColorPickerPreprocessor;
+
+impl Preprocessor for ColorPickerPreprocessor {
+    fn name(&self) -> &str {
+        "color-picker"
+    }
+
+    fn run(&self, _ctx: &PreprocessorContext, mut book: Book) -> Result<Book, Error> {
+        book.for_each_mut(|item| {
+            if let BookItem::Chapter(chapter) = item {
+                chapter.content = chapter.content.replace(":!pick:", include_str!("color_picker.html"));
+            }
+        });
+        Ok(book)
+    }
+}
+```
+
+## 2. **Simple Regex Replacement** (Easier)
+
+Add this to your `book.toml`:
+
+```toml
+[preprocessor.color-picker]
+command = "sed 's/:!pick:/{{color_picker_html}}/g'"
+```
+
+Then use a simple shell script or Node.js script to replace the alias with the HTML content.
+
+## 3. **Template Integration** (Most Flexible)
+
+Save the color picker as a separate HTML file and create a simple replacement script:
+
+```javascript
+// replace-color-picker.js
+const fs = require('fs');
+const path = require('path');
+
+const colorPickerHtml = fs.readFileSync('color-picker-component.html', 'utf8');
+
+function processMarkdownFiles(dir) {
+    const files = fs.readdirSync(dir);
+    
+    files.forEach(file => {
+        const filePath = path.join(dir, file);
+        const stats = fs.statSync(filePath);
+        
+        if (stats.isDirectory()) {
+            processMarkdownFiles(filePath);
+        } else if (file.endsWith('.md')) {
+            let content = fs.readFileSync(filePath, 'utf8');
+            content = content.replace(/:!pick:/g, colorPickerHtml);
+            fs.writeFileSync(filePath, content);
+        }
+    });
+}
+
+processMarkdownFiles('./src');
+```
+
+## Usage in Markdown
+
+Simply add `:!pick:` anywhere in your markdown files:
+
+```markdown
+# Color Theory
+
+Here's an interactive color picker to experiment with:
+
+:!pick:
+
+You can use this to understand HSL color relationships...
+```
+
+## Key Features of the Component
+
+- **Full HSL color space** with visual canvas selection
+- **Hue slider** for complete color range
+- **Click-to-copy** color values (HEX, RGB, HSL)
+- **Preset color palette** for quick selection
+- **Responsive design** that works in docs
+- **No external dependencies** - completely self-contained
+- **Smooth animations** and professional UI
+
+The component is designed to be completely standalone with no external dependencies, making it perfect for documentation that needs to work offline or in various environments. The copy-to-clipboard functionality makes it practical for developers who want to quickly grab color values for their projects.
 
 </details>
