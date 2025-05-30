@@ -37,7 +37,7 @@ a > .hljs {
 	position: relative;
 	display: flex;
 	flex-wrap: wrap;
-	background: linear-gradient(to bottom, #09090a 38%, #09090a00 99%);
+	background: #00000000;
 	border: none;
 	border-radius: 0px;
 }
@@ -159,7 +159,6 @@ html:not(.js) .left-buttons button {
 	margin: 0;
 	max-width: 30px;
 	/* min-width: 90px; */
-
 	display: flex;
 	justify-content: center;
 	align-content: center;
@@ -368,8 +367,8 @@ pre > .buttons button.clip-button:hover::before {
 pre > code {
 	display: block;
 	padding: 1.7rem;
-	font-size: 0.75em;
-	font-weight: 600;
+	font-size: 0.85em;
+	font-weight: 300;
 	// text-wrap: auto; // makes lines wrap once they hit the right edge
 }
 
@@ -495,20 +494,18 @@ ul#searchresults span.teaser em {
 	top: 0px;
 	bottom: 0;
 	width: var(--sidebar-width);
-	font-size: 0.7em;
-	font-family: "SFCompactDisplay Nerd Font", "SymbolsNF", sans-serif;
+	font-size: 0.8em;
+	font-family: "Karla", "SymbolsNF", sans-serif;
 	font-weight: 400;
 	box-sizing: border-box;
 	overscroll-behavior-y: contain;
-	/* background-color: var(--sidebar-bg); */
-	background: linear-gradient(to bottom, #09090a 23px, #09090a00 52px);
+	background: #121212;
 	color: var(--sidebar-fg);
 	scrollbar-width: none !important;
 }
 
 .sidebar-iframe-inner {
 	--padding: 10px;
-
 	background-color: var(--sidebar-bg);
 	padding: var(--padding);
 	margin: 0;
@@ -540,12 +537,12 @@ ul#searchresults span.teaser em {
 }
 
 html:not(.sidebar-resizing) .sidebar {
-	transition: transform 0.4s;
+	transition: transform 0.4s ease-in-out;
 	/* Animation: slide away */
 }
 
 .sidebar code {
-	line-height: 2em;
+	line-height: inherit;
 }
 
 .sidebar .sidebar-scrollbox {
@@ -617,7 +614,7 @@ html:not(.sidebar-resizing) .sidebar {
 @media only screen and (min-width: 620px) {
 	#sidebar-toggle-anchor:checked ~ .page-wrapper {
 		transform: none;
-		margin-inline-start: calc(var(--sidebar-width) + var(--sidebar-resize-indicator-width));
+		margin-inline-start: calc(var(--sidebar-width));
 	}
 
 	[dir="rtl"] #sidebar-toggle-anchor:checked ~ .page-wrapper {
