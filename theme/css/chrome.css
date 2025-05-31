@@ -266,7 +266,7 @@ pre {
 }
 
 pre > code {
-	border-radius: 7px;
+	border-radius: 13px;
 	border: none;
 }
 
@@ -367,8 +367,8 @@ pre > .buttons button.clip-button:hover::before {
 pre > code {
 	display: block;
 	padding: 1.7rem;
-	font-size: 0.85em;
-	font-weight: 300;
+	font-size: 0.90em;
+	font-weight: 400;
 	// text-wrap: auto; // makes lines wrap once they hit the right edge
 }
 

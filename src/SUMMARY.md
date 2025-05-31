@@ -4,10 +4,11 @@
 
 - [ Playground](./meta/topics/GitHubFlavour.md)
     - [ DevDocs](./meta/topics/DevDocs.md)
-    - [ Base Transformations](./meta/topics/defaultJS.md)
+    - [ Transforms](./meta/topics/defaultJS.md)
     - [ My Design](./meta/topics/MyDesign.md)
     - [ Architecture](./meta/topics/Architecture.md)
     - [ Table of Contents](./meta/topics/TOC.md)
+    - [ AnimateCSS](./meta/topics/animateCSS.md)
     - [ AutoSum](./meta/topics/autosum.md)
     - [ DOpus](./meta/topics/dopustools.md)
     - [ SwiftBar](./meta/topics/swiftbar.md)

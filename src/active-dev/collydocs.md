@@ -161,7 +161,7 @@ COLLY_IGNORE_ROBOTSTXT						(bool)
 COLLY_FOLLOW_REDIRECTS						(bool)
 COLLY_MAX_BODY_SIZE						(int)
 COLLY_MAX_DEPTH							(int - 0 means infinite)
-COLLY_PARSE_HTTP_ERROR_RESPONSE				(bool)
+COLLY_PARSE_HTTP_ERROR_RESPONSE					(bool)
 COLLY_USER_AGENT						(string)
 ```
 
@@ -187,14 +187,14 @@ c.WithTransport(&http.Transport{
 
 # Storage backend
 
-Colly has an in-memory storage backend to store cookies and visited URLs, but it can be overwritten by any custom storage backend which implements [colly/storage.Storage](https://godoc.org/github.com/gocolly/colly/storage#Storage).
+ `Colly` has an **in-memory storage backend** to store **cookies** and visited URLs, but it can be overwritten by any custom storage backend which implements [colly/storage.Storage](https://godoc.org/github.com/gocolly/colly/storage#Storage).
 
 ## Existing Storage Backends
 
 - [In-Memory Backend](https://godoc.org/github.com/gocolly/colly/storage#InMemoryStorage)
-    - The default backend of Colly. Use [collector.SetStorage()](https://godoc.org/github.com/gocolly/colly#Collector.SetStorage) to override.
+    - _The default backend of Colly. Use [collector.SetStorage()](https://godoc.org/github.com/gocolly/colly#Collector.SetStorage) to override._
 - [Redis backend](https://github.com/gocolly/redisstorage)
-    - See [redis example](../examples/redis_backend.1.html) for details.
+    - _See [redis example](../examples/redis_backend.1.html) for details._
 - [boltdb backend](https://github.com/earlzo/colly-bolt-storage)
 - [SQLite3 backend](https://github.com/velebak/colly-sqlite3-storage)
 - [MongoDB backend](https://github.com/zolamk/colly-mongo-storage)
