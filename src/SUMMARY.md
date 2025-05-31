@@ -18,6 +18,7 @@
 
 - [ Frequents](./active-dev/Snippets.md)
 - [ devodocs](./active-dev/devowails.md)
+- [ Colly](./active-dev/collydocs.md)
 - [ Chromem](./active-dev/ChromeGo.md)
 - [ Mojo](./active-dev/Mojo.md)
 - [ astro](./active-dev/astroDocs.md)
