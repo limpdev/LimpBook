@@ -1,8 +1,4 @@
-<p align="center">
-  <a href="https://github.com/trimstray/the-book-of-secret-knowledge">
-    <img src="https://github.com/trimstray/the-book-of-secret-knowledge/blob/master/static/img/the-book-of-secret-knowledge-preview.png" alt="Master">
-  </a>
-</p>
+#  Knowledge & Secrets
 
 <p align="center">"<i>Knowledge is powerful, be careful how you use it!</i>"</p>
 
@@ -55,8 +51,6 @@ print(data)
 - **[Shell Functions](#shell-functions-toc)**
 
 </details>
-
-## :trident: &nbsp;The Book of Secret Knowledge (Chapters)
 
 #### CLI Tools &nbsp;[<sup>[TOC]</sup>](#anger-table-of-contents)
 
