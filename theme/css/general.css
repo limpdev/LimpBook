@@ -295,7 +295,7 @@ sup {
 }
 
 .chapter li.part-title {
-    color: var(--sidebar-fg);
+    color: #ffffff30;
     margin: 5px 0px;
     font-weight: bold;
 }
@@ -328,12 +328,10 @@ sup {
 }
 
 /* SELECTED TEXT BACKGROUND COLOR */
-
 ::selection {
     background-color: #6895ec50; /* Change to your preferred color */
     /* color: #000000; Text color when highlighted */
 }
-
 ::-moz-selection {
     /* Firefox requires its own rule */
     background-color: #6895ec50;
@@ -348,7 +346,6 @@ details {
     margin-bottom: 9px;
     border: none;
 }
-
 /* Remove default triangle marker */
 details summary {
     font-size: 0.95em;
@@ -381,7 +378,6 @@ summary > #text {
     padding-top: 0.5em;
     padding-left: 0.9em;
 }
-
 .details-content {
     padding-top: 1em;
     padding-bottom: -1em;
@@ -399,7 +395,6 @@ details > summary {
     padding-right: 0.5em;
     box-sizing: border-box;
 }
-
 .details-toggle-btn {
     cursor: var(--crosshair);
     border-radius: 19px;

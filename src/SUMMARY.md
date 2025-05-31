@@ -1,6 +1,6 @@
 # Summary
 
-#  Home
+#  HOME
 
 - [ Playground](./meta/topics/GitHubFlavour.md)
     - [ DevDocs](./meta/topics/DevDocs.md)
@@ -14,7 +14,7 @@
 
 ---
 
-#  Active Projects
+#  PROJECTS
 
 - [ Frequents](./active-dev/Snippets.md)
 - [ devodocs](./active-dev/devowails.md)
@@ -23,25 +23,25 @@
 - [ Mojo](./active-dev/Mojo.md)
 - [ astro](./active-dev/astroDocs.md)
 - [ AwesomeRemark](./active-dev/remarkJS/AwesomeRemark.md)
-        - [ ReMark](./active-dev/remarkJS/ReMark.md)
-        - [ ReHype](./active-dev/remarkJS/re-hype.md)
-        - [ GFM](./active-dev/remarkJS/re-gfm.md)
-        - [Admonitions](./active-dev/remarkJS/re-admonitions.md)
-        - [Direct](./active-dev/remarkJS/re-direct.md)
-        - [Flex-Codetitle](./active-dev/remarkJS/re-flex-codetitle.md)
-        - [Format](./active-dev/remarkJS/re-format.md)
-        - [Highlight](./active-dev/remarkJS/re-highlight.md)
-        - [Hint](./active-dev/remarkJS/re-hint.md)
-        - [Manpages](./active-dev/remarkJS/re-man.md)
-        - [Mermaid](./active-dev/remarkJS/re-mermaid.md)
-        - [Minify](./active-dev/remarkJS/re-minify.md)
-        - [Stringify](./active-dev/remarkJS/re-stringify.md)
-        - [Tab Blocks](./active-dev/remarkJS/re-tabblocks.md)
-        - [TOC](./active-dev/remarkJS/re-toc.md)
+    - [ ReMark](./active-dev/remarkJS/ReMark.md)
+    - [ ReHype](./active-dev/remarkJS/re-hype.md)
+    - [ GFM](./active-dev/remarkJS/re-gfm.md)
+    - [Admonitions](./active-dev/remarkJS/re-admonitions.md)
+    - [Direct](./active-dev/remarkJS/re-direct.md)
+    - [Flex-Codetitle](./active-dev/remarkJS/re-flex-codetitle.md)
+    - [Format](./active-dev/remarkJS/re-format.md)
+    - [Highlight](./active-dev/remarkJS/re-highlight.md)
+    - [Hint](./active-dev/remarkJS/re-hint.md)
+    - [Manpages](./active-dev/remarkJS/re-man.md)
+    - [Mermaid](./active-dev/remarkJS/re-mermaid.md)
+    - [Minify](./active-dev/remarkJS/re-minify.md)
+    - [Stringify](./active-dev/remarkJS/re-stringify.md)
+    - [Tab Blocks](./active-dev/remarkJS/re-tabblocks.md)
+    - [TOC](./active-dev/remarkJS/re-toc.md)
 
 ---
 
-#  Web Development
+#  WEBDEV
 
 - [ Chrome](./web/tabmodifier.md)
     - [ HoverJS](./web/chrome/hoverJS.md)
@@ -84,7 +84,7 @@
 
 ---
 
-#  Commandline
+#  COMMANDLINE
 
 - [ VIM](./cli/vim.md)
     - [ NVIM](./cli/vim/nvim.md)
@@ -128,7 +128,7 @@
 
 ---
 
-#  Golang
+#  GOLANG
 
 - [Introduction](./golang/Golang.md)
     - [Concept of Types](./golang/Concepts-Types.md)
@@ -152,21 +152,21 @@
     - [MacOS-Preview](./golang/macos-preview.md)
     - [Notes-On-Go](./golang/golang-notes.md)
     - [ Zenity](./golang/zenity/go_zenity.md)
-    - [Introduction](./golang/zenity/intro.md)
-    - [Calendar](./golang/zenity/calendar.md)
-    - [Color Selection](./golang/zenity/color-selection.md)
-    - [Entry](./golang/zenity/entry.md)
-    - [File Selection](./golang/zenity/file-selection.md)
-    - [Forms](./golang/zenity/forms.md)
-    - [Index](./golang/zenity/index.md)
-    - [List](./golang/zenity/list.md)
-    - [Message](./golang/zenity/message.md)
-    - [Notification](./golang/zenity/notification.md)
-    - [Password](./golang/zenity/password.md)
-    - [Progress](./golang/zenity/progress.md)
-    - [Scale](./golang/zenity/scale.md)
-    - [Text](./golang/zenity/text.md)
-    - [Usage](./golang/zenity/usage.md)
+        - [Introduction](./golang/zenity/intro.md)
+        - [Calendar](./golang/zenity/calendar.md)
+        - [Color Selection](./golang/zenity/color-selection.md)
+        - [Entry](./golang/zenity/entry.md)
+        - [File Selection](./golang/zenity/file-selection.md)
+        - [Forms](./golang/zenity/forms.md)
+        - [Index](./golang/zenity/index.md)
+        - [List](./golang/zenity/list.md)
+        - [Message](./golang/zenity/message.md)
+        - [Notification](./golang/zenity/notification.md)
+        - [Password](./golang/zenity/password.md)
+        - [Progress](./golang/zenity/progress.md)
+        - [Scale](./golang/zenity/scale.md)
+        - [Text](./golang/zenity/text.md)
+        - [Usage](./golang/zenity/usage.md)
     - [ Hugo](./golang/hugodocs/hugo_functions.md)
         - [Collections](./golang/hugodocs/hugo_collections.md)
         - [Methods](./golang/hugodocs/hugo_methods.md)
@@ -211,7 +211,7 @@
 
 ---
 
-#  Python
+#  PYTHON
 
 - [ Sphinx](./python/sphinx.md)
     - [ Mojo](./python/Mojo.md)
@@ -266,7 +266,7 @@
 
 ---
 
-#  Machine Learning
+# AIML
 
 - [ PROMPTS](./ml/aiprompts.md)
     - [Ollama](./ml/plats/ollama.md)
@@ -278,7 +278,7 @@
 
 ---
 
-#  Zed Editor
+#  ZEDITOR
 
 - [ Getting Started](./zed/getting-started.md)
     - [System Requirements](./zed/system-requirements.md)
@@ -408,9 +408,9 @@
 
 ---
 
-#  Novels
+#  NOVELS
 
-- [� Go-App](./golang/go-app.md)
+- [ Go-App](./golang/go-app.md)
     - [ Gioui](golang/gioui.org/learnbeginners.md)
         - [Learning References](golang/gioui.org/learnreferences.md)
         - [Android](golang/gioui.org/android.md)
