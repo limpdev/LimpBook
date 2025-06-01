@@ -13,8 +13,7 @@
     - [ DOpus](./meta/topics/dopustools.md)
     - [ SwiftBar](./meta/topics/swiftbar.md)
     - [ deskflow](./meta/topics/deskflow.md)
-
----
+    - [ Book of Secrets](./meta/topics/SecretReadMe.md)
 
 #  PROJECTS
 
@@ -40,8 +39,6 @@
     - [Stringify](./active-dev/remarkJS/re-stringify.md)
     - [Tab Blocks](./active-dev/remarkJS/re-tabblocks.md)
     - [TOC](./active-dev/remarkJS/re-toc.md)
-
----
 
 #  WEBDEV
 
@@ -84,8 +81,6 @@
 - [ PDFTK-Java](./web/PDFtk-Java.md)
 - [ FontForge](./web/FontForge.md)
 
----
-
 #  COMMANDLINE
 
 - [ VIM](./cli/vim.md)
@@ -127,8 +122,6 @@
     - [ yq](./cli/tools/yq-man.md)
 - [ Wget](./cli/tools/wget-quickref.md)
     - [ Wget Manual](./cli/wget/wget-manual.md)
-
----
 
 #  GOLANG
 
@@ -211,8 +204,6 @@
             - [WML](./golang/wails3/development/changes_wml.md)
             - [Status](./golang/wails3/development/status.md)
 
----
-
 #  PYTHON
 
 - [ Sphinx](./python/sphinx.md)
@@ -266,8 +257,6 @@
         - [Strat - Chunking](./python/crawl4ai/content/strat-chunking.md)
         - [Strat - Cosine](./python/crawl4ai/content/strat-cosine.md)
 
----
-
 # AIML
 
 - [ PROMPTS](./ml/aiprompts.md)
@@ -277,8 +266,6 @@
     - [RAG](./ml/plats/ouirag.md)
     - [VISION](./ml/plats/vision-llm.md)
     - [LIGHTLLM](./ml/plats/lightllm.md)
-
----
 
 #  ZEDITOR
 
@@ -407,8 +394,6 @@
             - [Using Debuggers](./zed/development/debuggers.md)
             - [Release Process](./zed/development/releases.md)
             - [Debugging Crashes](./zed/development/debugging-crashes.md)
-
----
 
 #  NOVELS
 
