@@ -12,6 +12,7 @@
     - [ AutoSum](./meta/topics/autosum.md)
     - [ DOpus](./meta/topics/dopustools.md)
     - [ SwiftBar](./meta/topics/swiftbar.md)
+    - [ deskflow](./meta/topics/deskflow.md)
 
 ---
 
