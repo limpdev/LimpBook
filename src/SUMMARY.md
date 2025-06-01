@@ -24,7 +24,7 @@
 - [ Chromem](./active-dev/ChromeGo.md)
 - [ Mojo](./active-dev/Mojo.md)
 - [ astro](./active-dev/astroDocs.md)
-- [ AwesomeRemark](./active-dev/remarkJS/AwesomeRemark.md)
+- [ AweRemark](./active-dev/remarkJS/AwesomeRemark.md)
     - [ ReMark](./active-dev/remarkJS/ReMark.md)
     - [ ReHype](./active-dev/remarkJS/re-hype.md)
     - [ GFM](./active-dev/remarkJS/re-gfm.md)
