@@ -13,7 +13,7 @@
     - [ DOpus](./meta/topics/dopustools.md)
     - [ SwiftBar](./meta/topics/swiftbar.md)
     - [ Deskflow](./meta/topics/deskflow.md)
-    - [ Book of Secrets](./meta/topics/SecretReadMe.md)
+- [󰖇 HAWAII](./meta/HAWAII.md)
 
 #  PROJECTS
 
