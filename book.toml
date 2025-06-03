@@ -14,7 +14,7 @@ smart-punctuation = true
 mathjax-support = false
 no-section-label = true
 additional-css = ["theme/css/page-toc.css"]
-additional-js = ["theme/page-toc.js"]
+additional-js = ["theme/page-toc.js", "theme/custom.js"]
 git-repository-url = "https://github.com/limpdev/LimpBook"
 git-repository-icon = "fa-github"
 
