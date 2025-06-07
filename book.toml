@@ -1,35 +1,41 @@
 [book]
 authors = ["Limp Cheney"]
 language = "en"
-multilingual = false
 src = "src"
-title = " limpbook"
+build-dir = "book"
+title = "LimpBook"
 description = "Some serious shit right here"
 
 [build]
 create-missing = false
-
-[output.html]
-smart-punctuation = true
-mathjax-support = false
-no-section-label = true
-additional-css = ["theme/css/page-toc.css"]
-additional-js = ["theme/page-toc.js", "theme/custom.js"]
-git-repository-url = "https://github.com/limpdev/LimpBook"
-git-repository-icon = "fa-github"
+extra-watch-dir = ["static"]
 
 [output.html.fold]
 enable = true
 level = 0
 
-[preprocessor.codeport]
-command = "pre/mdbook-codeport/target/debug/mdbook-codeport.exe"
+[output]
+[output.html]
+additional-css = ["./pre/mdbook-admonish.css", "./theme/pagetoc.css", "theme/clipb.css"]
+additional-js  = ["./RIPPLES.js", "./MARKTAG.js", "./theme/pagetoc.js", "theme/clipb.js"]
+smart-punctuation = true
+mathjax-support = false
+no-section-label = true
+git-repository-url = "https://github.com/limpdev/LimpBook"
+git-repository-icon = "fa-github"
+theme = "theme"
+default-theme = "ayu"
 
-# [preprocessor.color-picker]
-# command = "sed 's/:!pick:/{{color_picker_html}}/g'"
+[preprocessor]
+[preprocessor.codeport]
+command = "pre/codeport/codeport.exe"
+[preprocessor.admonish]					# Callouts, a new kind of way
+command = "mdbook-admonish"				# Uses code syntax:
+assets_version = "3.0.3"				# 	```admonish
+[preprocessor.alerts]					# Handles the GitHub flavored Callouts/Alerts
+[preprocessor.embedify]					# Embed apps within the book - try YouTube!
+[preprocessor.hide]						# Support for hidden chapters
+hide = true								# Add "<!--hidden-->", at top of file
 
 [output.html.search]
 enable = false
-
-[output.html.playground]
-runnable = false

@@ -231,59 +231,59 @@ function playground_text(playground, hidden = true) {
         });
     });
 
-    if (window.playground_copyable) {
-        Array.from(document.querySelectorAll("pre code")).forEach(function(block) {
-            var pre_block = block.parentNode;
-            if (!pre_block.classList.contains("playground")) {
-                var buttons = pre_block.querySelector(".buttons");
-                if (!buttons) {
-                    buttons = document.createElement("div");
-                    buttons.className = "buttons";
-                    pre_block.insertBefore(buttons, pre_block.firstChild);
-                }
-                var clipButton = document.createElement("button");
-                clipButton.className = "clip-button";
-                clipButton.title = "Copy to clipboard";
-                clipButton.setAttribute("aria-label", clipButton.title);
+    // if (window.playground_copyable) {
+    //     Array.from(document.querySelectorAll("pre code")).forEach(function(block) {
+    //         var pre_block = block.parentNode;
+    //         if (!pre_block.classList.contains("playground")) {
+    //             var buttons = pre_block.querySelector(".buttons");
+    //             if (!buttons) {
+    //                 buttons = document.createElement("div");
+    //                 buttons.className = "buttons";
+    //                 pre_block.insertBefore(buttons, pre_block.firstChild);
+    //             }
+    //             var clipButton = document.createElement("button");
+    //             clipButton.className = "clip-button";
+    //             clipButton.title = "Copy to clipboard";
+    //             clipButton.setAttribute("aria-label", clipButton.title);
 
-                // Default copy SVG
-                var copySVG =
-                    '<svg xmlns="http://www.w3.org/2000/svg" id="clipButton" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 9V6.2c0-1.12 0-1.68.218-2.108c.192-.377.497-.682.874-.874C10.52 3 11.08 3 12.2 3h5.6c1.12 0 1.68 0 2.108.218a2 2 0 0 1 .874.874C21 4.52 21 5.08 21 6.2v5.6c0 1.12 0 1.68-.218 2.108a2 2 0 0 1-.874.874C19.48 15 18.92 15 17.803 15H15M9 9H6.2c-1.12 0-1.68 0-2.108.218a2 2 0 0 0-.874.874C3 10.52 3 11.08 3 12.2v5.6c0 1.12 0 1.68.218 2.108a2 2 0 0 0 .874.874c.427.218.987.218 2.105.218h5.607c1.117 0 1.676 0 2.104-.218a2 2 0 0 0 .874-.874c.218-.428.218-.987.218-2.105V15M9 9h2.8c1.12 0 1.68 0 2.108.218a2 2 0 0 1 .874.874c.218.427.218.987.218 2.105V15"/></svg>';
+    //             // Default copy SVG
+    //             var copySVG =
+    //                 '<svg xmlns="http://www.w3.org/2000/svg" id="clipButton" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 9V6.2c0-1.12 0-1.68.218-2.108c.192-.377.497-.682.874-.874C10.52 3 11.08 3 12.2 3h5.6c1.12 0 1.68 0 2.108.218a2 2 0 0 1 .874.874C21 4.52 21 5.08 21 6.2v5.6c0 1.12 0 1.68-.218 2.108a2 2 0 0 1-.874.874C19.48 15 18.92 15 17.803 15H15M9 9H6.2c-1.12 0-1.68 0-2.108.218a2 2 0 0 0-.874.874C3 10.52 3 11.08 3 12.2v5.6c0 1.12 0 1.68.218 2.108a2 2 0 0 0 .874.874c.427.218.987.218 2.105.218h5.607c1.117 0 1.676 0 2.104-.218a2 2 0 0 0 .874-.874c.218-.428.218-.987.218-2.105V15M9 9h2.8c1.12 0 1.68 0 2.108.218a2 2 0 0 1 .874.874c.218.427.218.987.218 2.105V15"/></svg>';
 
-                // Success checkmark SVG (scaled to 24x24 to match)
-                var successSVG =
-                    '<svg xmlns="http://www.w3.org/2000/svg" id="clipSuccess" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M21.75 3H15a3 3 0 1 0-6 0H2.25a.75.75 0 0 0-.75.75v19.5a.75.75 0 0 0 .75.75h19.5a.75.75 0 0 0 .75-.75V3.75a.75.75 0 0 0-.75-.75M12 1.5a1.5 1.5 0 1 1 0 3a1.5 1.5 0 0 1 0-3m9 21H3V4.5h3v2.25a.75.75 0 0 0 .75.75h10.5a.75.75 0 0 0 .75-.75V4.5h3z"/><path fill="currentColor" d="M10.5 20.121L5.689 14.56l1.371-1.371L10.5 15.879l6.44-5.689l1.371 1.371z"/></svg>';
-                clipButton.innerHTML = copySVG;
+    //             // Success checkmark SVG (scaled to 24x24 to match)
+    //             var successSVG =
+    //                 '<svg xmlns="http://www.w3.org/2000/svg" id="clipSuccess" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M21.75 3H15a3 3 0 1 0-6 0H2.25a.75.75 0 0 0-.75.75v19.5a.75.75 0 0 0 .75.75h19.5a.75.75 0 0 0 .75-.75V3.75a.75.75 0 0 0-.75-.75M12 1.5a1.5 1.5 0 1 1 0 3a1.5 1.5 0 0 1 0-3m9 21H3V4.5h3v2.25a.75.75 0 0 0 .75.75h10.5a.75.75 0 0 0 .75-.75V4.5h3z"/><path fill="currentColor" d="M10.5 20.121L5.689 14.56l1.371-1.371L10.5 15.879l6.44-5.689l1.371 1.371z"/></svg>';
+    //             clipButton.innerHTML = copySVG;
 
-                // Add CSS for smooth transition
-                clipButton.style.transition = "all 0.2s ease";
+    //             // Add CSS for smooth transition
+    //             clipButton.style.transition = "all 0.2s ease";
 
-                // Function to show success state
-                function showSuccess() {
-                    clipButton.innerHTML = successSVG;
-                    clipButton.style.color = "#10b981"; // Green color for success
-                    clipButton.title = "Copied!";
-                    clipButton.setAttribute("aria-label", "Copied!");
+    //             // Function to show success state
+    //             function showSuccess() {
+    //                 clipButton.innerHTML = successSVG;
+    //                 clipButton.style.color = "#10b981"; // Green color for success
+    //                 clipButton.title = "Copied!";
+    //                 clipButton.setAttribute("aria-label", "Copied!");
 
-                    // Reset after 2 seconds
-                    setTimeout(function() {
-                        clipButton.innerHTML = copySVG;
-                        clipButton.style.color = "";
-                        clipButton.title = "Copy to clipboard";
-                        clipButton.setAttribute("aria-label", "Copy to clipboard");
-                    }, 2000);
-                }
+    //                 // Reset after 2 seconds
+    //                 setTimeout(function() {
+    //                     clipButton.innerHTML = copySVG;
+    //                     clipButton.style.color = "";
+    //                     clipButton.title = "Copy to clipboard";
+    //                     clipButton.setAttribute("aria-label", "Copy to clipboard");
+    //                 }, 2000);
+    //             }
 
-                // Add click event listener to trigger success state
-                clipButton.addEventListener("click", function() {
-                    // Call your existing copy functionality here
-                    // navigator.clipboard.writeText(playground_text(pre_block.closest(".playground") || pre_block, false)); // Example
-                    showSuccess();
-                });
-                buttons.insertBefore(clipButton, buttons.firstChild);
-            }
-        });
-    }
+    //             // Add click event listener to trigger success state
+    //             clipButton.addEventListener("click", function() {
+    //                 // Call your existing copy functionality here
+    //                 // navigator.clipboard.writeText(playground_text(pre_block.closest(".playground") || pre_block, false)); // Example
+    //                 showSuccess();
+    //             });
+    //             buttons.insertBefore(clipButton, buttons.firstChild);
+    //         }
+    //     });
+    // }
 
     // Process playground code blocks
     Array.from(document.querySelectorAll(".playground")).forEach(function(pre_block) {
@@ -553,18 +553,6 @@ function playground_text(playground, hidden = true) {
         clipButton.addEventListener("mouseout", function (e) {
             hideTooltip(e.currentTarget);
         });
-    });
-    
-    const copySound = new Audio('copyClick.wav');
-    clipboardSnippets.on("success", function (e) {
-        e.clearSelection();
-        showTooltip(e.trigger, "Copied!");
-        copySound.currentTime = 0;
-        copySound.play();
-    });
-
-    clipboardSnippets.on("error", function (e) {
-        showTooltip(e.trigger, "Clipboard error!");
     });
 })();
 (function scrollToTop() {

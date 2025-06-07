@@ -66,10 +66,12 @@ html.sidebar-visible #menu-bar {
 #menu-bar i,
 #menu-bar .icon-button {
 	position: relative;
-	padding: 0 8px;
+	padding-top: 1em;
+	padding-right: 1em;
+	padding-left: 0.25em;
 	z-index: 10;
-	line-height: var(--menu-bar-height);
-	cursor: var(--crosshair);
+	/* line-height: var(--menu-bar-height); */
+	cursor: var(--pen);
 	transition: color 0.5s;
 }
 
@@ -123,7 +125,7 @@ html:not(.js) .left-buttons button {
 }
 
 .menu-title {
-	cursor: var(--crosshair);
+	cursor: var(--pen);
 }
 
 .menu-bar,
@@ -151,7 +153,7 @@ html:not(.js) .left-buttons button {
 	padding-left: 5px;
 	text-align: center;
 	text-decoration: none;
-	cursor: var(--crosshair);
+	cursor: var(--pen);
 	position: fixed;
 	height: 30px;
 	top: 50%;
@@ -247,22 +249,24 @@ html:not(.js) .left-buttons button {
 }
 
 :not(pre):not(a) > .hljs {
-	color: var(--inline-code-color);
+	color: #fdf8ef;
 	overflow-x: initial;
+	font-size: 0.9em;
+	background: #3a2206;
 }
 
 a:hover > .hljs {
-	text-decoration: underline;
-}
-
-.hljs {
-	box-shadow:
-		0 10px 16px 0 rgba(0, 0, 0, 0.2),
-		0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	text-decoration: none;
 }
 
 pre {
 	position: relative;
+	cursor: var(--pen);
+}
+
+code.hljs {
+	background: #3a2206;
+	cursor: var(--pen);
 }
 
 pre > code {
@@ -272,26 +276,6 @@ pre > code {
 
 button #clipButton {
 	padding: 0.5em;
-}
-
-svg {
-	align-self: center;
-	transition: all 300ms ease-out;
-	scale: 1;
-	fill: #ffffff60;
-	top: 5px;
-}
-
-svg:hover {
-	scale: 1.2;
-	fill: rgba(104, 211, 250, 0.6);
-	transition: all 100ms cubic-bezier(0, 0, 0.67, 1.38);
-}
-
-svg:active {
-	scale: 1.2;
-	stroke: darkgreen;
-	transform: background(darkgreen);
 }
 
 pre > .buttons {
@@ -304,7 +288,7 @@ pre > .buttons {
 	margin: 2px;
 	padding: 2px 2px;
 	color: var(--sidebar-fg);
-	cursor: var(--crosshair);
+	cursor: var(--pen);
 	visibility: visible;
 	opacity: 0.15;
 	transition:
@@ -328,7 +312,7 @@ pre > .buttons i {
 }
 
 pre > .buttons button {
-	cursor: var(--crosshair);
+	cursor: var(--pen);
 	margin: 0px 5px;
 	font-size: 17px;
 
@@ -371,7 +355,7 @@ pre > .buttons button.clip-button:hover::before {
 pre > code {
 	display: block;
 	padding: 1.7rem;
-	font-size: 0.90em;
+	font-size: 0.9em;
 	font-weight: 400;
 	text-wrap: auto;
 }
@@ -389,16 +373,20 @@ pre > .result {
 	margin-block-start: 10px;
 }
 
+pre > code.hljs {
+	color: #fef8ef;
+}
+
 /* Search */
 
-#searchresults a {
+#searchresults {
 	text-decoration: none;
 }
 
 mark {
-	color: #fff;
+	color: #000000;
 	font-weight: 600;
-	border-radius: 3px;
+	border-radius: 5px;
 	padding-block-start: 0;
 	padding-block-end: 1px;
 	padding-inline-start: 4px;
@@ -407,15 +395,15 @@ mark {
 	margin-block-end: -1px;
 	margin-inline-start: -3px;
 	margin-inline-end: -3px;
-	background-color: #ffe40045;
+	background-color: #ffe40035;
 	transition: background-color 300ms linear;
-	cursor: var(--crosshair);
+	cursor: var(--pen);
 	color: #bbbbbb;
 }
 
 mark.fade-out {
 	background-color: rgba(0, 0, 0, 0) !important;
-	cursor: var(--crosshair);
+	cursor: var(--pen);
 }
 
 .searchbar-outer {
@@ -499,7 +487,7 @@ ul#searchresults span.teaser em {
 	bottom: 0;
 	width: var(--sidebar-width);
 	font-size: 0.8em;
-	font-family: "Karla", "SymbolsNF", sans-serif;
+	font-family: "Arsenal SC", "Symbols Nerd Font", sans-serif;
 	font-weight: 400;
 	box-sizing: border-box;
 	overscroll-behavior-y: contain;
@@ -552,12 +540,17 @@ html:not(.sidebar-resizing) .sidebar {
 .sidebar .sidebar-scrollbox {
 	overflow-y: auto;
 	position: absolute;
-	top: 80px;
+	top: 40px;
 	bottom: 40px;
 	left: 0;
 	right: 0;
-	padding: 2px 2px;
-	cursor: var(--crosshair);
+	padding: 1em 1em;
+	cursor: var(--pen);
+}
+/* FADE EFFECT ON SCROLLED CONTENT AT DIV EDGES */
+.sidebar-scrollbox {
+	mask: linear-gradient(to bottom, transparent 0%, black 20px, black calc(100%-20px), transparent 10%);
+	-webkit-mask: linear-gradient(to bottom, transparent 0%, black 20px, black calc(100% - 20px), transparent 100%);
 }
 
 .sidebar .sidebar-resize-handle {
@@ -589,13 +582,17 @@ html:not(.sidebar-resizing) .sidebar {
 }
 
 #sblogo {
+	width: 64px;
 	justify-self: center;
-    padding-top: 2em;
+	padding-left: 6em;
+	padding-bottom: 1em;
+	fill: #050505bb;
 }
 
-#sblogo>svg {
+#sblogo > svg {
 	width: 48px;
 	height: 48px;
+	box-shadow: 3px 3px 3px 3px #00000040;
 }
 
 #sidebar-toggle {
@@ -660,12 +657,12 @@ html:not(.sidebar-resizing) .sidebar {
 	padding: 0;
 	text-decoration: none;
 	color: var(--sidebar-fg);
-	cursor: var(--crosshair);
+	cursor: var(--pen);
 }
 
 .chapter li a:hover {
 	color: var(--sidebar-active);
-	cursor: var(--crosshair);
+	cursor: var(--pen);
 }
 
 .chapter li a.active {
@@ -673,7 +670,7 @@ html:not(.sidebar-resizing) .sidebar {
 }
 
 .chapter li > a.toggle {
-	cursor: var(--crosshair);
+	cursor: var(--pen);
 	display: block;
 	margin-inline-start: auto;
 	padding: 0 10px;
@@ -700,11 +697,11 @@ html:not(.sidebar-resizing) .sidebar {
 	transform: rotate(90deg);
 }
 .chapter-item {
-    font-family: "Karla", "Symbols Nerd Font";
-    font-weight: 300;
-    font-size: 1.25em;
-    margin-left: 1em;
-    transition: all 125ms ease;
+	font-family: "Satoshi", "Symbols Nerd Font";
+	font-weight: 400;
+	font-size: 1.15em;
+	margin-left: 1em;
+	transition: all 125ms ease;
 }
 .chapter-item:hover {
 	transform: translate(0.5em, 0);
@@ -778,7 +775,7 @@ html:not(.sidebar-resizing) .sidebar {
 	line-height: 25px;
 	white-space: nowrap;
 	text-align: start;
-	cursor: var(--crosshair);
+	cursor: var(--pen);
 	color: inherit;
 	background: inherit;
 	font-size: inherit;

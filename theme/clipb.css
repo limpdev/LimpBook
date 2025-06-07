@@ -1,0 +1,94 @@
+/* Copy button container */
+.code-wrapper {
+	position: relative;
+}
+
+.copy-button {
+	/* opacity: 0.2; */
+	position: absolute;
+	top: 0.5em;
+	right: 1.5em;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 6px;
+	background: #09090a00;
+	border: 0px solid #09090a;
+	border-radius: 7px;
+	z-index: 10;
+	transition: all 250ms ease;
+	cursor: var(--pen);
+	color: #ffffff30;
+}
+
+.copy-button:hover {
+	color: #f5d49edd;
+	border-color: transparent;
+	opacity: 1;
+}
+
+/* SVG icon styles */
+.copy-button svg {
+	width: 22px;
+	height: 22px;
+	stroke: #f5d49e15;
+	stroke-width: 1;
+	transition: all 250ms ease;
+	transform-origin: center;
+}
+
+.copy-button:hover svg {
+	fill: #f5d49ecc;
+	stroke-width: 2;
+	transform: scale(1.25);
+}
+
+/* Tooltip styles */
+.copy-button[data-tooltip]::before {
+	content: attr(data-tooltip);
+	position: absolute;
+	bottom: 100%;
+	right: 0;
+	margin-bottom: 8px;
+	padding: 4px 8px;
+	background: #1a202c;
+	color: #bbbbbb;
+	font-size: 9px;
+	white-space: nowrap;
+	border-radius: 6px;
+	opacity: 0.4;
+	visibility: hidden;
+	transition: all 250ms ease-in-out;
+}
+
+.copy-button[data-tooltip]:hover::before {
+	opacity: 1;
+	visibility: visible;
+}
+
+/* Success state */
+.copy-button.copied {
+	border-color: #b5f700;
+	transition: all 250ms ease-in-out;
+}
+
+.copy-button.copied svg {
+	stroke: #b5f700;
+}
+
+.language-label {
+	position: absolute;
+	top: 15px;
+	right: 60px;
+	background: #09090a;
+	font-size: 12px;
+	font-family: "Author Nerd Font";
+	border-radius: 0 4px 0 4px;
+	opacity: 0.4;
+	color: #f5d49e;
+	cursor: var(--pen);
+}
+
+.language-label:hover {
+	opacity: 0.8;
+}

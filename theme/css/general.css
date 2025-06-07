@@ -7,17 +7,22 @@
 	text-rendering: optimizeLegibility;
 }
 
+#theme-toggle > i {
+	display: none !important;
+}
+
 html {
-	font-family: "SFProText Nerd Font", "Reddit Sans", "SymbolsNF", sans-serif;
+	font-family: var(--sans-font);
 	color: var(--fg);
 	background-color: var(--bg);
 	text-size-adjust: none;
 	-webkit-text-size-adjust: none;
+	background-image: var(--classy);
 }
 
 body {
 	margin: 0;
-	font-size: 1.6rem;
+	font-size: 1.7rem;
 	overflow-x: hidden;
 }
 
@@ -144,12 +149,23 @@ h6:target::before {
 .content ul {
 	line-height: 1.45em;
 }
-.content a {
+
+p > a {
 	text-decoration: none;
+	background-image: linear-gradient(90deg, #ff6ec4, #7873f5);
+	background-size: 0% 100%;
+	background-position: left;
+	background-repeat: no-repeat;
+	transition: background-size 125ms ease;
+	-webkit-background-clip: text;
 }
-.content a:hover {
-	text-decoration: underline;
+
+p > a:hover {
+	color: #0e4d9600;
+	background-size: 100% 100%;
+	-webkit-text-fill-color: transparent;
 }
+
 .content img,
 .content video {
 	max-width: 100%;
@@ -202,10 +218,10 @@ blockquote {
 	color: var(--fg-alt);
 	/* background-color: var(--quote-bg); */
 	/* border-block-start: 0.1em solid var(--quote-border);
-	border-block-end: 0.1em solid var(--quote-border); */
+    border-block-end: 0.1em solid var(--quote-border); */
 	border-left: 0.15em solid var(--quote-border);
 	/* border-right: 0.15em solid var(--quote-border);
-	border-radius: 10px; */
+    border-radius: 10px; */
 	border-color: #ff8a1040;
 	font-size: 0.9em;
 }
@@ -357,8 +373,9 @@ details summary {
 	user-select: none;
 	list-style: none;
 	position: relative;
+	display: inline;
 	background: #00000400;
-	transition: border 300ms ease;
+	transition: all 300ms ease;
 }
 /* Remove default triangle in Safari */
 details summary::-webkit-details-marker {
@@ -392,9 +409,22 @@ details > summary {
 	display: inline-flex;
 	border-radius: 23px;
 	padding-right: 0.5em;
+	padding-bottom: 0.5em;
 	box-sizing: border-box;
 	align-items: center;
+	border-left: 2px solid #075264;
+	width: fit-content;
+	border-radius: 5px;
 }
+
+summary:hover {
+	color: #075264;
+	background: #07526410;
+}
+summary:active {
+	background: #07526450;
+}
+
 .details-toggle-btn {
 	cursor: var(--crosshair);
 	border-radius: 19px;
