@@ -1,6 +1,7 @@
 /* Copy button container */
 .code-wrapper {
 	position: relative;
+	width: fit-content;
 }
 
 .copy-button {

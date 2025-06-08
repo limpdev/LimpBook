@@ -252,7 +252,7 @@ html:not(.js) .left-buttons button {
 	color: #fdf8ef;
 	overflow-x: initial;
 	font-size: 0.9em;
-	background: #3a2206;
+	background: #0d2229dd;
 }
 
 a:hover > .hljs {
@@ -265,7 +265,6 @@ pre {
 }
 
 code.hljs {
-	background: #3a2206;
 	cursor: var(--pen);
 }
 
@@ -355,7 +354,8 @@ pre > .buttons button.clip-button:hover::before {
 pre > code {
 	display: block;
 	padding: 1.7rem;
-	font-size: 0.9em;
+	padding-right: 3.5em;
+	font-size: 0.8em;
 	font-weight: 400;
 	text-wrap: auto;
 }

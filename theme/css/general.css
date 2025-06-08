@@ -357,25 +357,24 @@ sup {
 /* -------------------------- CUSTOM DETAILS TAGS ---------------------- */
 /* --------------------------------------------------------------------- */
 details {
-	cursor: var(--crosshair);
-	border-radius: 13px;
+	cursor: var(--pen);
+	border-radius: 23px;
 	margin-bottom: 9px;
 	border: none;
 }
 /* Remove default triangle marker */
 details summary {
 	font-size: 0.95em;
-	font-weight: 200;
+	font-weight: 400;
 	font-family: "Arsenal SC", "Symbols Nerd Font";
-	cursor: var(--crosshair);
-	border-radius: 19px;
+	cursor: var(--pen);
 	border: none;
 	user-select: none;
 	list-style: none;
 	position: relative;
 	display: inline;
 	background: #00000400;
-	transition: all 300ms ease;
+	transition: all 200ms ease;
 }
 /* Remove default triangle in Safari */
 details summary::-webkit-details-marker {
@@ -388,7 +387,7 @@ summary > p,
 summary > i,
 summary > *,
 summary {
-	cursor: var(--crosshair);
+	cursor: var(--pen);
 	padding: 0px;
 	margin: 0px;
 	align-items: center;
@@ -398,35 +397,40 @@ summary {
 .details-content {
 	padding-top: 1em;
 	padding-bottom: -1em;
-	cursor: var(--crosshair);
+	cursor: var(--pen);
 	/* padding: 0 16px; */
 	overflow: hidden;
 	will-change: height;
 	transition: height 0.4s ease;
 }
 details > summary {
-	cursor: var(--crosshair);
+	cursor: var(--pen);
 	display: inline-flex;
-	border-radius: 23px;
-	padding-right: 0.5em;
+	padding-right: 1em;
+	padding-left: 1em;
 	padding-bottom: 0.5em;
 	box-sizing: border-box;
 	align-items: center;
-	border-left: 2px solid #075264;
+	border-left: 1px solid #075264;
+	border-right: 1px solid #075264;
+	border-bottom: 4px solid #075264;
+	border-top: 4px solid #075264;
 	width: fit-content;
-	border-radius: 5px;
+	border-radius: 7px;
 }
 
 summary:hover {
 	color: #075264;
 	background: #07526410;
+	transform: scale(1, 0.9);
 }
 summary:active {
-	background: #07526450;
+	background: #07526480;
+	transform: scale(0.8, 1);
 }
 
 .details-toggle-btn {
-	cursor: var(--crosshair);
+	cursor: var(--pen);
 	border-radius: 19px;
 	border: 0px solid #ffffff20;
 	background: #00000000;
