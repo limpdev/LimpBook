@@ -1,8 +1,6 @@
 # My Snippet Collection
 
-##  Tale of the Eternal Babysitter
-
-<details><summary></summary>
+<details><summary>Natural Language Programming</summary>
 <div align="left" style="font-size: 1em;font-family: Karla;">
 	<blockquote>
 		<em>
@@ -17,6 +15,12 @@
 
 ```bash
 wget --mirror --convert-links --adjust-extension --page-requisites --no-parent <LINK>
+```
+
+> _This can also be shortened to their alternate flags like this..._
+
+```bash
+wget -mKEpnp <LINK>
 ```
 
 ↳ **BEST METHOD FOR FULL-SITE-SCRAPE!** Ensures all links are properly converted to match the mirrored path structure... *will be resource heavy* 🗿.
