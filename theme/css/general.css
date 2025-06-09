@@ -150,7 +150,7 @@ h6:target::before {
 	line-height: 1.45em;
 }
 
-p > a {
+* > a {
 	text-decoration: none;
 	background-image: linear-gradient(90deg, #ff6ec4, #7873f5);
 	background-size: 0% 100%;
@@ -160,7 +160,7 @@ p > a {
 	-webkit-background-clip: text;
 }
 
-p > a:hover {
+* > a:hover {
 	color: #0e4d9600;
 	background-size: 100% 100%;
 	-webkit-text-fill-color: transparent;

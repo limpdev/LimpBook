@@ -1,4 +1,9 @@
 /* Custom Grid.js styling for MDBook */
+table {
+    border-spacing: 0px;
+    cursor: var(--pen);
+}
+
 .gridjs-wrapper {
     margin: 1em 0;
     font-family: inherit;
@@ -6,20 +11,21 @@
 }
 
 .gridjs-table {
-    border: 0px solid var(--sidebar-bg);
+    border: 0px solid var(--table-header-bg);
     border-radius: 23px;
 }
 
 .gridjs-th {
-    background-color: var(--sidebar-bg);
+    background-color: #0d1117;
     color: var(--fg);
-    font-weight: 500;
+    font-weight: 300;
     font-style: italic;
+    border: 2px 
 }
 
 .gridjs-td {
     color: var(--fg);
-    border-bottom: 0px solid var(--sidebar-bg);
+    border-bottom: 0px solid var(--table-header-bg);
 }
 
 .gridjs-search {
@@ -46,7 +52,7 @@ input.gridjs-input {
     border-radius: 13px;
     font-family: var(--sans-font);
     font-size: 13px;
-    line-height: 1.3;
+    line-height: 1.2;
     outline: none;
     padding: 7px 10px
 }
@@ -63,11 +69,12 @@ input.gridjs-input:focus {
 /* ---------------------------------- */
 /* ---------------------------------- */
 /* ---------------------------------- */
-.gridjs-footer button,.gridjs-head button {
+.gridjs-footer button,
+.gridjs-head button {
     background-color: transparent;
     background-image: none;
     border: none;
-    cursor: pointer;
+    cursor: var(--pen);
     margin: 0;
     outline: none;
     padding: 0
@@ -95,7 +102,7 @@ input.gridjs-input:focus {
 }
 
 .gridjs-container {
-    color: #000;
+    color: #d2d6dc;
     display: inline-block;
     overflow: hidden;
     padding: 2px;
@@ -104,14 +111,14 @@ input.gridjs-input:focus {
 }
 
 .gridjs-footer {
-    background-color: #fff;
+    background-color: #05001d00;
     border-bottom-width: 1px;
-    border-color: #e5e7eb;
-    border-radius: 0 0 8px 8px;
-    border-top: 1px solid #e5e7eb;
+    border-color: #e5e7eb00;
+    border-radius: 8px;
+    border-top: 0px solid #e5e7eb;
     box-shadow: 0 1px 3px 0 rgba(0,0,0,.1),0 1px 2px 0 rgba(0,0,0,.26);
     display: block;
-    padding: 12px 24px;
+    padding: 6px 18px;
     position: relative;
     width: 100%;
     z-index: 5
@@ -142,49 +149,52 @@ input.gridjs-input:focus {
 }
 
 .gridjs-pagination .gridjs-pages button {
-    background-color: #fff;
-    border: 1px solid #d2d6dc;
+    background-color: #0d1117;
     border-right: none;
     outline: none;
-    padding: 5px 14px;
+    padding: 5px 12px;
     -webkit-user-select: none;
     -moz-user-select: none;
-    user-select: none
+    user-select: none;
+    transition: all 200ms ease
 }
 
 .gridjs-pagination .gridjs-pages button:focus {
-    border-right: 1px solid #d2d6dc;
+    border-right: 0px solid #d2d6dc00;
     box-shadow: 0 0 0 2px rgba(149,189,243,.5);
     margin-right: -1px;
-    position: relative
+    position: relative;
+    transition: all 200ms ease;
 }
 
 .gridjs-pagination .gridjs-pages button:hover {
-    background-color: #f7f7f7;
-    color: #3c4257;
-    outline: none
+    background-color: #202a3890;
+    color: #e7ba72;
+    outline: none;
+    transition: all 200ms ease;
 }
 
 .gridjs-pagination .gridjs-pages button:disabled,.gridjs-pagination .gridjs-pages button:hover:disabled,.gridjs-pagination .gridjs-pages button[disabled] {
-    background-color: #fff;
+    background-color: #0d111700;
     color: #6b7280;
-    cursor: default
+    cursor: var(--pen);
 }
 
 .gridjs-pagination .gridjs-pages button.gridjs-spread {
-    background-color: #fff;
+    background-color: #0d111790;
     box-shadow: none;
-    cursor: default
+    cursor: var(--pen);
 }
-
+/* CURRENT PAGE */
 .gridjs-pagination .gridjs-pages button.gridjs-currentPage {
-    background-color: #f7f7f7;
+    background-color: #e7ba72cc;
+    color: #0d1117;
     font-weight: 700
 }
 
 .gridjs-pagination .gridjs-pages button:last-child {
     border-bottom-right-radius: 6px;
-    border-right: 1px solid #d2d6dc;
+    border-right: 0px solid #d2d6dc;
     border-top-right-radius: 6px
 }
 
@@ -198,34 +208,38 @@ input.gridjs-input:focus {
 }
 
 button.gridjs-sort {
+    display: inline;
     background-color: transparent;
     background-position-x: center;
     background-repeat: no-repeat;
     background-size: contain;
     border: none;
-    cursor: pointer;
+    cursor: var(--pen);
     float: right;
-    height: 24px;
-    margin: 0;
+    height: 17px;
+    margin: 0em;
     outline: none;
-    padding: 0;
-    width: 13px
+    padding: 0em;
+    width: 17px;
+    transition: all 250ms ease;
+    vertical-align: middle;
 }
 
 button.gridjs-sort-neutral {
-    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDEuOTk4IiBoZWlnaHQ9IjQwMS45OTgiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQwMS45OTggNDAxLjk5OCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHBhdGggZD0iTTczLjA5MiAxNjQuNDUyaDI1NS44MTNjNC45NDkgMCA5LjIzMy0xLjgwNyAxMi44NDgtNS40MjQgMy42MTMtMy42MTYgNS40MjctNy44OTggNS40MjctMTIuODQ3cy0xLjgxMy05LjIyOS01LjQyNy0xMi44NUwyMTMuODQ2IDUuNDI0QzIxMC4yMzIgMS44MTIgMjA1Ljk1MSAwIDIwMC45OTkgMHMtOS4yMzMgMS44MTItMTIuODUgNS40MjRMNjAuMjQyIDEzMy4zMzFjLTMuNjE3IDMuNjE3LTUuNDI0IDcuOTAxLTUuNDI0IDEyLjg1IDAgNC45NDggMS44MDcgOS4yMzEgNS40MjQgMTIuODQ3IDMuNjIxIDMuNjE3IDcuOTAyIDUuNDI0IDEyLjg1IDUuNDI0ek0zMjguOTA1IDIzNy41NDlINzMuMDkyYy00Ljk1MiAwLTkuMjMzIDEuODA4LTEyLjg1IDUuNDIxLTMuNjE3IDMuNjE3LTUuNDI0IDcuODk4LTUuNDI0IDEyLjg0N3MxLjgwNyA5LjIzMyA1LjQyNCAxMi44NDhMMTg4LjE0OSAzOTYuNTdjMy42MjEgMy42MTcgNy45MDIgNS40MjggMTIuODUgNS40MjhzOS4yMzMtMS44MTEgMTIuODQ3LTUuNDI4bDEyNy45MDctMTI3LjkwNmMzLjYxMy0zLjYxNCA1LjQyNy03Ljg5OCA1LjQyNy0xMi44NDggMC00Ljk0OC0xLjgxMy05LjIyOS01LjQyNy0xMi44NDctMy42MTQtMy42MTYtNy44OTktNS40Mi0xMi44NDgtNS40MnoiLz48L3N2Zz4=");
+    background-image: none;
     background-position-y: center;
     opacity: .3
 }
 
 button.gridjs-sort-asc {
-    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyOTIuMzYyIiBoZWlnaHQ9IjI5Mi4zNjEiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDI5Mi4zNjIgMjkyLjM2MSIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHBhdGggZD0iTTI4Ni45MzUgMTk3LjI4NyAxNTkuMDI4IDY5LjM4MWMtMy42MTMtMy42MTctNy44OTUtNS40MjQtMTIuODQ3LTUuNDI0cy05LjIzMyAxLjgwNy0xMi44NSA1LjQyNEw1LjQyNCAxOTcuMjg3QzEuODA3IDIwMC45MDQgMCAyMDUuMTg2IDAgMjEwLjEzNHMxLjgwNyA5LjIzMyA1LjQyNCAxMi44NDdjMy42MjEgMy42MTcgNy45MDIgNS40MjUgMTIuODUgNS40MjVoMjU1LjgxM2M0Ljk0OSAwIDkuMjMzLTEuODA4IDEyLjg0OC01LjQyNSAzLjYxMy0zLjYxMyA1LjQyNy03Ljg5OCA1LjQyNy0xMi44NDdzLTEuODE0LTkuMjMtNS40MjctMTIuODQ3eiIvPjwvc3ZnPg==");
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KCTxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2RhZGFkYSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2Utd2lkdGg9IjAuNyIgZD0iTTMgNmgxOE02IDEyaDEybS05IDZoNiIgLz4KPC9zdmc+");
     background-position-y: 35%;
     background-size: 10px
 }
 
 button.gridjs-sort-desc {
-    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyOTIuMzYyIiBoZWlnaHQ9IjI5Mi4zNjIiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDI5Mi4zNjIgMjkyLjM2MiIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHBhdGggZD0iTTI4Ni45MzUgNjkuMzc3Yy0zLjYxNC0zLjYxNy03Ljg5OC01LjQyNC0xMi44NDgtNS40MjRIMTguMjc0Yy00Ljk1MiAwLTkuMjMzIDEuODA3LTEyLjg1IDUuNDI0QzEuODA3IDcyLjk5OCAwIDc3LjI3OSAwIDgyLjIyOGMwIDQuOTQ4IDEuODA3IDkuMjI5IDUuNDI0IDEyLjg0N2wxMjcuOTA3IDEyNy45MDdjMy42MjEgMy42MTcgNy45MDIgNS40MjggMTIuODUgNS40MjhzOS4yMzMtMS44MTEgMTIuODQ3LTUuNDI4TDI4Ni45MzUgOTUuMDc0YzMuNjEzLTMuNjE3IDUuNDI3LTcuODk4IDUuNDI3LTEyLjg0NyAwLTQuOTQ4LTEuODE0LTkuMjI5LTUuNDI3LTEyLjg1eiIvPjwvc3ZnPg==");
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KCTxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2RhZGFkYSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2Utd2lkdGg9IjAuNyIgZD0iTTMgNmgxOE02IDEyaDEybS05IDZoNiIgLz4KPC9zdmc+");
+    transform: rotate(180deg);
     background-position-y: 65%;
     background-size: 10px
 }
@@ -246,14 +260,18 @@ table.gridjs-table {
     width: 100%
 }
 
-.gridjs-tbody,td.gridjs-td {
-    background-color: #0d1117;
+tr:nth-child(2n) {
+    background-color: #0d111760;
 }
 
 td.gridjs-td {
-    border: 1px solid #09090a;
+    line-height: 1.2;
+    max-height: 2.4em;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    border: 0px solid #09090a;
     box-sizing: content-box;
-    padding: 12px 24px
+    padding: 7px 10px
 }
 
 td.gridjs-td:first-child {
@@ -269,13 +287,13 @@ td.gridjs-message {
 }
 
 th.gridjs-th {
-    background-color: #0d1117;
-    border: 1px solid #09090a;
+    background: #0d1117;
+    border: 1px solid var(--table-border-color);
     border-top: none;
     box-sizing: border-box;
     color: #6b7280;
     outline: none;
-    padding: 14px 24px;
+    padding: 7px 10px;
     position: relative;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -288,11 +306,13 @@ th.gridjs-th .gridjs-th-content {
     float: left;
     overflow: hidden;
     text-overflow: ellipsis;
-    width: 100%
+    width: 100%;
+    max-height: 1.4em;
 }
 
 th.gridjs-th-sort {
-    cursor: pointer
+    cursor: var(--pen);
+    transition: all 200ms ease
 }
 
 th.gridjs-th-sort .gridjs-th-content {
@@ -300,7 +320,7 @@ th.gridjs-th-sort .gridjs-th-content {
 }
 
 th.gridjs-th-sort:focus,th.gridjs-th-sort:hover {
-    background-color: #e5e7eb
+    background-color: #242f40aa
 }
 
 th.gridjs-th-fixed {
@@ -324,10 +344,10 @@ th.gridjs-th:last-child {
 
 .gridjs-tr {
     border: none;
-}
-
-.gridjs-tr-selected td {
-    background-color: #ebf5ff
+    vertical-align: middle;
+    min-height: 2.4em;
+    max-height: 2.4em;
+    overflow: hidden;
 }
 
 .gridjs-tr:last-child td {
@@ -339,11 +359,11 @@ th.gridjs-th:last-child {
 }
 
 .gridjs-wrapper {
+    text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    border-color: #e5e7eb;
-    border-radius: 8px 8px 0 0;
-    border-top-width: 1px;
+    border-color: #e5e7eb00;
+    border-radius: 23px;
     box-shadow: 0 1px 3px 0 rgba(0,0,0,.1),0 1px 2px 0 rgba(0,0,0,.26);
     display: block;
     overflow: auto;
@@ -358,7 +378,7 @@ th.gridjs-th:last-child {
 }
 
 .gridjs-loading-bar {
-    background-color: #fff;
+    background-color: #ffffff50;
     opacity: .5;
     z-index: 10;
 }
@@ -385,7 +405,7 @@ th.gridjs-th:last-child {
 }
 
 .gridjs-td .gridjs-checkbox {
-    cursor: pointer;
+    cursor: var(--pen);
     display: block;
     margin: auto;
 }
@@ -399,6 +419,6 @@ th.gridjs-th:last-child {
 }
 
 .gridjs-resizable:hover {
-    background-color: #9bc2f7;
-    cursor: ew-resize;
+    background-color: #9bc2f750;
+    cursor: var(--pen);
 }

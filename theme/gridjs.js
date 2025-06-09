@@ -26,7 +26,7 @@ function initializeGridTables() {
         const config = {
             pagination: {
                 enabled: table.dataset.pagination !== 'false',
-                limit: parseInt(table.dataset.pageSize) || 25
+                limit: parseInt(table.dataset.pageSize) || 18
             },
             search: table.dataset.search !== 'false',
             sort: table.dataset.sort !== 'false',
