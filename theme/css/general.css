@@ -179,31 +179,49 @@ p > a:hover {
 	text-decoration: none;
 }
 
-table {
-	margin: 0 auto;
-	border-collapse: collapse;
-}
-table td {
-	padding: 3px 20px;
-	border: 1px var(--table-border-color) solid;
-}
-table thead {
-	background: var(--table-header-bg);
-}
-table thead td {
-	font-weight: 700;
-	border: none;
-}
-table thead th {
-	padding: 3px 20px;
-}
-table thead tr {
-	border: 1px var(--table-header-bg) solid;
-}
-/* Alternate background colors for rows */
-table tbody tr:nth-child(2n) {
-	background: var(--table-alternate-bg);
-}
+/* table { */
+	/* margin: 0 auto; */
+	/* border-collapse:separate; */
+	/* border-spacing: 0px; */
+/* } */
+/* table td { */
+	/* padding: 3px 20px; */
+	/* border: 1px var(--table-border-color) solid; */
+/* } */
+/* table thead td { */
+	/* font-weight: 700; */
+	/* border: none; */
+/* } */
+/* table thead th { */
+	/* padding: 3px 20px; */
+/* } */
+/* table thead tr { */
+	/* border: 1px var(--table-header-bg) solid; */
+	/* background: var(--table-header-bg); */
+	/* font-size: 0.93em; */
+    /* font-family: "Arsenal SC"; */
+    /* color: #b2b2b2; */
+/* } */
+
+/* table tbody { */
+	/* font-size: 0.88em; */
+/* } */
+/* thead { */
+	/* border: 1px solid var(--table-header-bg); */
+/* } */
+/* table tr:first-child th:first-child { */
+	/* border-top-left-radius: 0.5rem; */
+	/* border-bottom-left-radius: 0.5rem; */
+/* } */
+/* table tr:last-child th:last-child { */
+	/* border-top-right-radius: 0.5rem; */
+	/* border-bottom-right-radius: 0.5rem; */
+/* } */
+
+/* table tbody tr:nth-child(2n) { */
+	/* background: var(--table-alternate-bg); */
+	/* border-radius: 0.5rem; */
+/* } */
 
 .callout-title {
 	font-family: "Arsenal SC";

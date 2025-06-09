@@ -16,8 +16,8 @@ level = 0
 
 [output]
 [output.html]
-additional-css = ["./pre/mdbook-admonish.css", "./theme/pagetoc.css", "theme/clipb.css"]
-additional-js  = ["./RIPPLES.js", "./MARKTAG.js", "./theme/pagetoc.js", "theme/clipb.js"]
+additional-css = ["./pre/mdbook-admonish.css", "./theme/pagetoc.css", "theme/clipb.css", "theme/gridjs.css" ]
+additional-js  = ["./RIPPLES.js", "./MARKTAG.js", "./theme/pagetoc.js", "theme/clipb.js", "theme/gridjs.js" ]
 smart-punctuation = true
 mathjax-support = false
 no-section-label = true
