@@ -3,118 +3,118 @@
 <details><summary>TABLE OF CONTENTS</summary>
 
 - [ colly](#-colly)
-    - [Constants ¶](#constants-)
-    - [Variables ¶](#variables-)
-    - [Functions ¶](#functions-)
-      - [func AllowURLRevisit ¶](#func-allowurlrevisit-)
-      - [func AllowedDomains ¶](#func-alloweddomains-)
-      - [func Async ¶](#func-async-)
-      - [func CacheDir ¶](#func-cachedir-)
-      - [func Debugger ¶](#func-debugger-)
-      - [func DetectCharset ¶](#func-detectcharset-)
-      - [func DisallowedDomains ¶](#func-disalloweddomains-)
-      - [func DisallowedURLFilters ¶](#func-disallowedurlfilters-)
-      - [func ID ¶](#func-id-)
-      - [func IgnoreRobotsTxt ¶](#func-ignorerobotstxt-)
-      - [func MaxBodySize ¶](#func-maxbodysize-)
-      - [func MaxDepth ¶](#func-maxdepth-)
-      - [func ParseHTTPErrorResponse ¶](#func-parsehttperrorresponse-)
-      - [func SanitizeFileName ¶](#func-sanitizefilename-)
-      - [func URLFilters ¶](#func-urlfilters-)
-      - [func UnmarshalHTML ¶](#func-unmarshalhtml-)
-      - [func UserAgent ¶](#func-useragent-)
-    - [Types ¶](#types-)
-      - [type Collector ¶](#type-collector-)
-      - [func NewCollector ¶](#func-newcollector-)
-      - [func (\*Collector) Appengine ¶](#func-collector-appengine-)
-      - [func (\*Collector) Clone ¶](#func-collector-clone-)
-      - [func (\*Collector) Cookies ¶](#func-collector-cookies-)
-      - [func (\*Collector) DisableCookies ¶](#func-collector-disablecookies-)
-      - [func (\*Collector) Head ¶ added in v1.2.0](#func-collector-head--added-in-v120)
-      - [func (\*Collector) Init ¶](#func-collector-init-)
-      - [func (\*Collector) Limit ¶](#func-collector-limit-)
-      - [func (\*Collector) Limits ¶](#func-collector-limits-)
-      - [func (\*Collector) OnError ¶](#func-collector-onerror-)
-      - [func (\*Collector) OnHTML ¶](#func-collector-onhtml-)
-      - [func (\*Collector) OnHTMLDetach ¶](#func-collector-onhtmldetach-)
-      - [func (\*Collector) OnRequest ¶](#func-collector-onrequest-)
-      - [func (\*Collector) OnResponse ¶](#func-collector-onresponse-)
-      - [func (\*Collector) OnScraped ¶](#func-collector-onscraped-)
-      - [func (\*Collector) OnXML ¶](#func-collector-onxml-)
-      - [func (\*Collector) OnXMLDetach ¶](#func-collector-onxmldetach-)
-      - [func (\*Collector) Post ¶](#func-collector-post-)
-      - [func (\*Collector) PostMultipart ¶](#func-collector-postmultipart-)
-      - [func (\*Collector) PostRaw ¶](#func-collector-postraw-)
-      - [func (\*Collector) Request ¶](#func-collector-request-)
-      - [func (\*Collector) SetCookieJar ¶](#func-collector-setcookiejar-)
-      - [func (\*Collector) SetCookies ¶](#func-collector-setcookies-)
-      - [func (\*Collector) SetDebugger ¶](#func-collector-setdebugger-)
-      - [func (\*Collector) SetProxy ¶](#func-collector-setproxy-)
-      - [func (\*Collector) SetProxyFunc ¶](#func-collector-setproxyfunc-)
-      - [func (\*Collector) SetRequestTimeout ¶](#func-collector-setrequesttimeout-)
-      - [func (\*Collector) SetStorage ¶](#func-collector-setstorage-)
-      - [func (\*Collector) String ¶](#func-collector-string-)
-      - [func (\*Collector) UnmarshalRequest ¶](#func-collector-unmarshalrequest-)
-      - [func (\*Collector) Visit ¶](#func-collector-visit-)
-      - [func (\*Collector) Wait ¶](#func-collector-wait-)
-      - [func (\*Collector) WithTransport ¶](#func-collector-withtransport-)
-      - [type Context ¶](#type-context-)
-      - [func NewContext ¶](#func-newcontext-)
-      - [func (\*Context) ForEach ¶](#func-context-foreach-)
-      - [func (\*Context) Get ¶](#func-context-get-)
-      - [func (\*Context) GetAny ¶](#func-context-getany-)
-      - [func (\*Context) MarshalBinary ¶](#func-context-marshalbinary-)
-      - [func (\*Context) Put ¶](#func-context-put-)
-      - [func (\*Context) UnmarshalBinary ¶](#func-context-unmarshalbinary-)
-      - [type ErrorCallback ¶](#type-errorcallback-)
-      - [type HTMLCallback ¶](#type-htmlcallback-)
-      - [type HTMLElement ¶](#type-htmlelement-)
-      - [func NewHTMLElementFromSelectionNode ¶](#func-newhtmlelementfromselectionnode-)
-      - [func (\*HTMLElement) Attr ¶](#func-htmlelement-attr-)
-      - [func (\*HTMLElement) ChildAttr ¶](#func-htmlelement-childattr-)
-      - [func (\*HTMLElement) ChildAttrs ¶](#func-htmlelement-childattrs-)
-      - [func (\*HTMLElement) ChildText ¶](#func-htmlelement-childtext-)
-      - [func (\*HTMLElement) ForEach ¶](#func-htmlelement-foreach-)
-      - [func (\*HTMLElement) ForEachWithBreak ¶ added in v1.1.0](#func-htmlelement-foreachwithbreak--added-in-v110)
-      - [func (\*HTMLElement) Unmarshal ¶](#func-htmlelement-unmarshal-)
-      - [type LimitRule ¶](#type-limitrule-)
-      - [func (\*LimitRule) Init ¶](#func-limitrule-init-)
-      - [func (\*LimitRule) Match ¶](#func-limitrule-match-)
-      - [type ProxyFunc ¶](#type-proxyfunc-)
-      - [type Request ¶](#type-request-)
-      - [func (\*Request) Abort ¶](#func-request-abort-)
-      - [func (\*Request) AbsoluteURL ¶](#func-request-absoluteurl-)
-      - [func (\*Request) Do ¶](#func-request-do-)
-      - [func (\*Request) Marshal ¶](#func-request-marshal-)
-      - [func (\*Request) New ¶](#func-request-new-)
-      - [func (\*Request) Post ¶](#func-request-post-)
-      - [func (\*Request) PostMultipart ¶](#func-request-postmultipart-)
-      - [func (\*Request) PostRaw ¶](#func-request-postraw-)
-      - [func (\*Request) Retry ¶](#func-request-retry-)
-      - [func (\*Request) Visit ¶](#func-request-visit-)
-      - [type RequestCallback ¶](#type-requestcallback-)
-      - [type Response ¶](#type-response-)
-      - [func (\*Response) FileName ¶](#func-response-filename-)
-      - [func (\*Response) Save ¶](#func-response-save-)
-      - [type ResponseCallback ¶](#type-responsecallback-)
-      - [type ScrapedCallback ¶](#type-scrapedcallback-)
-      - [type XMLCallback ¶](#type-xmlcallback-)
-      - [type XMLElement ¶](#type-xmlelement-)
-      - [func NewXMLElementFromHTMLNode ¶](#func-newxmlelementfromhtmlnode-)
-      - [func NewXMLElementFromXMLNode ¶](#func-newxmlelementfromxmlnode-)
-      - [func (\*XMLElement) Attr ¶](#func-xmlelement-attr-)
-      - [func (\*XMLElement) ChildAttr ¶](#func-xmlelement-childattr-)
-      - [func (\*XMLElement) ChildAttrs ¶](#func-xmlelement-childattrs-)
-      - [func (\*XMLElement) ChildText ¶](#func-xmlelement-childtext-)
-      - [func (\*XMLElement) ChildTexts ¶ added in v1.1.0](#func-xmlelement-childtexts--added-in-v110)
-  - [ Source Files ¶](#-source-files-)
-  - [ Directories ¶](#-directories-)
+    - [Constants](#constants-)
+    - [Variables](#variables-)
+    - [Functions](#functions-)
+      - [func AllowURLRevisit](#func-allowurlrevisit-)
+      - [func AllowedDomains](#func-alloweddomains-)
+      - [func Async](#func-async-)
+      - [func CacheDir](#func-cachedir-)
+      - [func Debugger](#func-debugger-)
+      - [func DetectCharset](#func-detectcharset-)
+      - [func DisallowedDomains](#func-disalloweddomains-)
+      - [func DisallowedURLFilters](#func-disallowedurlfilters-)
+      - [func ID](#func-id-)
+      - [func IgnoreRobotsTxt](#func-ignorerobotstxt-)
+      - [func MaxBodySize](#func-maxbodysize-)
+      - [func MaxDepth](#func-maxdepth-)
+      - [func ParseHTTPErrorResponse](#func-parsehttperrorresponse-)
+      - [func SanitizeFileName](#func-sanitizefilename-)
+      - [func URLFilters](#func-urlfilters-)
+      - [func UnmarshalHTML](#func-unmarshalhtml-)
+      - [func UserAgent](#func-useragent-)
+    - [Types](#types-)
+      - [type Collector](#type-collector-)
+      - [func NewCollector](#func-newcollector-)
+      - [func (\*Collector) Appengine](#func-collector-appengine-)
+      - [func (\*Collector) Clone](#func-collector-clone-)
+      - [func (\*Collector) Cookies](#func-collector-cookies-)
+      - [func (\*Collector) DisableCookies](#func-collector-disablecookies-)
+      - [func (\*Collector) Head added in v1.2.0](#func-collector-head--added-in-v120)
+      - [func (\*Collector) Init](#func-collector-init-)
+      - [func (\*Collector) Limit](#func-collector-limit-)
+      - [func (\*Collector) Limits](#func-collector-limits-)
+      - [func (\*Collector) OnError](#func-collector-onerror-)
+      - [func (\*Collector) OnHTML](#func-collector-onhtml-)
+      - [func (\*Collector) OnHTMLDetach](#func-collector-onhtmldetach-)
+      - [func (\*Collector) OnRequest](#func-collector-onrequest-)
+      - [func (\*Collector) OnResponse](#func-collector-onresponse-)
+      - [func (\*Collector) OnScraped](#func-collector-onscraped-)
+      - [func (\*Collector) OnXML](#func-collector-onxml-)
+      - [func (\*Collector) OnXMLDetach](#func-collector-onxmldetach-)
+      - [func (\*Collector) Post](#func-collector-post-)
+      - [func (\*Collector) PostMultipart](#func-collector-postmultipart-)
+      - [func (\*Collector) PostRaw](#func-collector-postraw-)
+      - [func (\*Collector) Request](#func-collector-request-)
+      - [func (\*Collector) SetCookieJar](#func-collector-setcookiejar-)
+      - [func (\*Collector) SetCookies](#func-collector-setcookies-)
+      - [func (\*Collector) SetDebugger](#func-collector-setdebugger-)
+      - [func (\*Collector) SetProxy](#func-collector-setproxy-)
+      - [func (\*Collector) SetProxyFunc](#func-collector-setproxyfunc-)
+      - [func (\*Collector) SetRequestTimeout](#func-collector-setrequesttimeout-)
+      - [func (\*Collector) SetStorage](#func-collector-setstorage-)
+      - [func (\*Collector) String](#func-collector-string-)
+      - [func (\*Collector) UnmarshalRequest](#func-collector-unmarshalrequest-)
+      - [func (\*Collector) Visit](#func-collector-visit-)
+      - [func (\*Collector) Wait](#func-collector-wait-)
+      - [func (\*Collector) WithTransport](#func-collector-withtransport-)
+      - [type Context](#type-context-)
+      - [func NewContext](#func-newcontext-)
+      - [func (\*Context) ForEach](#func-context-foreach-)
+      - [func (\*Context) Get](#func-context-get-)
+      - [func (\*Context) GetAny](#func-context-getany-)
+      - [func (\*Context) MarshalBinary](#func-context-marshalbinary-)
+      - [func (\*Context) Put](#func-context-put-)
+      - [func (\*Context) UnmarshalBinary](#func-context-unmarshalbinary-)
+      - [type ErrorCallback](#type-errorcallback-)
+      - [type HTMLCallback](#type-htmlcallback-)
+      - [type HTMLElement](#type-htmlelement-)
+      - [func NewHTMLElementFromSelectionNode](#func-newhtmlelementfromselectionnode-)
+      - [func (\*HTMLElement) Attr](#func-htmlelement-attr-)
+      - [func (\*HTMLElement) ChildAttr](#func-htmlelement-childattr-)
+      - [func (\*HTMLElement) ChildAttrs](#func-htmlelement-childattrs-)
+      - [func (\*HTMLElement) ChildText](#func-htmlelement-childtext-)
+      - [func (\*HTMLElement) ForEach](#func-htmlelement-foreach-)
+      - [func (\*HTMLElement) ForEachWithBreak added in v1.1.0](#func-htmlelement-foreachwithbreak--added-in-v110)
+      - [func (\*HTMLElement) Unmarshal](#func-htmlelement-unmarshal-)
+      - [type LimitRule](#type-limitrule-)
+      - [func (\*LimitRule) Init](#func-limitrule-init-)
+      - [func (\*LimitRule) Match](#func-limitrule-match-)
+      - [type ProxyFunc](#type-proxyfunc-)
+      - [type Request](#type-request-)
+      - [func (\*Request) Abort](#func-request-abort-)
+      - [func (\*Request) AbsoluteURL](#func-request-absoluteurl-)
+      - [func (\*Request) Do](#func-request-do-)
+      - [func (\*Request) Marshal](#func-request-marshal-)
+      - [func (\*Request) New](#func-request-new-)
+      - [func (\*Request) Post](#func-request-post-)
+      - [func (\*Request) PostMultipart](#func-request-postmultipart-)
+      - [func (\*Request) PostRaw](#func-request-postraw-)
+      - [func (\*Request) Retry](#func-request-retry-)
+      - [func (\*Request) Visit](#func-request-visit-)
+      - [type RequestCallback](#type-requestcallback-)
+      - [type Response](#type-response-)
+      - [func (\*Response) FileName](#func-response-filename-)
+      - [func (\*Response) Save](#func-response-save-)
+      - [type ResponseCallback](#type-responsecallback-)
+      - [type ScrapedCallback](#type-scrapedcallback-)
+      - [type XMLCallback](#type-xmlcallback-)
+      - [type XMLElement](#type-xmlelement-)
+      - [func NewXMLElementFromHTMLNode](#func-newxmlelementfromhtmlnode-)
+      - [func NewXMLElementFromXMLNode](#func-newxmlelementfromxmlnode-)
+      - [func (\*XMLElement) Attr](#func-xmlelement-attr-)
+      - [func (\*XMLElement) ChildAttr](#func-xmlelement-childattr-)
+      - [func (\*XMLElement) ChildAttrs](#func-xmlelement-childattrs-)
+      - [func (\*XMLElement) ChildText](#func-xmlelement-childtext-)
+      - [func (\*XMLElement) ChildTexts added in v1.1.0](#func-xmlelement-childtexts--added-in-v110)
+  - [ Source Files](#-source-files-)
+  - [ Directories](#-directories-)
   - [Jump to](#jump-to)
   - [Keyboard shortcuts](#keyboard-shortcuts)
 
 </details>
 
-### Constants [¶](#pkg-constants "Go to Constants")
+### Constants
 
 
 ```go
@@ -123,7 +123,7 @@ const ProxyURLKey key = iota
 
 ProxyURLKey is the context key for the request proxy address.
 
-### Variables [¶](#pkg-variables "Go to Variables")
+### Variables
 
 
 ```go
@@ -153,9 +153,9 @@ var (
 )
 ```
 
-### Functions [¶](#pkg-functions "Go to Functions")
+### Functions
 
-#### func [AllowURLRevisit](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L306) [¶](#AllowURLRevisit "Go to AllowURLRevisit") 
+##### func [AllowURLRevisit](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L306)
 
 ```go
 func AllowURLRevisit() func(*Collector)
@@ -163,7 +163,7 @@ func AllowURLRevisit() func(*Collector)
 
 AllowURLRevisit instructs the Collector to allow multiple downloads of the same URL
 
-#### func [AllowedDomains](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L269) [¶](#AllowedDomains "Go to AllowedDomains") 
+##### func [AllowedDomains](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L269)
 
 ```go
 func AllowedDomains(domains ...string) func(*Collector)
@@ -171,7 +171,7 @@ func AllowedDomains(domains ...string) func(*Collector)
 
 AllowedDomains sets the domain whitelist used by the Collector.
 
-#### func [Async](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L342) [¶](#Async "Go to Async") 
+##### func [Async](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L342)
 
 ```go
 func Async(a bool) func(*Collector)
@@ -179,7 +179,7 @@ func Async(a bool) func(*Collector)
 
 Async turns on asynchronous network requests.
 
-#### func [CacheDir](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L320) [¶](#CacheDir "Go to CacheDir") 
+##### func [CacheDir](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L320)
 
 ```go
 func CacheDir(path string) func(*Collector)
@@ -187,7 +187,7 @@ func CacheDir(path string) func(*Collector)
 
 CacheDir specifies the location where GET requests are cached as files.
 
-#### func [Debugger](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L357) [¶](#Debugger "Go to Debugger") 
+##### func [Debugger](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L357)
 
 ```go
 func Debugger(d debug.Debugger) func(*Collector)
@@ -195,7 +195,7 @@ func Debugger(d debug.Debugger) func(*Collector)
 
 Debugger sets the debugger used by the Collector.
 
-#### func [DetectCharset](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L350) [¶](#DetectCharset "Go to DetectCharset") 
+##### func [DetectCharset](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L350)
 
 ```go
 func DetectCharset() func(*Collector)
@@ -203,7 +203,7 @@ func DetectCharset() func(*Collector)
 
 DetectCharset enables character encoding detection for non-utf8 response bodies without explicit charset declaration. This feature uses [https://github.com/saintfish/chardet](https://github.com/saintfish/chardet)
 
-#### func [DisallowedDomains](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L283) [¶](#DisallowedDomains "Go to DisallowedDomains") 
+##### func [DisallowedDomains](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L283)
 
 ```go
 func DisallowedDomains(domains ...string) func(*Collector)
@@ -211,7 +211,7 @@ func DisallowedDomains(domains ...string) func(*Collector)
 
 DisallowedDomains sets the domain blacklist used by the Collector.
 
-#### func [DisallowedURLFilters](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L291) [¶](#DisallowedURLFilters "Go to DisallowedURLFilters") 
+##### func [DisallowedURLFilters](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L291)
 
 ```go
 func DisallowedURLFilters(filters ...*regexp.Regexp) func(*Collector)
@@ -219,7 +219,7 @@ func DisallowedURLFilters(filters ...*regexp.Regexp) func(*Collector)
 
 DisallowedURLFilters sets the list of regular expressions which restricts visiting URLs. If any of the rules matches to a URL the request will be stopped.
 
-#### func [ID](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L335) [¶](#ID "Go to ID") 
+##### func [ID](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L335)
 
 ```go
 func ID(id uint32) func(*Collector)
@@ -227,7 +227,7 @@ func ID(id uint32) func(*Collector)
 
 ID sets the unique identifier of the Collector.
 
-#### func [IgnoreRobotsTxt](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L328) [¶](#IgnoreRobotsTxt "Go to IgnoreRobotsTxt") 
+##### func [IgnoreRobotsTxt](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L328)
 
 ```go
 func IgnoreRobotsTxt() func(*Collector)
@@ -235,7 +235,7 @@ func IgnoreRobotsTxt() func(*Collector)
 
 IgnoreRobotsTxt instructs the Collector to ignore any restrictions set by the target host's robots.txt file.
 
-#### func [MaxBodySize](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L313) [¶](#MaxBodySize "Go to MaxBodySize") 
+##### func [MaxBodySize](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L313)
 
 ```go
 func MaxBodySize(sizeInBytes int) func(*Collector)
@@ -243,7 +243,7 @@ func MaxBodySize(sizeInBytes int) func(*Collector)
 
 MaxBodySize sets the limit of the retrieved response body in bytes.
 
-#### func [MaxDepth](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L262) [¶](#MaxDepth "Go to MaxDepth") 
+##### func [MaxDepth](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L262)
 
 ```go
 func MaxDepth(depth int) func(*Collector)
@@ -251,7 +251,7 @@ func MaxDepth(depth int) func(*Collector)
 
 MaxDepth limits the recursion depth of visited URLs.
 
-#### func [ParseHTTPErrorResponse](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L276) [¶](#ParseHTTPErrorResponse "Go to ParseHTTPErrorResponse") 
+##### func [ParseHTTPErrorResponse](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L276)
 
 ```go
 func ParseHTTPErrorResponse() func(*Collector)
@@ -259,7 +259,7 @@ func ParseHTTPErrorResponse() func(*Collector)
 
 ParseHTTPErrorResponse allows parsing responses with HTTP errors
 
-#### func [SanitizeFileName](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L1188) [¶](#SanitizeFileName "Go to SanitizeFileName") 
+##### func [SanitizeFileName](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L1188)
 
 ```go
 func SanitizeFileName(fileName string) string
@@ -267,7 +267,7 @@ func SanitizeFileName(fileName string) string
 
 SanitizeFileName replaces dangerous characters in a string so the return value can be used as a safe file name.
 
-#### func [URLFilters](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L299) [¶](#URLFilters "Go to URLFilters") 
+##### func [URLFilters](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L299)
 
 ```go
 func URLFilters(filters ...*regexp.Regexp) func(*Collector)
@@ -275,7 +275,7 @@ func URLFilters(filters ...*regexp.Regexp) func(*Collector)
 
 URLFilters sets the list of regular expressions which restricts visiting URLs. If any of the rules matches to a URL the request won't be stopped.
 
-#### func [UnmarshalHTML](https://github.com/gocolly/colly/blob/v1.2.0/unmarshal.go#L46) [¶](#UnmarshalHTML "Go to UnmarshalHTML") 
+##### func [UnmarshalHTML](https://github.com/gocolly/colly/blob/v1.2.0/unmarshal.go#L46)
 
 ```go
 func UnmarshalHTML(v interface{}, s *goquery.Selection) error
@@ -286,7 +286,7 @@ UnmarshalHTML declaratively extracts text or attributes to a struct from HTML re
 - "selector" (required): CSS (goquery) selector of the desired data
 - "attr" (optional): Selects the matching element's attribute's value. Leave it blank or omit to get the text of the element.
 
-Example struct declaration: 
+Example struct declaration:
 
 ```go
 type Nested struct {
@@ -298,7 +298,7 @@ type Nested struct {
 
 Supported types: struct, \*struct, string, \[]string
 
-#### func [UserAgent](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L255) [¶](#UserAgent "Go to UserAgent") 
+##### func [UserAgent](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L255)
 
 ```go
 func UserAgent(ua string) func(*Collector)
@@ -306,9 +306,9 @@ func UserAgent(ua string) func(*Collector)
 
 UserAgent sets the user agent used by the Collector.
 
-### Types [¶](#pkg-types "Go to Types")
+### Types
 
-#### type [Collector](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L54) [¶](#Collector "Go to Collector") 
+##### type [Collector](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L54)
 
 ```go
 type Collector struct {
@@ -367,7 +367,7 @@ type Collector struct {
 
 Collector provides the scraper instance for a scraping job
 
-#### func [NewCollector](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L241) [¶](#NewCollector "Go to NewCollector") 
+##### func [NewCollector](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L241)
 
 ```go
 func NewCollector(options ...func(*Collector)) *Collector
@@ -375,13 +375,13 @@ func NewCollector(options ...func(*Collector)) *Collector
 
 NewCollector creates a new Collector instance with default configuration
 
-#### func (\*Collector) [Appengine](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L394) [¶](#Collector.Appengine "Go to Collector.Appengine") 
+##### func (\*Collector) [Appengine](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L394)
 
 ```go
 func (c *Collector) Appengine(ctx context.Context)
 ```
 
-Appengine will replace the Collector's backend http.Client With an Http.Client that is provided by appengine/urlfetch This function should be used when the scraper is run on Google App Engine. Example: 
+Appengine will replace the Collector's backend http.Client With an Http.Client that is provided by appengine/urlfetch This function should be used when the scraper is run on Google App Engine. Example:
 
 ```go
 func startScraper(w http.ResponseWriter, r *http.Request) {
@@ -393,7 +393,7 @@ func startScraper(w http.ResponseWriter, r *http.Request) {
 }
 ```
 
-#### func (\*Collector) [Clone](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L1107) [¶](#Collector.Clone "Go to Collector.Clone") 
+##### func (\*Collector) [Clone](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L1107)
 
 ```go
 func (c *Collector) Clone() *Collector
@@ -401,7 +401,7 @@ func (c *Collector) Clone() *Collector
 
 Clone creates an exact copy of a Collector without callbacks. HTTP backend, robots.txt cache and cookie jar are shared between collectors.
 
-#### func (\*Collector) [Cookies](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L1093) [¶](#Collector.Cookies "Go to Collector.Cookies") 
+##### func (\*Collector) [Cookies](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L1093)
 
 ```go
 func (c *Collector) Cookies(URL string) []*http.Cookie
@@ -409,7 +409,7 @@ func (c *Collector) Cookies(URL string) []*http.Cookie
 
 Cookies returns the cookies to send in a request for the given URL.
 
-#### func (\*Collector) [DisableCookies](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L849) [¶](#Collector.DisableCookies "Go to Collector.DisableCookies") 
+##### func (\*Collector) [DisableCookies](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L849)
 
 ```go
 func (c *Collector) DisableCookies()
@@ -417,7 +417,7 @@ func (c *Collector) DisableCookies()
 
 DisableCookies turns off cookie handling
 
-#### func (\*Collector) [Head](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L416) [¶](#Collector.Head "Go to Collector.Head") added in v1.2.0 
+##### func (\*Collector) [Head](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L416)
 
 ```go
 func (c *Collector) Head(URL string) error
@@ -425,7 +425,7 @@ func (c *Collector) Head(URL string) error
 
 Head starts a collector job by creating a HEAD request.
 
-#### func (\*Collector) [Init](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L366) [¶](#Collector.Init "Go to Collector.Init") 
+##### func (\*Collector) [Init](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L366)
 
 ```go
 func (c *Collector) Init()
@@ -433,7 +433,7 @@ func (c *Collector) Init()
 
 Init initializes the Collector's private variables and sets default configuration for the Collector
 
-#### func (\*Collector) [Limit](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L1070) [¶](#Collector.Limit "Go to Collector.Limit") 
+##### func (\*Collector) [Limit](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L1070)
 
 ```go
 func (c *Collector) Limit(rule *LimitRule) error
@@ -441,7 +441,7 @@ func (c *Collector) Limit(rule *LimitRule) error
 
 Limit adds a new LimitRule to the collector
 
-#### func (\*Collector) [Limits](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L1075) [¶](#Collector.Limits "Go to Collector.Limits") 
+##### func (\*Collector) [Limits](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L1075)
 
 ```go
 func (c *Collector) Limits(rules []*LimitRule) error
@@ -449,7 +449,7 @@ func (c *Collector) Limits(rules []*LimitRule) error
 
 Limits adds new LimitRules to the collector
 
-#### func (\*Collector) [OnError](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L823) [¶](#Collector.OnError "Go to Collector.OnError") 
+##### func (\*Collector) [OnError](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L823)
 
 ```go
 func (c *Collector) OnError(f ErrorCallback)
@@ -457,7 +457,7 @@ func (c *Collector) OnError(f ErrorCallback)
 
 OnError registers a function. Function will be executed if an error occurs during the HTTP request.
 
-#### func (\*Collector) [OnHTML](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L762) [¶](#Collector.OnHTML "Go to Collector.OnHTML") 
+##### func (\*Collector) [OnHTML](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L762)
 
 ```go
 func (c *Collector) OnHTML(goquerySelector string, f HTMLCallback)
@@ -465,7 +465,7 @@ func (c *Collector) OnHTML(goquerySelector string, f HTMLCallback)
 
 OnHTML registers a function. Function will be executed on every HTML element matched by the GoQuery Selector parameter. GoQuery Selector is a selector used by [https://github.com/PuerkitoBio/goquery](https://github.com/PuerkitoBio/goquery)
 
-#### func (\*Collector) [OnHTMLDetach](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L790) [¶](#Collector.OnHTMLDetach "Go to Collector.OnHTMLDetach") 
+##### func (\*Collector) [OnHTMLDetach](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L790)
 
 ```go
 func (c *Collector) OnHTMLDetach(goquerySelector string)
@@ -473,7 +473,7 @@ func (c *Collector) OnHTMLDetach(goquerySelector string)
 
 OnHTMLDetach deregister a function. Function will not be execute after detached
 
-#### func (\*Collector) [OnRequest](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L740) [¶](#Collector.OnRequest "Go to Collector.OnRequest") 
+##### func (\*Collector) [OnRequest](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L740)
 
 ```go
 func (c *Collector) OnRequest(f RequestCallback)
@@ -481,7 +481,7 @@ func (c *Collector) OnRequest(f RequestCallback)
 
 OnRequest registers a function. Function will be executed on every request made by the Collector
 
-#### func (\*Collector) [OnResponse](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L750) [¶](#Collector.OnResponse "Go to Collector.OnResponse") 
+##### func (\*Collector) [OnResponse](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L750)
 
 ```go
 func (c *Collector) OnResponse(f ResponseCallback)
@@ -489,7 +489,7 @@ func (c *Collector) OnResponse(f ResponseCallback)
 
 OnResponse registers a function. Function will be executed on every response
 
-#### func (\*Collector) [OnScraped](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L834) [¶](#Collector.OnScraped "Go to Collector.OnScraped") 
+##### func (\*Collector) [OnScraped](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L834)
 
 ```go
 func (c *Collector) OnScraped(f ScrapedCallback)
@@ -497,7 +497,7 @@ func (c *Collector) OnScraped(f ScrapedCallback)
 
 OnScraped registers a function. Function will be executed after OnHTML, as a final part of the scraping.
 
-#### func (\*Collector) [OnXML](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L777) [¶](#Collector.OnXML "Go to Collector.OnXML") 
+##### func (\*Collector) [OnXML](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L777)
 
 ```go
 func (c *Collector) OnXML(xpathQuery string, f XMLCallback)
@@ -505,7 +505,7 @@ func (c *Collector) OnXML(xpathQuery string, f XMLCallback)
 
 OnXML registers a function. Function will be executed on every XML element matched by the xpath Query parameter. xpath Query is used by [https://github.com/antchfx/xmlquery](https://github.com/antchfx/xmlquery)
 
-#### func (\*Collector) [OnXMLDetach](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L806) [¶](#Collector.OnXMLDetach "Go to Collector.OnXMLDetach") 
+##### func (\*Collector) [OnXMLDetach](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L806)
 
 ```go
 func (c *Collector) OnXMLDetach(xpathQuery string)
@@ -513,7 +513,7 @@ func (c *Collector) OnXMLDetach(xpathQuery string)
 
 OnXMLDetach deregister a function. Function will not be execute after detached
 
-#### func (\*Collector) [Post](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L422) [¶](#Collector.Post "Go to Collector.Post") 
+##### func (\*Collector) [Post](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L422)
 
 ```go
 func (c *Collector) Post(URL string, requestData map[string]string) error
@@ -521,7 +521,7 @@ func (c *Collector) Post(URL string, requestData map[string]string) error
 
 Post starts a collector job by creating a POST request. Post also calls the previously provided callbacks
 
-#### func (\*Collector) [PostMultipart](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L434) [¶](#Collector.PostMultipart "Go to Collector.PostMultipart") 
+##### func (\*Collector) [PostMultipart](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L434)
 
 ```go
 func (c *Collector) PostMultipart(URL string, requestData map[string][]byte) error
@@ -529,7 +529,7 @@ func (c *Collector) PostMultipart(URL string, requestData map[string][]byte) err
 
 PostMultipart starts a collector job by creating a Multipart POST request with raw binary data. PostMultipart also calls the previously provided callbacks
 
-#### func (\*Collector) [PostRaw](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L428) [¶](#Collector.PostRaw "Go to Collector.PostRaw") 
+##### func (\*Collector) [PostRaw](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L428)
 
 ```go
 func (c *Collector) PostRaw(URL string, requestData []byte) error
@@ -537,7 +537,7 @@ func (c *Collector) PostRaw(URL string, requestData []byte) error
 
 PostRaw starts a collector job by creating a POST request with raw binary data. Post also calls the previously provided callbacks
 
-#### func (\*Collector) [Request](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L453) [¶](#Collector.Request "Go to Collector.Request") 
+##### func (\*Collector) [Request](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L453)
 
 ```go
 func (c *Collector) Request(method, URL string, requestData io.Reader, ctx *Context, hdr http.Header) error
@@ -553,7 +553,7 @@ Request starts a collector job by creating a custom HTTP request where method, c
 - "PATCH"
 - "OPTIONS"
 
-#### func (\*Collector) [SetCookieJar](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L854) [¶](#Collector.SetCookieJar "Go to Collector.SetCookieJar") 
+##### func (\*Collector) [SetCookieJar](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L854)
 
 ```go
 func (c *Collector) SetCookieJar(j *cookiejar.Jar)
@@ -561,7 +561,7 @@ func (c *Collector) SetCookieJar(j *cookiejar.Jar)
 
 SetCookieJar overrides the previously set cookie jar
 
-#### func (\*Collector) [SetCookies](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L1080) [¶](#Collector.SetCookies "Go to Collector.SetCookies") 
+##### func (\*Collector) [SetCookies](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L1080)
 
 ```go
 func (c *Collector) SetCookies(URL string, cookies []*http.Cookie) error
@@ -569,7 +569,7 @@ func (c *Collector) SetCookies(URL string, cookies []*http.Cookie) error
 
 SetCookies handles the receipt of the cookies in a reply for the given URL
 
-#### func (\*Collector) [SetDebugger](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L458) [¶](#Collector.SetDebugger "Go to Collector.SetDebugger") 
+##### func (\*Collector) [SetDebugger](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L458)
 
 ```go
 func (c *Collector) SetDebugger(d debug.Debugger)
@@ -577,7 +577,7 @@ func (c *Collector) SetDebugger(d debug.Debugger)
 
 SetDebugger attaches a debugger to the collector
 
-#### func (\*Collector) [SetProxy](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L879) [¶](#Collector.SetProxy "Go to Collector.SetProxy") 
+##### func (\*Collector) [SetProxy](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L879)
 
 ```go
 func (c *Collector) SetProxy(proxyURL string) error
@@ -585,7 +585,7 @@ func (c *Collector) SetProxy(proxyURL string) error
 
 SetProxy sets a proxy for the collector. This method overrides the previously used http.Transport if the type of the transport is not http.RoundTripper. The proxy type is determined by the URL scheme. "http" and "socks5" are supported. If the scheme is empty, "http" is assumed.
 
-#### func (\*Collector) [SetProxyFunc](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L897) [¶](#Collector.SetProxyFunc "Go to Collector.SetProxyFunc") 
+##### func (\*Collector) [SetProxyFunc](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L897)
 
 ```go
 func (c *Collector) SetProxyFunc(p ProxyFunc)
@@ -593,7 +593,7 @@ func (c *Collector) SetProxyFunc(p ProxyFunc)
 
 SetProxyFunc sets a custom proxy setter/switcher function. See built-in ProxyFuncs for more details. This method overrides the previously used http.Transport if the type of the transport is not http.RoundTripper. The proxy type is determined by the URL scheme. "http" and "socks5" are supported. If the scheme is empty, "http" is assumed.
 
-#### func (\*Collector) [SetRequestTimeout](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L859) [¶](#Collector.SetRequestTimeout "Go to Collector.SetRequestTimeout") 
+##### func (\*Collector) [SetRequestTimeout](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L859)
 
 ```go
 func (c *Collector) SetRequestTimeout(timeout time.Duration)
@@ -601,7 +601,7 @@ func (c *Collector) SetRequestTimeout(timeout time.Duration)
 
 SetRequestTimeout overrides the default timeout (10 seconds) for this collector
 
-#### func (\*Collector) [SetStorage](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L865) [¶](#Collector.SetStorage "Go to Collector.SetStorage") 
+##### func (\*Collector) [SetStorage](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L865)
 
 ```go
 func (c *Collector) SetStorage(s storage.Storage) error
@@ -609,7 +609,7 @@ func (c *Collector) SetStorage(s storage.Storage) error
 
 SetStorage overrides the default in-memory storage. Storage stores scraping related data like cookies and visited urls
 
-#### func (\*Collector) [String](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L721) [¶](#Collector.String "Go to Collector.String") 
+##### func (\*Collector) [String](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L721)
 
 ```go
 func (c *Collector) String() string
@@ -617,7 +617,7 @@ func (c *Collector) String() string
 
 String is the text representation of the collector. It contains useful debug information about the collector's internals
 
-#### func (\*Collector) [UnmarshalRequest](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L464) [¶](#Collector.UnmarshalRequest "Go to Collector.UnmarshalRequest") 
+##### func (\*Collector) [UnmarshalRequest](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L464)
 
 ```go
 func (c *Collector) UnmarshalRequest(r []byte) (*Request, error)
@@ -625,7 +625,7 @@ func (c *Collector) UnmarshalRequest(r []byte) (*Request, error)
 
 UnmarshalRequest creates a Request from serialized data
 
-#### func (\*Collector) [Visit](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L406) [¶](#Collector.Visit "Go to Collector.Visit") 
+##### func (\*Collector) [Visit](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L406)
 
 ```go
 func (c *Collector) Visit(URL string) error
@@ -633,7 +633,7 @@ func (c *Collector) Visit(URL string) error
 
 Visit starts Collector's collecting job by creating a request to the URL specified in parameter. Visit also calls the previously provided callbacks
 
-#### func (\*Collector) [Wait](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L734) [¶](#Collector.Wait "Go to Collector.Wait") 
+##### func (\*Collector) [Wait](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L734)
 
 ```go
 func (c *Collector) Wait()
@@ -641,7 +641,7 @@ func (c *Collector) Wait()
 
 Wait returns when the collector jobs are finished
 
-#### func (\*Collector) [WithTransport](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L844) [¶](#Collector.WithTransport "Go to Collector.WithTransport") 
+##### func (\*Collector) [WithTransport](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L844)
 
 ```go
 func (c *Collector) WithTransport(transport http.RoundTripper)
@@ -649,7 +649,7 @@ func (c *Collector) WithTransport(transport http.RoundTripper)
 
 WithTransport allows you to set a custom http.RoundTripper (transport)
 
-#### type [Context](https://github.com/gocolly/colly/blob/v1.2.0/context.go#L22) [¶](#Context "Go to Context") 
+##### type [Context](https://github.com/gocolly/colly/blob/v1.2.0/context.go#L22)
 
 ```go
 type Context struct {
@@ -659,7 +659,7 @@ type Context struct {
 
 Context provides a tiny layer for passing data between callbacks
 
-#### func [NewContext](https://github.com/gocolly/colly/blob/v1.2.0/context.go#L28) [¶](#NewContext "Go to NewContext") 
+##### func [NewContext](https://github.com/gocolly/colly/blob/v1.2.0/context.go#L28)
 
 ```go
 func NewContext() *Context
@@ -667,7 +667,7 @@ func NewContext() *Context
 
 NewContext initializes a new Context instance
 
-#### func (\*Context) [ForEach](https://github.com/gocolly/colly/blob/v1.2.0/context.go#L77) [¶](#Context.ForEach "Go to Context.ForEach") 
+##### func (\*Context) [ForEach](https://github.com/gocolly/colly/blob/v1.2.0/context.go#L77)
 
 ```go
 func (c *Context) ForEach(fn func(k string, v interface{}) interface{}) []interface{}
@@ -675,7 +675,7 @@ func (c *Context) ForEach(fn func(k string, v interface{}) interface{}) []interf
 
 ForEach iterate context
 
-#### func (\*Context) [Get](https://github.com/gocolly/colly/blob/v1.2.0/context.go#L56) [¶](#Context.Get "Go to Context.Get") 
+##### func (\*Context) [Get](https://github.com/gocolly/colly/blob/v1.2.0/context.go#L56)
 
 ```go
 func (c *Context) Get(key string) string
@@ -683,7 +683,7 @@ func (c *Context) Get(key string) string
 
 Get retrieves a string value from Context. Get returns an empty string if key not found
 
-#### func (\*Context) [GetAny](https://github.com/gocolly/colly/blob/v1.2.0/context.go#L67) [¶](#Context.GetAny "Go to Context.GetAny") 
+##### func (\*Context) [GetAny](https://github.com/gocolly/colly/blob/v1.2.0/context.go#L67)
 
 ```go
 func (c *Context) GetAny(key string) interface{}
@@ -691,7 +691,7 @@ func (c *Context) GetAny(key string) interface{}
 
 GetAny retrieves a value from Context. GetAny returns nil if key not found
 
-#### func (\*Context) [MarshalBinary](https://github.com/gocolly/colly/blob/v1.2.0/context.go#L43) [¶](#Context.MarshalBinary "Go to Context.MarshalBinary") 
+##### func (\*Context) [MarshalBinary](https://github.com/gocolly/colly/blob/v1.2.0/context.go#L43)
 
 ```go
 func (c *Context) MarshalBinary() (_ []byte, _ error)
@@ -699,7 +699,7 @@ func (c *Context) MarshalBinary() (_ []byte, _ error)
 
 MarshalBinary encodes Context value This function is used by request caching
 
-#### func (\*Context) [Put](https://github.com/gocolly/colly/blob/v1.2.0/context.go#L48) [¶](#Context.Put "Go to Context.Put") 
+##### func (\*Context) [Put](https://github.com/gocolly/colly/blob/v1.2.0/context.go#L48)
 
 ```go
 func (c *Context) Put(key string, value interface{})
@@ -707,7 +707,7 @@ func (c *Context) Put(key string, value interface{})
 
 Put stores a value of any type in Context
 
-#### func (\*Context) [UnmarshalBinary](https://github.com/gocolly/colly/blob/v1.2.0/context.go#L37) [¶](#Context.UnmarshalBinary "Go to Context.UnmarshalBinary") 
+##### func (\*Context) [UnmarshalBinary](https://github.com/gocolly/colly/blob/v1.2.0/context.go#L37)
 
 ```go
 func (c *Context) UnmarshalBinary(_ []byte) error
@@ -715,7 +715,7 @@ func (c *Context) UnmarshalBinary(_ []byte) error
 
 UnmarshalBinary decodes Context value to nil This function is used by request caching
 
-#### type [ErrorCallback](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L137) [¶](#ErrorCallback "Go to ErrorCallback") 
+##### type [ErrorCallback](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L137)
 
 ```go
 type ErrorCallback func(*Response, error)
@@ -723,7 +723,7 @@ type ErrorCallback func(*Response, error)
 
 ErrorCallback is a type alias for OnError callback functions
 
-#### type [HTMLCallback](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L131) [¶](#HTMLCallback "Go to HTMLCallback") 
+##### type [HTMLCallback](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L131)
 
 ```go
 type HTMLCallback func(*HTMLElement)
@@ -731,7 +731,7 @@ type HTMLCallback func(*HTMLElement)
 
 HTMLCallback is a type alias for OnHTML callback functions
 
-#### type [HTMLElement](https://github.com/gocolly/colly/blob/v1.2.0/htmlelement.go#L25) [¶](#HTMLElement "Go to HTMLElement") 
+##### type [HTMLElement](https://github.com/gocolly/colly/blob/v1.2.0/htmlelement.go#L25)
 
 ```go
 type HTMLElement struct {
@@ -754,7 +754,7 @@ type HTMLElement struct {
 
 HTMLElement is the representation of a HTML tag.
 
-#### func [NewHTMLElementFromSelectionNode](https://github.com/gocolly/colly/blob/v1.2.0/htmlelement.go#L42) [¶](#NewHTMLElementFromSelectionNode "Go to NewHTMLElementFromSelectionNode") 
+##### func [NewHTMLElementFromSelectionNode](https://github.com/gocolly/colly/blob/v1.2.0/htmlelement.go#L42)
 
 ```go
 func NewHTMLElementFromSelectionNode(resp *Response, s *goquery.Selection, n *html.Node, idx int) *HTMLElement
@@ -762,7 +762,7 @@ func NewHTMLElementFromSelectionNode(resp *Response, s *goquery.Selection, n *ht
 
 NewHTMLElementFromSelectionNode creates a HTMLElement from a goquery.Selection Node.
 
-#### func (\*HTMLElement) [Attr](https://github.com/gocolly/colly/blob/v1.2.0/htmlelement.go#L56) [¶](#HTMLElement.Attr "Go to HTMLElement.Attr") 
+##### func (\*HTMLElement) [Attr](https://github.com/gocolly/colly/blob/v1.2.0/htmlelement.go#L56)
 
 ```go
 func (h *HTMLElement) Attr(k string) string
@@ -770,7 +770,7 @@ func (h *HTMLElement) Attr(k string) string
 
 Attr returns the selected attribute of a HTMLElement or empty string if no attribute found
 
-#### func (\*HTMLElement) [ChildAttr](https://github.com/gocolly/colly/blob/v1.2.0/htmlelement.go#L73) [¶](#HTMLElement.ChildAttr "Go to HTMLElement.ChildAttr") 
+##### func (\*HTMLElement) [ChildAttr](https://github.com/gocolly/colly/blob/v1.2.0/htmlelement.go#L73)
 
 ```go
 func (h *HTMLElement) ChildAttr(goquerySelector, attrName string) string
@@ -778,7 +778,7 @@ func (h *HTMLElement) ChildAttr(goquerySelector, attrName string) string
 
 ChildAttr returns the stripped text content of the first matching element's attribute.
 
-#### func (\*HTMLElement) [ChildAttrs](https://github.com/gocolly/colly/blob/v1.2.0/htmlelement.go#L82) [¶](#HTMLElement.ChildAttrs "Go to HTMLElement.ChildAttrs") 
+##### func (\*HTMLElement) [ChildAttrs](https://github.com/gocolly/colly/blob/v1.2.0/htmlelement.go#L82)
 
 ```go
 func (h *HTMLElement) ChildAttrs(goquerySelector, attrName string) []string
@@ -786,7 +786,7 @@ func (h *HTMLElement) ChildAttrs(goquerySelector, attrName string) []string
 
 ChildAttrs returns the stripped text content of all the matching element's attributes.
 
-#### func (\*HTMLElement) [ChildText](https://github.com/gocolly/colly/blob/v1.2.0/htmlelement.go#L67) [¶](#HTMLElement.ChildText "Go to HTMLElement.ChildText") 
+##### func (\*HTMLElement) [ChildText](https://github.com/gocolly/colly/blob/v1.2.0/htmlelement.go#L67)
 
 ```go
 func (h *HTMLElement) ChildText(goquerySelector string) string
@@ -794,7 +794,7 @@ func (h *HTMLElement) ChildText(goquerySelector string) string
 
 ChildText returns the concatenated and stripped text content of the matching elements.
 
-#### func (\*HTMLElement) [ForEach](https://github.com/gocolly/colly/blob/v1.2.0/htmlelement.go#L94) [¶](#HTMLElement.ForEach "Go to HTMLElement.ForEach") 
+##### func (\*HTMLElement) [ForEach](https://github.com/gocolly/colly/blob/v1.2.0/htmlelement.go#L94)
 
 ```go
 func (h *HTMLElement) ForEach(goquerySelector string, callback func(int, *HTMLElement))
@@ -802,7 +802,7 @@ func (h *HTMLElement) ForEach(goquerySelector string, callback func(int, *HTMLEl
 
 ForEach iterates over the elements matched by the first argument and calls the callback function on every HTMLElement match.
 
-#### func (\*HTMLElement) [ForEachWithBreak](https://github.com/gocolly/colly/blob/v1.2.0/htmlelement.go#L109) [¶](#HTMLElement.ForEachWithBreak "Go to HTMLElement.ForEachWithBreak") added in v1.1.0 
+##### func (\*HTMLElement) [ForEachWithBreak](https://github.com/gocolly/colly/blob/v1.2.0/htmlelement.go#L109)
 
 ```go
 func (h *HTMLElement) ForEachWithBreak(goquerySelector string, callback func(int, *HTMLElement) bool)
@@ -810,7 +810,7 @@ func (h *HTMLElement) ForEachWithBreak(goquerySelector string, callback func(int
 
 ForEachWithBreak iterates over the elements matched by the first argument and calls the callback function on every HTMLElement match. It is identical to ForEach except that it is possible to break out of the loop by returning false in the callback function. It returns the current Selection object.
 
-#### func (\*HTMLElement) [Unmarshal](https://github.com/gocolly/colly/blob/v1.2.0/unmarshal.go#L26) [¶](#HTMLElement.Unmarshal "Go to HTMLElement.Unmarshal") 
+##### func (\*HTMLElement) [Unmarshal](https://github.com/gocolly/colly/blob/v1.2.0/unmarshal.go#L26)
 
 ```go
 func (h *HTMLElement) Unmarshal(v interface{}) error
@@ -818,7 +818,7 @@ func (h *HTMLElement) Unmarshal(v interface{}) error
 
 Unmarshal is a shorthand for colly.UnmarshalHTML
 
-#### type [LimitRule](https://github.com/gocolly/colly/blob/v1.2.0/http_backend.go#L48) [¶](#LimitRule "Go to LimitRule") 
+##### type [LimitRule](https://github.com/gocolly/colly/blob/v1.2.0/http_backend.go#L48)
 
 ```go
 type LimitRule struct {
@@ -841,7 +841,7 @@ LimitRule provides connection restrictions for domains. Both DomainRegexp and Do
 - Parallelism: Set limit for the number of concurrent requests to matching domains
 - Delay: Wait specified amount of time between requests (parallelism is 1 in this case)
 
-#### func (\*LimitRule) [Init](https://github.com/gocolly/colly/blob/v1.2.0/http_backend.go#L65) [¶](#LimitRule.Init "Go to LimitRule.Init") 
+##### func (\*LimitRule) [Init](https://github.com/gocolly/colly/blob/v1.2.0/http_backend.go#L65)
 
 ```go
 func (r *LimitRule) Init() error
@@ -849,7 +849,7 @@ func (r *LimitRule) Init() error
 
 Init initializes the private members of LimitRule
 
-#### func (\*LimitRule) [Match](https://github.com/gocolly/colly/blob/v1.2.0/http_backend.go#L104) [¶](#LimitRule.Match "Go to LimitRule.Match") 
+##### func (\*LimitRule) [Match](https://github.com/gocolly/colly/blob/v1.2.0/http_backend.go#L104)
 
 ```go
 func (r *LimitRule) Match(domain string) bool
@@ -857,7 +857,7 @@ func (r *LimitRule) Match(domain string) bool
 
 Match checks that the domain parameter triggers the rule
 
-#### type [ProxyFunc](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L143) [¶](#ProxyFunc "Go to ProxyFunc") 
+##### type [ProxyFunc](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L143)
 
 ```go
 type ProxyFunc func(*http.Request) (*url.URL, error)
@@ -865,7 +865,7 @@ type ProxyFunc func(*http.Request) (*url.URL, error)
 
 ProxyFunc is a type alias for proxy setter functions.
 
-#### type [Request](https://github.com/gocolly/colly/blob/v1.2.0/request.go#L29) [¶](#Request "Go to Request") 
+##### type [Request](https://github.com/gocolly/colly/blob/v1.2.0/request.go#L29)
 
 ```go
 type Request struct {
@@ -896,7 +896,7 @@ type Request struct {
 
 Request is the representation of a HTTP request made by a Collector
 
-#### func (\*Request) [Abort](https://github.com/gocolly/colly/blob/v1.2.0/request.go#L82) [¶](#Request.Abort "Go to Request.Abort") 
+##### func (\*Request) [Abort](https://github.com/gocolly/colly/blob/v1.2.0/request.go#L82)
 
 ```go
 func (r *Request) Abort()
@@ -904,7 +904,7 @@ func (r *Request) Abort()
 
 Abort cancels the HTTP request when called in an OnRequest callback
 
-#### func (\*Request) [AbsoluteURL](https://github.com/gocolly/colly/blob/v1.2.0/request.go#L89) [¶](#Request.AbsoluteURL "Go to Request.AbsoluteURL") 
+##### func (\*Request) [AbsoluteURL](https://github.com/gocolly/colly/blob/v1.2.0/request.go#L89)
 
 ```go
 func (r *Request) AbsoluteURL(u string) string
@@ -912,7 +912,7 @@ func (r *Request) AbsoluteURL(u string) string
 
 AbsoluteURL returns with the resolved absolute URL of an URL chunk. AbsoluteURL returns empty string if the URL chunk is a fragment or could not be parsed
 
-#### func (\*Request) [Do](https://github.com/gocolly/colly/blob/v1.2.0/request.go#L148) [¶](#Request.Do "Go to Request.Do") 
+##### func (\*Request) [Do](https://github.com/gocolly/colly/blob/v1.2.0/request.go#L148)
 
 ```go
 func (r *Request) Do() error
@@ -920,7 +920,7 @@ func (r *Request) Do() error
 
 Do submits the request
 
-#### func (\*Request) [Marshal](https://github.com/gocolly/colly/blob/v1.2.0/request.go#L153) [¶](#Request.Marshal "Go to Request.Marshal") 
+##### func (\*Request) [Marshal](https://github.com/gocolly/colly/blob/v1.2.0/request.go#L153)
 
 ```go
 func (r *Request) Marshal() ([]byte, error)
@@ -928,7 +928,7 @@ func (r *Request) Marshal() ([]byte, error)
 
 Marshal serializes the Request
 
-#### func (\*Request) [New](https://github.com/gocolly/colly/blob/v1.2.0/request.go#L65) [¶](#Request.New "Go to Request.New") 
+##### func (\*Request) [New](https://github.com/gocolly/colly/blob/v1.2.0/request.go#L65)
 
 ```go
 func (r *Request) New(method, URL string, body io.Reader) (*Request, error)
@@ -936,7 +936,7 @@ func (r *Request) New(method, URL string, body io.Reader) (*Request, error)
 
 New creates a new request with the context of the original request
 
-#### func (\*Request) [Post](https://github.com/gocolly/colly/blob/v1.2.0/request.go#L120) [¶](#Request.Post "Go to Request.Post") 
+##### func (\*Request) [Post](https://github.com/gocolly/colly/blob/v1.2.0/request.go#L120)
 
 ```go
 func (r *Request) Post(URL string, requestData map[string]string) error
@@ -944,7 +944,7 @@ func (r *Request) Post(URL string, requestData map[string]string) error
 
 Post continues a collector job by creating a POST request and preserves the Context of the previous request. Post also calls the previously provided callbacks
 
-#### func (\*Request) [PostMultipart](https://github.com/gocolly/colly/blob/v1.2.0/request.go#L134) [¶](#Request.PostMultipart "Go to Request.PostMultipart") 
+##### func (\*Request) [PostMultipart](https://github.com/gocolly/colly/blob/v1.2.0/request.go#L134)
 
 ```go
 func (r *Request) PostMultipart(URL string, requestData map[string][]byte) error
@@ -952,7 +952,7 @@ func (r *Request) PostMultipart(URL string, requestData map[string][]byte) error
 
 PostMultipart starts a collector job by creating a Multipart POST request with raw binary data. PostMultipart also calls the previously provided. callbacks
 
-#### func (\*Request) [PostRaw](https://github.com/gocolly/colly/blob/v1.2.0/request.go#L127) [¶](#Request.PostRaw "Go to Request.PostRaw") 
+##### func (\*Request) [PostRaw](https://github.com/gocolly/colly/blob/v1.2.0/request.go#L127)
 
 ```go
 func (r *Request) PostRaw(URL string, requestData []byte) error
@@ -960,7 +960,7 @@ func (r *Request) PostRaw(URL string, requestData []byte) error
 
 PostRaw starts a collector job by creating a POST request with raw binary data. PostRaw preserves the Context of the previous request and calls the previously provided callbacks
 
-#### func (\*Request) [Retry](https://github.com/gocolly/colly/blob/v1.2.0/request.go#L143) [¶](#Request.Retry "Go to Request.Retry") 
+##### func (\*Request) [Retry](https://github.com/gocolly/colly/blob/v1.2.0/request.go#L143)
 
 ```go
 func (r *Request) Retry() error
@@ -968,7 +968,7 @@ func (r *Request) Retry() error
 
 Retry submits HTTP request again with the same parameters
 
-#### func (\*Request) [Visit](https://github.com/gocolly/colly/blob/v1.2.0/request.go#L113) [¶](#Request.Visit "Go to Request.Visit") 
+##### func (\*Request) [Visit](https://github.com/gocolly/colly/blob/v1.2.0/request.go#L113)
 
 ```go
 func (r *Request) Visit(URL string) error
@@ -976,7 +976,7 @@ func (r *Request) Visit(URL string) error
 
 Visit continues Collector's collecting job by creating a request and preserves the Context of the previous request. Visit also calls the previously provided callbacks
 
-#### type [RequestCallback](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L125) [¶](#RequestCallback "Go to RequestCallback") 
+##### type [RequestCallback](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L125)
 
 ```go
 type RequestCallback func(*Request)
@@ -984,7 +984,7 @@ type RequestCallback func(*Request)
 
 RequestCallback is a type alias for OnRequest callback functions
 
-#### type [Response](https://github.com/gocolly/colly/blob/v1.2.0/response.go#L30) [¶](#Response "Go to Response") 
+##### type [Response](https://github.com/gocolly/colly/blob/v1.2.0/response.go#L30)
 
 ```go
 type Response struct {
@@ -1003,7 +1003,7 @@ type Response struct {
 
 Response is the representation of a HTTP response made by a Collector
 
-#### func (\*Response) [FileName](https://github.com/gocolly/colly/blob/v1.2.0/response.go#L50) [¶](#Response.FileName "Go to Response.FileName") 
+##### func (\*Response) [FileName](https://github.com/gocolly/colly/blob/v1.2.0/response.go#L50)
 
 ```go
 func (r *Response) FileName() string
@@ -1011,7 +1011,7 @@ func (r *Response) FileName() string
 
 FileName returns the sanitized file name parsed from "Content-Disposition" header or from URL
 
-#### func (\*Response) [Save](https://github.com/gocolly/colly/blob/v1.2.0/response.go#L44) [¶](#Response.Save "Go to Response.Save") 
+##### func (\*Response) [Save](https://github.com/gocolly/colly/blob/v1.2.0/response.go#L44)
 
 ```go
 func (r *Response) Save(fileName string) error
@@ -1019,7 +1019,7 @@ func (r *Response) Save(fileName string) error
 
 Save writes response body to disk
 
-#### type [ResponseCallback](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L128) [¶](#ResponseCallback "Go to ResponseCallback") 
+##### type [ResponseCallback](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L128)
 
 ```go
 type ResponseCallback func(*Response)
@@ -1027,7 +1027,7 @@ type ResponseCallback func(*Response)
 
 ResponseCallback is a type alias for OnResponse callback functions
 
-#### type [ScrapedCallback](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L140) [¶](#ScrapedCallback "Go to ScrapedCallback") 
+##### type [ScrapedCallback](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L140)
 
 ```go
 type ScrapedCallback func(*Response)
@@ -1035,7 +1035,7 @@ type ScrapedCallback func(*Response)
 
 ScrapedCallback is a type alias for OnScraped callback functions
 
-#### type [XMLCallback](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L134) [¶](#XMLCallback "Go to XMLCallback") 
+##### type [XMLCallback](https://github.com/gocolly/colly/blob/v1.2.0/colly.go#L134)
 
 ```go
 type XMLCallback func(*XMLElement)
@@ -1043,7 +1043,7 @@ type XMLCallback func(*XMLElement)
 
 XMLCallback is a type alias for OnXML callback functions
 
-#### type [XMLElement](https://github.com/gocolly/colly/blob/v1.2.0/xmlelement.go#L27) [¶](#XMLElement "Go to XMLElement") 
+##### type [XMLElement](https://github.com/gocolly/colly/blob/v1.2.0/xmlelement.go#L27)
 
 ```go
 type XMLElement struct {
@@ -1065,7 +1065,7 @@ type XMLElement struct {
 
 XMLElement is the representation of a XML tag.
 
-#### func [NewXMLElementFromHTMLNode](https://github.com/gocolly/colly/blob/v1.2.0/xmlelement.go#L44) [¶](#NewXMLElementFromHTMLNode "Go to NewXMLElementFromHTMLNode") 
+##### func [NewXMLElementFromHTMLNode](https://github.com/gocolly/colly/blob/v1.2.0/xmlelement.go#L44)
 
 ```go
 func NewXMLElementFromHTMLNode(resp *Response, s *html.Node) *XMLElement
@@ -1073,7 +1073,7 @@ func NewXMLElementFromHTMLNode(resp *Response, s *html.Node) *XMLElement
 
 NewXMLElementFromHTMLNode creates a XMLElement from a html.Node.
 
-#### func [NewXMLElementFromXMLNode](https://github.com/gocolly/colly/blob/v1.2.0/xmlelement.go#L57) [¶](#NewXMLElementFromXMLNode "Go to NewXMLElementFromXMLNode") 
+##### func [NewXMLElementFromXMLNode](https://github.com/gocolly/colly/blob/v1.2.0/xmlelement.go#L57)
 
 ```go
 func NewXMLElementFromXMLNode(resp *Response, s *xmlquery.Node) *XMLElement
@@ -1081,7 +1081,7 @@ func NewXMLElementFromXMLNode(resp *Response, s *xmlquery.Node) *XMLElement
 
 NewXMLElementFromXMLNode creates a XMLElement from a xmlquery.Node.
 
-#### func (\*XMLElement) [Attr](https://github.com/gocolly/colly/blob/v1.2.0/xmlelement.go#L71) [¶](#XMLElement.Attr "Go to XMLElement.Attr") 
+##### func (\*XMLElement) [Attr](https://github.com/gocolly/colly/blob/v1.2.0/xmlelement.go#L71)
 
 ```go
 func (h *XMLElement) Attr(k string) string
@@ -1089,7 +1089,7 @@ func (h *XMLElement) Attr(k string) string
 
 Attr returns the selected attribute of a HTMLElement or empty string if no attribute found
 
-#### func (\*XMLElement) [ChildAttr](https://github.com/gocolly/colly/blob/v1.2.0/xmlelement.go#L108) [¶](#XMLElement.ChildAttr "Go to XMLElement.ChildAttr") 
+##### func (\*XMLElement) [ChildAttr](https://github.com/gocolly/colly/blob/v1.2.0/xmlelement.go#L108)
 
 ```go
 func (h *XMLElement) ChildAttr(xpathQuery, attrName string) string
@@ -1097,7 +1097,7 @@ func (h *XMLElement) ChildAttr(xpathQuery, attrName string) string
 
 ChildAttr returns the stripped text content of the first matching element's attribute.
 
-#### func (\*XMLElement) [ChildAttrs](https://github.com/gocolly/colly/blob/v1.2.0/xmlelement.go#L134) [¶](#XMLElement.ChildAttrs "Go to XMLElement.ChildAttrs") 
+##### func (\*XMLElement) [ChildAttrs](https://github.com/gocolly/colly/blob/v1.2.0/xmlelement.go#L134)
 
 ```go
 func (h *XMLElement) ChildAttrs(xpathQuery, attrName string) []string
@@ -1105,7 +1105,7 @@ func (h *XMLElement) ChildAttrs(xpathQuery, attrName string) []string
 
 ChildAttrs returns the stripped text content of all the matching element's attributes.
 
-#### func (\*XMLElement) [ChildText](https://github.com/gocolly/colly/blob/v1.2.0/xmlelement.go#L90) [¶](#XMLElement.ChildText "Go to XMLElement.ChildText") 
+##### func (\*XMLElement) [ChildText](https://github.com/gocolly/colly/blob/v1.2.0/xmlelement.go#L90)
 
 ```go
 func (h *XMLElement) ChildText(xpathQuery string) string
@@ -1113,7 +1113,7 @@ func (h *XMLElement) ChildText(xpathQuery string) string
 
 ChildText returns the concatenated and stripped text content of the matching elements.
 
-#### func (\*XMLElement) [ChildTexts](https://github.com/gocolly/colly/blob/v1.2.0/xmlelement.go#L158) [¶](#XMLElement.ChildTexts "Go to XMLElement.ChildTexts") added in v1.1.0 
+##### func (\*XMLElement) [ChildTexts](https://github.com/gocolly/colly/blob/v1.2.0/xmlelement.go#L158)
 
 ```go
 func (h *XMLElement) ChildTexts(xpathQuery string) []string
@@ -1121,7 +1121,7 @@ func (h *XMLElement) ChildTexts(xpathQuery string) []string
 
 ChildTexts returns an array of strings corresponding to child elements that match the xpath query. Each item in the array is the stripped text content of the corresponding matching child element.
 
-## ![](/static/shared/icon/insert_drive_file_gm_grey_24dp.svg) Source Files [¶](#section-sourcefiles "Go to Source Files")
+## ![](/static/shared/icon/insert_drive_file_gm_grey_24dp.svg) Source Files
 
 [View all Source files](https://github.com/gocolly/colly/tree/v1.2.0)
 
@@ -1134,7 +1134,7 @@ ChildTexts returns an array of strings corresponding to child elements that matc
 - [unmarshal.go](https://github.com/gocolly/colly/blob/v1.2.0/unmarshal.go "unmarshal.go")
 - [xmlelement.go](https://github.com/gocolly/colly/blob/v1.2.0/xmlelement.go "xmlelement.go")
 
-## ![](/static/shared/icon/folder_gm_grey_24dp.svg) Directories [¶](#section-directories "Go to Directories")
+## ![](/static/shared/icon/folder_gm_grey_24dp.svg) Directories
 
 Show internal Expand all
 
@@ -1229,10 +1229,10 @@ Click to hide internal directories.
 - [Privacy Policy](http://www.google.com/intl/en/policies/privacy/)
 - [Report an Issue](https://go.dev/s/pkgsite-feedback)
 - ![System theme](/static/shared/icon/brightness_6_gm_grey_24dp.svg) ![Dark theme](/static/shared/icon/brightness_2_gm_grey_24dp.svg) ![Light theme](/static/shared/icon/light_mode_gm_grey_24dp.svg)
-  
+
   Theme Toggle
 - ![](/static/shared/icon/keyboard_grey_24dp.svg)
-  
+
   Shortcuts Modal
 
 [![Google logo](/static/shared/logo/google-white.svg)](https://google.com)
