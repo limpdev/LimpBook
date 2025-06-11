@@ -7,3 +7,4 @@ LICENSE
 ./Icon*
 pre/mdbook-codeport/target
 Cargo.lock
+.crates-lsp
