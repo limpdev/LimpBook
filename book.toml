@@ -8,7 +8,6 @@ description = "Some serious shit right here"
 
 [build]
 create-missing = false
-extra-watch-dir = ["static"]
 
 [output.html.fold]
 enable = true
@@ -24,7 +23,6 @@ no-section-label = true
 git-repository-url = "https://github.com/limpdev/LimpBook"
 git-repository-icon = "fa-github"
 theme = "theme"
-default-theme = "ayu"
 
 [preprocessor]
 [preprocessor.codeport]
