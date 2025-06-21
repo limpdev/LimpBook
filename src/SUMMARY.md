@@ -92,6 +92,7 @@
 - [ PDFTK-Java](./web/PDFtk-Java.md)
 - [ FontForge](./web/FontForge.md)
 - [ CSS Reference](./web/cssRef.md)
+- [ AnimateCSS](./web/animatecss.md)
 
 #  COMMANDLINE
 
