@@ -3,6 +3,7 @@
 # 
 
 - [ Playground](./meta/playground/playground.md)
+	- [ Typora](./meta/playground/TyporaMarkdown.md)
     - [ My Design](./meta/playground/MyDesign.md)
     - [ Architecture](./meta/playground/Architecture.md)
     - [ DevDocs](./meta/playground/DevDocs.md)

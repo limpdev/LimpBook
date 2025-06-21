@@ -61,7 +61,7 @@ Alt-H2
 
 ## Colorful Blockquotes
 
-> this shit gay af cuh
+> _The first two are admonitions, like from Docusaurus; while, the last two are GFM flavored alerts... Admonitions have been causing some fuss..._
 
 ::: tip
 Quia et enim dignissimos commodi molestiae earum impedit.
@@ -79,11 +79,12 @@ Corporis recusandae in doloremque unde commodi.
 
 ## Text Scripts (sub/sup/align)
 
-::: center
-==Subscript== using, '\~\', the 'squigglies' → H~2~O
+> [!NOTE] 
+> _Alignment is still a work-in-progress - some shit about ESM and JavaScript and blah blah blah_
 
-==Superscript== using '\^\', or, the up arrow-notch → May 12^th^
-:::
+Awe^some^ Super^script^!
+
+Awe~some~ Super~script~!
 
 ## Inline-Tabs for Codeblocks
 

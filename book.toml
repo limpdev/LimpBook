@@ -34,6 +34,9 @@ assets_version = "3.0.3"				# 	```admonish
 [preprocessor.embedify]					# Embed apps within the book - try YouTube!
 [preprocessor.hide]						# Support for hidden chapters
 hide = true								# Add "<!--hidden-->", at top of file
+# [preprocessor.mdpre]                
+# command = "node pre/mdpre/mdpre.js" 
+# renderer = ["html"]
 
 [output.html.search]
 enable = false

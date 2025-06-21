@@ -1,0 +1,4 @@
+User-agent:*
+Disallow:
+
+Sitemap: https://mdit-plugins.github.io/sitemap.xml

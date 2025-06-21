@@ -1,0 +1,45 @@
+{
+  "license": "MIT",
+  "name": "mdpre",
+  "description": "A preprocessor for mdBook, using Markdown-It.",
+  "version": "1.0.0",
+  "main": "mdpre.js",
+  "bin": {
+    "mdpre": "./mdpre.js"
+  },
+  "author": {
+    "name": "Limp Cheney"
+  },
+    "scripts": {
+    "install-global": "yarn global add",
+    "test": "echo 'Test by running: echo \"{}\" | node preprocessor.js'"
+  },
+  "dependencies": {
+    "@mdit/plugin-align": "^0.22.1",
+    "@mdit/plugin-attrs": "^0.23.1",
+    "@mdit/plugin-demo": "^0.22.2",
+    "@mdit/plugin-dl": "^0.22.1",
+    "@mdit/plugin-embed": "^0.22.1",
+    "@mdit/plugin-figure": "^0.22.1",
+    "@mdit/plugin-img-lazyload": "^0.22.1",
+    "@mdit/plugin-img-size": "^0.22.2",
+    "@mdit/plugin-include": "^0.22.1",
+    "@mdit/plugin-snippet": "^0.22.2",
+    "@mdit/plugin-spoiler": "^0.22.1",
+    "@mdit/plugin-stylize": "^0.22.1",
+    "@mdit/plugin-tab": "^0.22.2",
+    "@mdit/plugin-tasklist": "^0.22.1",
+    "@types/markdown-it": "^14.1.2",
+    "markdown-it": "^14.1.0",
+    "markdown-it-anchor": "^9.2.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "keywords": [
+    "mdbook",
+    "preprocessor",
+    "markdown-it",
+    "documentation"
+  ]
+}

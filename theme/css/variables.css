@@ -156,72 +156,57 @@ pre>code {
     font-family: var(--alt-font);
     font-weight: 290;
 }
-
 .callout-header {
     padding: 8px 16px;
     display: flex;
     align-items: center;
     font-weight: 600;
 }
-
 .callout-icon {
     margin-right: 8px;
 }
-
 .callout-content {
     padding: 0 16px 16px;
 }
-
 .callout-content p {
     margin: 0;
 }
-
 /* Specific callout types */
 .callout-note {
     border-left-color: #0969da;
     background: #171b29;
 }
-
 .callout-note .callout-header {
     color: #0969da;
 }
-
 .callout-tip {
     border-left-color: #1a7f37;
     background: #121e1d;
 }
-
 .callout-tip .callout-header {
     color: #1a7f37;
 }
-
 .callout-important {
     border-left-color: #8250df;
     background: #1b192a;
 }
-
 .callout-important .callout-header {
     color: #8250df;
 }
-
 .callout-warning {
     border-left-color: #d13569;
     background: #d1356920;
 }
-
 .callout-warning .callout-header {
     color: #ff172baa;
 }
-
 .callout-caution {
     border-left-color: #cf222e;
     background: #26181c;
 }
-
 .callout-caution .callout-header {
     color: #cf222e;
 }
-
 .mdbook-alerts-icon {
     font-size: 1.85rem;
 }
@@ -229,6 +214,16 @@ pre>code {
     font-size: 0.8rem;
 }
 
+span.subtext {
+    font-size: 0.6rem;
+    vertical-align: sub;
+    padding: 1px;
+}
+span.suptext {
+    font-size: 0.6rem;
+    vertical-align: super;
+    padding: 1px;
+}
 
 /* BACKGROUNDS */
 :root {
