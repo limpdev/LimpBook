@@ -2,6 +2,7 @@
 .code-wrapper {
 	position: relative;
 	width: fit-content;
+	min-width: 50%;
 }
 
 .copy-button {
@@ -33,14 +34,14 @@
 	width: 22px;
 	height: 22px;
 	stroke: #f5d49e15;
-	stroke-width: 1;
+	stroke-width: 2;
 	transition: all 250ms ease;
 	transform-origin: center;
 }
 
 .copy-button:hover svg {
 	fill: #f5d49ecc;
-	stroke-width: 2;
+	stroke-width: 3;
 	transform: scale(1.25);
 }
 

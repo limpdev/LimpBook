@@ -14,6 +14,7 @@
     - [ SwiftBar](./meta/playground/swiftbar.md)
     - [ Deskflow](./meta/playground/deskflow.md)
     - [ Espanso](./meta/playground/esbest.md)
+    - [ HandlebarsGo](./meta/playground/go-hbjs.md)
 - [ GitHub](./meta/RepoStars.md)
 	- [ API](./meta/github/GHAPI.md)
 - [ Theme](./THEME.md)
@@ -89,6 +90,7 @@
 - [ Unsloth](./web/Unsloth.md)
 - [ PDFTK-Java](./web/PDFtk-Java.md)
 - [ FontForge](./web/FontForge.md)
+- [ CSS Reference](./web/cssRef.md)
 
 #  COMMANDLINE
 
@@ -129,6 +131,7 @@
     - [ Podman](./cli/tools/Podman.md)
     - [ yarn](./cli/tools/yarn-cli.md)
     - [ yq](./cli/tools/yq-man.md)
+    - [ htmlq](./cli/tools/htmlq.md)
 - [ Wget](./cli/tools/wget-quickref.md)
     - [ Wget Manual](./cli/wget/wget-manual.md)
 
@@ -380,6 +383,7 @@
 - [ Golang](./golang/qref/Concepts-Types.md)
 	- [Using Flags](./golang/qref/goflags.md)
 - [ Go Language](./golang/Golang.md)
+    - [Functions](./golang/func.md)
     - [WebAssembly](./golang/WASM.md)
     - [PathType](./golang/pathtype.md)
     - [Embed](./golang/embedfs.md)

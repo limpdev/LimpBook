@@ -11,6 +11,12 @@
   border-radius: 0.2rem;
   box-shadow: 0 0.2rem 1rem rgba(0, 0, 0, 0.05), 0 0 0.1rem rgba(0, 0, 0, 0.1);
 }
+.mdbook-alerts > p:last-child {
+  font-style: italic;
+  font-family: var(--alt-font);
+  font-weight: 290;
+}
+
 @media print {
   :is(.admonition) {
     box-shadow: none;
@@ -333,19 +339,8 @@ summary.admonition-title::-webkit-details-marker {
   -webkit-mask-repeat: no-repeat;
 }
 
-.navy :is(.admonition) {
-  background-color: var(--sidebar-bg);
-}
-
 .ayu :is(.admonition),
 .coal :is(.admonition) {
   background-color: var(--theme-hover);
 }
 
-.rust :is(.admonition) {
-  background-color: var(--sidebar-bg);
-  color: var(--sidebar-fg);
-}
-.rust .admonition-anchor-link:link, .rust .admonition-anchor-link:visited {
-  color: var(--sidebar-fg);
-}

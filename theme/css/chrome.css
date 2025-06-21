@@ -250,6 +250,7 @@ a:hover > .hljs {
 pre {
     position: relative;
     cursor: var(--pen);
+    min-width: 50%;
 }
 
 code.hljs {
@@ -327,7 +328,7 @@ pre > .buttons button.clip-button:hover::before {
     opacity: 1;
 }
 
-@media (pointer: coarse) {
+@media (pointer: var(--pen)) {
     pre > .buttons button {
         /* On mobile, make it easier to tap buttons. */
         padding: 0.1rem 1rem;
@@ -344,7 +345,7 @@ pre > code {
     padding: 1.7rem;
     padding-right: 3.5em;
     font-size: 0.8em;
-    font-weight: 400;
+    font-weight: 450;
     text-wrap: auto;
 }
 
@@ -706,9 +707,9 @@ html:not(.sidebar-resizing) .sidebar {
     transform: rotate(90deg);
 }
 .chapter-item {
-    font-family: "Satoshi", "Symbols Nerd Font";
-    font-weight: 400;
-    font-size: 1.15em;
+    font-family: "Author", "Symbols Nerd Font", sans-serif;
+    font-weight: 310;
+    font-size: 1.2em;
     margin-left: 1em;
     transition: all 125ms ease;
 }

@@ -1,18 +1,17 @@
 #sidebar-toggle svg {
 	stroke: azure;
 	opacity: 0.3 !important;
-	scale: 0.8 !important;
+	scale: 1.1 !important;
 	transition: all 300ms ease;
 }
 #sidebar-toggle svg:hover {
 	opacity: 1;
-	fill: #ccc;
-	stroke: azure;
-	transform: scale(1.2);
-	transition: all 50ms ease;
+	stroke: #889eff;
+	transform: scale(1.3);
+	transition: all 75ms ease;
 }
 #sidebar-toggle svg:active {
-	transform: scale(1, 0.8);
+	transform: scale(1, 0.88);
 }
 @media only screen and (max-width: 900px) {
 	.sidetoc {

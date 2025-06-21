@@ -1,5 +1,16 @@
 /* Base styles and content styles */
 
+html,
+body,
+main,
+pre,
+code,
+blockquote,
+p,
+a {
+    cursor: var(-pen) !important;
+}
+
 :root {
     /* Browser default font-size is 16px, this way 1 rem = 10px */
     font-size: 62.5%;
@@ -156,6 +167,7 @@ h6:target::before {
     background-position: left;
     background-repeat: no-repeat;
     transition: background-size 125ms ease;
+    background-clip: text;
     -webkit-background-clip: text;
 }
 
@@ -177,50 +189,6 @@ h6:target::before {
 .content .header:visited:hover {
     text-decoration: none;
 }
-
-/* table { */
-/* margin: 0 auto; */
-/* border-collapse:separate; */
-/* border-spacing: 0px; */
-/* } */
-/* table td { */
-/* padding: 3px 20px; */
-/* border: 1px var(--table-border-color) solid; */
-/* } */
-/* table thead td { */
-/* font-weight: 700; */
-/* border: none; */
-/* } */
-/* table thead th { */
-/* padding: 3px 20px; */
-/* } */
-/* table thead tr { */
-/* border: 1px var(--table-header-bg) solid; */
-/* background: var(--table-header-bg); */
-/* font-size: 0.93em; */
-/* font-family: "Arsenal SC"; */
-/* color: #b2b2b2; */
-/* } */
-
-/* table tbody { */
-/* font-size: 0.88em; */
-/* } */
-/* thead { */
-/* border: 1px solid var(--table-header-bg); */
-/* } */
-/* table tr:first-child th:first-child { */
-/* border-top-left-radius: 0.5rem; */
-/* border-bottom-left-radius: 0.5rem; */
-/* } */
-/* table tr:last-child th:last-child { */
-/* border-top-right-radius: 0.5rem; */
-/* border-bottom-right-radius: 0.5rem; */
-/* } */
-
-/* table tbody tr:nth-child(2n) { */
-/* background: var(--table-alternate-bg); */
-/* border-radius: 0.5rem; */
-/* } */
 
 .callout-title {
     font-family: "Arsenal SC";
@@ -361,13 +329,12 @@ sup {
 
 /* SELECTED TEXT BACKGROUND COLOR */
 ::selection {
-    background-color: #6895ec50; /* Change to your preferred color */
-    /* color: #000000; Text color when highlighted */
+    background-color: #6895ec15;
+    color: #f8c65b;
 }
 ::-moz-selection {
-    /* Firefox requires its own rule */
-    background-color: #6895ec50;
-    /* color: #000000; */
+    background-color: #6895ec15;
+    color: #f8c65b;
 }
 /* --------------------------------------------------------------------- */
 /* -------------------------- CUSTOM DETAILS TAGS ---------------------- */
