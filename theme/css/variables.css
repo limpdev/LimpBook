@@ -29,13 +29,13 @@ hr {
     --menu-bar-height: 50px;
     --mono-font: "SauceCodePro Nerd Font", "Symbols Nerd Font", monospace;
     --sans-font: "Karla", "Symbols Nerd Font", sans-serif;
-    --alt-font: "Jost", "Symbols Nerd Font", sans-serif;
+    --alt-font: "Moderustic", "Symbols Nerd Font", sans-serif;
     --heading-font: "Arsenal SC", "Symbols Nerd Font", sans-serif;
     --code-font-size: 0.88em;
     /* please adjust the ace font size accordingly in editor.js */
     scrollbar-width: none !important;
     --pen:
-        url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAACXBIWXMAAA4mAAAOJgGi7yX8AAACdklEQVRIie2UXUhTYRjH/8975naaZ+es+UErRNsYYmGYFIVdiBgiRBTIrrqIihIL6qKLyCAGkXWXNQ0ZfVhBYHpXN0EkJkmNxIy1Srww0GRrrtmcijs7bxcrSrJ5Ttc+l+/L++P3PP+Xh4J++4Q07XwZWyiKcgKIw1CZQhOlZ2XrF8XR//Um9XHiZAzBUremBr/nx9TJ2khHLBB3EufEST+AgMZtzYMFUpoTFFYYlK4V9BhphR6xNI8ec50p2pLWNLKQY6b4CS46JvVCCACBt1dYrlTWsfwMOBRW8EZqtz/Uh2AA+H5KfGw5OHouHhbJxJPadHXseuL+bImeefy89hHg453lQltVvSCpAGS2fth6w/5gNY8/+FlI1wnXyeJKlWdghmPW/pS12iZyQZYJZhEBD2vbvlewqSAuM+Wtxa90G8jFRz4CAkefjYQzo+kR9b06FU/2JN3AyvNY4SjrcdvNLu9oEGQVgEzSO9Ev3THscffwwPB4JqyG1DE18i3VN+/52+OfIWU97pXh0q5GwaGCc5lsobxOa2C5R86UfQTUKKa2vIqSWpVnYOHynPgc562ffkNYLkAN9tCiy0bOyRcdiIrQKC4lD2h9iy3EgWwrq/yzfCpi/k324xvLIwlyl9YtcY2boaTM/bxVDOsAABdojHq1gX1Kk2J+Hd/dZN6ggmsyEz9Ql9ihAwAAXgZ+2mlqdlZEE9jsql+CpuVBmafHlkM6V4eXQL3aUKPNK4nDMzuPyOsWOAmmSHqroA8QRph72avx6uBCmcc9p6Y+F5aaltLd8QEDy+uXx2ADK5wZ0k55nOmrVSEj77MQBsod/lqt1X/UD34hA09PufYiAAAAAElFTkSuQmCC"),
+        url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAACXBIWXMAAA4mAAAOJgGi7yX8AAACdklEQVRIie2UXUhTYRjH/8975naaZ+es+UErRNsYYmGYFIVdiBgiRBTIrrqIihIL6qKLyCAGkXWXNQ0ZfVhBYHpXN0EkJkmNxIy1Srww0GRrrtmcijs7bxcrSrJ5Ttc+l+/L++P3PP+Xh4J++4Q07XwZWyiKcgKIw1CZQhOlZ2XrF8XR//Um9XHiZAzBUremBr/nx9TJ2khHLBB3EufEST+AgMZtzYMFUpoTFFYYlK4V9BhphR6xNI8ec50p2pLWNLKQY6b4CS46JvVCCACBt1dYrlTWsfwMOBRW8EZqtz/Uh2AA+H5KfGw5OHouHhbJxJPadHXseuL+bImeefy89hHg453lQltVvSCpAGS2fth6w/5gNY8/+FlI1wnXyeJKlWdghmPW/pS12iZyQZYJZhEBD2vbvlewqSAuM+Wtxa90G8jFRz4CAkefjYQzo+kR9b06FU/2JN3AyvNY4SjrcdvNLu9oEGQVgEzSO9Ev3THscffwwPB4JqyG1DE18i3VN+/52+OfIWU97pXh0q5GwaGCc5lsobxOa2C5R86UfQTUKKa2vIqSWpVnYOHynPgc562ffkNYLkAN9tCiy0bOyRcdiIrQKC4lD2h9iy3EgWwrq/yzfCpi/k324xvLIwlyl9YtcY2boaTM/bxVDOsAABdojHq1gX1Kk2J+Hd/dZN6ggmsyEz9Ql9ihAwAAXgZ+2mlqdlZEE9jsql+CpuVBmafHlkM6V4eXQL3aUKPNK4nDMzuPyOsWOAmmSHqroA8QRph72avx6uBCmcc9p6Y+F5aaltLd8QEDy+uXx2ADK5wZ0k55nOmrVSEj77MQBsod/lqt1X/UD34hA09PufYiAAAAAElFTkSuQmCC'),
         auto;
 }
 
@@ -85,11 +85,6 @@ hr {
     --search-mark-bg: #facb2a70;
 
     --color-scheme: dark;
-
-    /* Same as `--icons` */
-    /* --copy-button-filter: invert(45%) sepia(6%) saturate(621%) hue-rotate(198deg) brightness(99%) contrast(85%); */
-    /* Same as `--sidebar-active` */
-    /* --copy-button-filter-hover: invert(68%) sepia(55%) saturate(531%) hue-rotate(341deg) brightness(104%) contrast(101%); */
 }
 
 @media (prefers-color-scheme: dark) {

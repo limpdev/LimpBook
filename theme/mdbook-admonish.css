@@ -14,7 +14,9 @@
 .mdbook-alerts > p:last-child {
   font-style: italic;
   font-family: var(--alt-font);
-  font-weight: 290;
+  font-weight: 350;
+  font-size: 0.88em;
+  color: #b1b1b1;
 }
 
 @media print {

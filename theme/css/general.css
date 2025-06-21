@@ -1,14 +1,23 @@
 /* Base styles and content styles */
 
-html,
-body,
-main,
-pre,
-code,
-blockquote,
-p,
-a {
-    cursor: var(-pen) !important;
+html:hover,
+body:hover,
+main:hover,
+pre:hover,
+code:hover,
+blockquote:hover,
+p:hover,
+a:hover {
+    cursor: var(--pen) !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--heading-font);
 }
 
 :root {
@@ -25,16 +34,15 @@ a {
 html {
     font-family: var(--sans-font);
     color: var(--fg);
-    background-color: var(--bg);
     text-size-adjust: none;
     -webkit-text-size-adjust: none;
+    background-image: var(--felt);
 }
 
 body {
     margin: 0;
     font-size: 1.7rem;
     overflow-x: hidden;
-    background-image: var(--felt);
 }
 
 code {
