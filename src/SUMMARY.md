@@ -30,6 +30,7 @@
 		- [ pkg.go](./projects/libs/collypkg.md)
 	- [ Mojo](./projects/libs/Mojo.md)
 	- [ astro](./projects/libs/astroDocs.md)
+	- [ Typora](./projects/libs/TyporaThemes.md)
 - [ RemarkJS](./projects/remarkJS/AwesomeRemark.md)
     - [ ReMark](./projects/remarkJS/ReMark.md)
     - [ ReHype](./projects/remarkJS/re-hype.md)
