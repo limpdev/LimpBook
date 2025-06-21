@@ -8,3 +8,4 @@ LICENSE
 pre/mdbook-codeport/target
 Cargo.lock
 .crates-lsp
+node_modules
