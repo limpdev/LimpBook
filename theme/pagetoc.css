@@ -5,11 +5,11 @@ svg {
 
 #sidebar-toggle svg {
 	stroke: #ffffff;
-	opacity: 0.3 !important;
-	scale: 1.0 !important;
+	opacity: 0.3;
+	scale: 0.9;
 	background: none;
 	border-radius: 7px;
-	transition: all 225ms ease;
+	transition: all 100ms ease;
 	cursor: var(--pen);
 }
 
