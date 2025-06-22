@@ -3,16 +3,21 @@
 	opacity: 0.3 !important;
 	scale: 1.1 !important;
 	transition: all 300ms ease;
+	cursor: none;
 }
+
 #sidebar-toggle svg:hover {
 	opacity: 1;
-	stroke: #889eff;
+	stroke: #FFFFFFbb;
 	transform: scale(1.3);
 	transition: all 75ms ease;
+	cursor: none;
 }
+
 #sidebar-toggle svg:active {
 	transform: scale(1, 0.88);
 }
+
 @media only screen and (max-width: 900px) {
 	.sidetoc {
 		display: none;
@@ -36,17 +41,20 @@
 	main {
 		position: relative;
 	}
+
 	.content {
 		max-width: 1050px;
 		justify-self: center;
 		padding-left: 2em;
 	}
+
 	.sidetoc {
 		margin-left: auto;
 		margin-right: auto;
 		left: calc(100% + (var(--content-max-width)) / 3 - 160px);
 		position: absolute;
 	}
+
 	.pagetoc {
 		position: fixed;
 		top: 64px;
@@ -58,9 +66,11 @@
 		padding-bottom: 20px;
 		overflow: auto;
 	}
-	.pagetoc > :last-child {
+
+	.pagetoc> :last-child {
 		margin-bottom: 64px;
 	}
+
 	.pagetoc a {
 		font-size: 0.8em;
 		font-family: "Karla", "Symbols Nerd Font";
@@ -76,12 +86,14 @@
 		text-decoration-color: transparent;
 		transition: all 150ms ease;
 	}
+
 	.pagetoc a:hover {
 		opacity: 1;
 		font-weight: 600;
 		transform: translate(-0.90em, 0) scale(1.02);
 		text-decoration-color: transparent;
 	}
+
 	.pagetoc a.active {
 		opacity: 1;
 		font-weight: 600;
@@ -90,31 +102,39 @@
 		transform: translate(-0.5em, 0);
 		text-decoration-color: transparent;
 	}
+
 	.pagetoc a.active:hover {
 		opacity: 1;
 		text-decoration-color: transparent;
 	}
+
 	.pagetoc .active {
 		color: var(--sidebar-fg);
 	}
+
 	a.pagetoc-h1 {
 		display: none;
 	}
+
 	.pagetoc-h2 {
 		font-size: 0.9em;
 		padding-left: 1em !important;
 	}
+
 	a.pagetoc-h3 {
 		font-size: 0.9em;
 		padding-left: 1.75em !important;
 	}
+
 	a.pagetoc-h4 {
 		font-size: 0.9em;
 		padding-left: 2em !important;
 	}
+
 	a.pagetoc-h5 {
 		display: none;
 	}
+
 	a.pagetoc-h6 {
 		display: none;
 	}

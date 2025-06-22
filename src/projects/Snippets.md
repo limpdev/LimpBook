@@ -27,6 +27,24 @@ wget -mKEpnp <LINK>
 
 ---
 
+## Hiding Scrollbars
+
+```css
+html,
+body {
+  overflow: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+}
+```
+
+---
+
 ## ESPANSO
 
 <details><summary></summary>
