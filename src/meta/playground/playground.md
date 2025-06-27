@@ -79,7 +79,7 @@ Corporis recusandae in doloremque unde commodi.
 
 ## Text Scripts (sub/sup/align)
 
-> [!NOTE] 
+> [!NOTE]
 > _Alignment is still a work-in-progress - some shit about ESM and JavaScript and blah blah blah_
 
 Awe^some^ Super^script^!
@@ -475,7 +475,15 @@ $$
 
 ## PREPROCESSORS
 
-`codeport` → imports text from files inside of _designated_ codeblocks.
+Check the `pre` directory from root folder.
 
-```bash file="dijkstra.md"
-```
+#### `WIDGETS` | TRADING VIEW
+
+Adding some dope ass widget resources _because why the fuck not_.
+
+> [!NOTE]
+> You can NOT embed widgets like these as iframes, it violates the Geneva Convention Cross-Site Man in the Middle of Traffic Act of 1863.
+
+SO instead... make an HTML file with the widgets... iframe THAT shit instead!
+
+<iframe src="../static/tradeview.html" style="width: 100%; height: 500px; border: none;" scrolling="no" loading="lazy"></iframe>

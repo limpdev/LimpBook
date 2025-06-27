@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<style>
+			body {
+				margin: 0;
+				background-color: #00000000;
+			}
+			.stockribbon {
+				width: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<nav class="stockribbon">
+			<!-- TradingView Widget BEGIN -->
+			<div class="tradingview-widget-container">
+				<div class="tradingview-widget-container__widget"></div>
+				<div class="tradingview-widget-copyright">
+					<a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank">
+						<span class="blue-text">Track all markets on TradingView</span>
+					</a>
+				</div>
+				<script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+					{
+					    "symbols": [
+					        { "proName": "AMEX:SPY", "title": "S&P 500" },
+					        { "proName": "NYSE:JPM", "title": "J.P. MorganChase" },
+					        { "proName": "NASDAQ:QQQ", "title": "NASDAQ" },
+					        { "proName": "MARKETSCOM:OIL", "title": "CRUDE" },
+					        { "proName": "AAPL", "title": "Apple" }
+					    ],
+					    "colorTheme": "dark",
+					    "locale": "en",
+					    "largeChartUrl": "",
+					    "isTransparent": true,
+					    "showSymbolLogo": true,
+					    "displayMode": "adaptive"
+					}
+				</script>
+			</div>
+			<!-- TradingView Widget END -->
+		</nav>
+	</body>
+</html>
