@@ -6,6 +6,31 @@ You can play around with Markdown on our [live demo page](http://www.markdown-he
 
 (If you're not a Markdown Here user, check out the [Markdown Cheatsheet](./Markdown-Cheatsheet) that is not specific to MDH. But, really, you should also use Markdown Here, because it's awesome. http://markdown-here.com)
 
+Testing inline SVG icons here: [icon-chase] → bracketted 'icon-' + whatever the desired icon is. *Must be designated within the page's `CSS`*. For this book, the definitions should be in the `variables.css` file as part of the theme.
+
+<details><summary>Inline  Icons</summary>
+
+```css
+span.icon {
+    display: inline-block;
+    width: 1.35em;
+    height: 1.35em;
+    vertical-align: middle;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.icon-chase::before {
+    content: "";
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    background-image: url('insert long-ass base64/link here');
+}
+```
+
+</details>
+
 ##### Table of Contents
 [Headers](#headers)
 [Emphasis](#emphasis)
