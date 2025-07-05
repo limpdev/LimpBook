@@ -28,7 +28,7 @@ hr {
     --content-max-width: 1400px;
     --menu-bar-height: 50px;
     --mono-font: "SauceCodePro Nerd Font", "Symbols Nerd Font", monospace;
-    --sans-font: "Karla", "Symbols Nerd Font", sans-serif;
+    --sans-font: "SauceSansPro Nerd Font", "Symbols Nerd Font", sans-serif;
     --alt-font: "Moderustic", "Symbols Nerd Font", sans-serif;
     --heading-font: "Open Sans", "Symbols Nerd Font", sans-serif;
     --code-font-size: 0.88em;
@@ -252,6 +252,11 @@ span.icon {
     width: 100%;
     height: 100%;
     background-image: url('data:image/svg+xml;base64,PHN2ZyBjbGFzcz0ic3ZnLWljb24iIHN0eWxlPSJ2ZXJ0aWNhbC1hbGlnbjogbWlkZGxlO2ZpbGw6IGN1cnJlbnRDb2xvcjtvdmVyZmxvdzogaGlkZGVuOyIgdmlld0JveD0iMCAwIDEwMDAgMTAwMCINCiAgICB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+DQogICAgPHBhdGgNCiAgICAgICAgZD0iTTY2MCA0MDRoMTkydjI1NS42TDY2MCA4NTJWNDA0eiBtLTI1Ni0yMzJoMjU1LjZMODUyIDM2NEg0MDRWMTcyek0xNzIgNjYwaDQ0OHYxOTJIMzY0LjRMMTcyIDY2MHpNMzY0IDE3MnY0NTJIMTcyVjM2NkwzNjQgMTcyeiINCiAgICAgICAgZmlsbD0iIzAxNmRjMiIgLz4NCjwvc3ZnPg==');
+}
+
+iframe { height: 40px; }
+.tv-embed-widget-wrapper {
+    background: #00000000;
 }
 
 /* BACKGROUNDS */
